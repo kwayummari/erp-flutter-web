@@ -3,7 +3,8 @@ import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 
 class Header extends StatefulWidget {
-  const Header({super.key});
+  final Widget child;
+  const Header({super.key, required this.child});
 
   @override
   State<Header> createState() => _HeaderState();
@@ -13,7 +14,7 @@ class _HeaderState extends State<Header> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width - 250,
+      width: MediaQuery.of(context).size.width - 310,
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             color: AppConst.white,
@@ -112,6 +113,8 @@ class _HeaderState extends State<Header> {
           ),
           SizedBox(height: 20,),
           Divider(color: AppConst.grey, height: 1,),
+          SizedBox(height: 40,),
+          widget.child
         ],
       ),
     );

@@ -1,4 +1,4 @@
-import 'package:erp/src/screens/models/layout/layout.dart';
+import 'package:erp/src/screens/dashboard/dashboard.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
 import 'package:erp/src/screens/authentication/login.dart';
 import 'package:erp/src/screens/authentication/registration.dart';
@@ -21,8 +21,8 @@ final GoRouter router = GoRouter(
       builder: (context, state) => Splash(),
     ),
     GoRoute(
-      path: RouteNames.layout,
-      builder: (context, state) => layout(),
+      path: RouteNames.dashboard,
+      builder: (context, state) => dashboard(),
     ),
   ],
 );

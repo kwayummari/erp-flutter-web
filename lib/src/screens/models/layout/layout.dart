@@ -5,7 +5,8 @@ import 'package:erp/src/widgets/app_base_screen.dart';
 import 'package:flutter/material.dart';
 
 class layout extends StatefulWidget {
-  const layout({super.key});
+  final Widget child;
+  const layout({super.key, required this.child});
 
   @override
   State<layout> createState() => _layoutState();
@@ -25,11 +26,11 @@ class _layoutState extends State<layout> {
           Row(
             children: [
               sideBar(),
-              Header(),
+              Header(child: widget.child),
             ],
           )
         ],
       ),
-      );
+    );
   }
 }

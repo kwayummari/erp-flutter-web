@@ -8,11 +8,11 @@ class menuServices {
   Api api = Api();
 
   Future getMenu(BuildContext context) async {
-    SplashFunction splashDetails =
-        SplashFunction();
+    SplashFunction splashDetails = SplashFunction();
     final roleId = await splashDetails.getRoleId();
+    print('role Id' + roleId);
     Map<String, dynamic> data = {
-      'roleId': roleId,
+      'id': roleId,
     };
     final response = await api.post(context, 'getPermission', data);
     final decodedResponse = jsonDecode(response.body);

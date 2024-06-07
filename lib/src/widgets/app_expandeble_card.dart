@@ -1,19 +1,17 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'package:erp/src/utils/app_const.dart';
+import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 
 class ExpandableCard extends StatefulWidget {
   final String title;
-  final String subTitle;
-  final String disbursed;
   final List<Widget> children;
 
   const ExpandableCard({
     Key? key,
     required this.title,
-    required this.subTitle,
     required this.children,
-    required this.disbursed,
   }) : super(key: key);
 
   @override
@@ -33,43 +31,41 @@ class _ExpandableCardState extends State<ExpandableCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: _toggleExpanded,
-      child: Card(
-        elevation: 16.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Column(
-          children: [
-            ListTile(
-              title: Row(
-                children: [
-                  Text(widget.title,
-                      style: const TextStyle(fontWeight: FontWeight.bold)),
-                  Text(
-                    widget.disbursed == 'true' ? ' (Disbursed)' : ' (Pending)',
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      color: widget.disbursed == 'true'
-                          ? Colors.green
-                          : Colors.red,
-                    ),
-                  ),
-                ],
-              ),
-              subtitle: Text(widget.subTitle,
-                  style: const TextStyle(fontWeight: FontWeight.normal)),
-              trailing: IconButton(
-                icon: Icon(
-                  _isExpanded ? Icons.expand_less : Icons.expand_more,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 20),
+        child: Card(
+          color: AppConst.transparent,
+          elevation: 16.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            children: [
+              ListTile(
+                title: Row(
+                  children: [
+                    AppText(
+                      txt: widget.title,
+                      size: 15,
+                      color: AppConst.white,
+                    )
+                  ],
                 ),
-                onPressed: _toggleExpanded,
+                trailing: IconButton(
+                  icon: Icon(
+                    _isExpanded ? Icons.expand_less : Icons.expand_more,
+                    color: AppConst.white,
+                  ),
+                  onPressed: _toggleExpanded,
+                ),
+                leading: Icon(Icons.folder, color: AppConst.gold,),
               ),
-            ),
-            if (_isExpanded)
-              Column(
-                children: widget.children,
-              ),
-          ],
+              if (_isExpanded)
+                Column(
+                  children: widget.children,
+                ),
+            ],
+          ),
         ),
       ),
     );

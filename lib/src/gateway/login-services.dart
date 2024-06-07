@@ -37,7 +37,7 @@ class loginService {
       await prefs.setString('roleId', newResponse['user']['role']);
       await prefs.setString('fullname', newResponse['user']['fullname']);
       await prefs.setString('branchId', newResponse['user']['branch']);
-      context.go(RouteNames.layout);
+      context.go(RouteNames.dashboard);
     } else {
       myProvider.updateLoging(!myProvider.myLoging);
       AppSnackbar(

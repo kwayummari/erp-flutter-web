@@ -14,7 +14,7 @@ class SplashFunction {
     if (id == null || id.toString().isEmpty) {
       context.go(RouteNames.login);
     } else {
-      context.go(RouteNames.layout);
+      context.go(RouteNames.dashboard);
     }
   }
 
