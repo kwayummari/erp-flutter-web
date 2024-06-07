@@ -4,16 +4,17 @@ import 'package:erp/src/api/apis.dart';
 import 'package:erp/src/functions/splash.dart';
 import 'package:flutter/material.dart';
 
-class menuServices {
+class userServices {
   Api api = Api();
 
-  Future getMenu(BuildContext context) async {
+  Future getUser(BuildContext context) async {
     SplashFunction splashDetails = SplashFunction();
-    final roleId = await splashDetails.getRoleId();
+    final companyId = await splashDetails.getCompanyId();
+    print('company Id' + companyId);
     Map<String, dynamic> data = {
-      'id': roleId,
+      'companyId': companyId,
     };
-    final response = await api.post(context, 'getPermission', data);
+    final response = await api.post(context, 'getUserByCompanyId', data);
     final decodedResponse = jsonDecode(response.body);
     return decodedResponse;
   }
