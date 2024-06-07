@@ -24,5 +24,9 @@ final GoRouter router = GoRouter(
       path: RouteNames.dashboard,
       builder: (context, state) => dashboard(),
     ),
+    GoRoute(
+      path: RouteNames.userManagement,
+      builder: (context, state) => dashboard(),
+    ),
   ],
 );
