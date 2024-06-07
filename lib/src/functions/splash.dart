@@ -4,10 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashFunction {
-  var email;
   var id;
-  var role;
-  var intro;
 
   Future navigatorToHome(BuildContext context) async {
     await getValidationData();
@@ -25,8 +22,6 @@ class SplashFunction {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     id = sharedPreferences.getString('id');
-    role = sharedPreferences.getString('role');
-    intro = sharedPreferences.getString('intro');
   }
 
   Future<String> getEmail() async {
@@ -36,24 +31,36 @@ class SplashFunction {
     return e.toString();
   }
 
-  Future<String> getId() async {
+  Future<String> getUserId() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
-    var i = sharedPreferences.getString('id');
-    return i.toString();
+    var userId = sharedPreferences.getString('userId');
+    return userId.toString();
   }
 
-  Future<String> getRole() async {
+  Future<String> getRoleId() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
-    var r = sharedPreferences.getString('role');
-    return r.toString();
+    var roleId = sharedPreferences.getString('roleId');
+    return roleId.toString();
   }
 
-  Future<String> getIntro() async {
+  Future<String> getCompanyId() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
-    var intr = sharedPreferences.getString('intro');
-    return intr.toString();
+    var companyId = sharedPreferences.getString('companyId');
+    return companyId.toString();
+  }
+  Future<String> getFullname() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var fullname = sharedPreferences.getString('fullname');
+    return fullname.toString();
+  }
+  Future<String> getBranchId() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var branchId = sharedPreferences.getString('branchId');
+    return branchId.toString();
   }
 }
