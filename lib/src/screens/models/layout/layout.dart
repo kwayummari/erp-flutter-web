@@ -1,4 +1,5 @@
 import 'package:erp/src/screens/models/layout/header.dart';
+import 'package:erp/src/screens/models/layout/sideBar.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_base_screen.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,12 @@ class _layoutState extends State<layout> {
       padding: EdgeInsets.all(0),
       child: Column(
         children: [
-          Header()
+          Row(
+            children: [
+              sideBar(),
+              Header(),
+            ],
+          )
         ],
       ),
       );
