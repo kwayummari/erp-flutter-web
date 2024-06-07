@@ -58,7 +58,7 @@ class _ExpandableCardState extends State<ExpandableCard> {
                   ),
                   onPressed: _toggleExpanded,
                 ),
-                leading: Icon(Icons.folder, color: AppConst.gold,),
+                leading: Icon(Icons.folder, color: AppConst.white,),
               ),
               if (_isExpanded)
                 Column(

@@ -1,4 +1,5 @@
 import 'package:erp/src/screens/dashboard/dashboard.dart';
+import 'package:erp/src/screens/userManagement/userManagement.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
 import 'package:erp/src/screens/authentication/login.dart';
 import 'package:erp/src/screens/authentication/registration.dart';
@@ -26,7 +27,7 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: RouteNames.userManagement,
-      builder: (context, state) => dashboard(),
+      builder: (context, state) => userManagement(),
     ),
   ],
 );

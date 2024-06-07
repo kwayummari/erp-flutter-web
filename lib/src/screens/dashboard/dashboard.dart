@@ -25,7 +25,7 @@ class _dashboardState extends State<dashboard> {
                 width: 350.0,
               height: 200.0,
               decoration: BoxDecoration(
-                color: AppConst.black,
+                color: AppConst.white,
                 borderRadius: BorderRadius.circular(10.0),
               ),
               ),
@@ -38,7 +38,7 @@ class _dashboardState extends State<dashboard> {
                 width: 350.0,
               height: 200.0,
               decoration: BoxDecoration(
-                color: AppConst.black,
+                color: AppConst.white,
                 borderRadius: BorderRadius.circular(10.0),
               ),
               ),
@@ -51,7 +51,7 @@ class _dashboardState extends State<dashboard> {
                 width: 350.0,
               height: 200.0,
               decoration: BoxDecoration(
-                color: AppConst.black,
+                color: AppConst.white,
                 borderRadius: BorderRadius.circular(10.0),
               ),
               ),
