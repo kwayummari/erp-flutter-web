@@ -1,4 +1,5 @@
 import 'package:erp/src/screens/userManagement/addUser.dart';
+import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/gateway/user.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
@@ -85,7 +86,7 @@ class _userManagementState extends State<userManagement> {
                     width: 500,
                     height: 600,
                     context,
-                    'Add User',
+                    AppText(txt: 'Add User', size: 22, weight: FontWeight.bold),
                     onClose: fetchData,
                     // addUserForm()
                     Column(
@@ -117,6 +118,10 @@ class _userManagementState extends State<userManagement> {
                       return Text(row[title.toLowerCase()] ?? '');
                     },
                     onClose: fetchData,
+                    deleteStatement: AppText(
+                        txt: 'Are you sure you want to delete this user?',
+                        size: 18,
+                        weight: FontWeight.bold),
                   ),
                 ],
               ),

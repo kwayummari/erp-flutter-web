@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:erp/src/widgets/app_text.dart';
 
 class ReusableModal extends StatelessWidget {
-  final String title;
+  final Widget title;
   final Widget content;
   final Widget? footer;
   final double? width;
@@ -21,7 +20,7 @@ class ReusableModal extends StatelessWidget {
 
   static void show(
     BuildContext context,
-    String title,
+    Widget title,
     Widget content, {
     Widget? footer,
     double? width,
@@ -77,7 +76,7 @@ class ReusableModal extends StatelessWidget {
         children: <Widget>[
           Row(
             children: [
-              AppText(txt: title, size: 22, weight: FontWeight.bold),
+              title,
               Spacer(),
               IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.cancel))
             ],

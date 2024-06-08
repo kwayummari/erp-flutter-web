@@ -1,4 +1,7 @@
+import 'package:erp/src/gateway/deleteService.dart';
 import 'package:erp/src/utils/app_const.dart';
+import 'package:erp/src/widgets/app_button.dart';
+import 'package:erp/src/widgets/app_modal.dart';
 import 'package:erp/src/widgets/app_popover.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +10,7 @@ class ReusableTable extends StatelessWidget {
   final List<String> titles;
   final List<Map<String, dynamic>> data;
   final double columnSpacing;
+  final Widget deleteStatement;
   final Widget Function(BuildContext, Map<String, dynamic>, String) cellBuilder;
   final Future<void> Function()? onClose;
 
@@ -14,6 +18,7 @@ class ReusableTable extends StatelessWidget {
       {Key? key,
       required this.titles,
       required this.data,
+      required this.deleteStatement,
       required this.cellBuilder,
       this.columnSpacing = 0,
       required this.onClose})
@@ -65,7 +70,43 @@ class ReusableTable extends StatelessWidget {
                         title: 'Delete',
                         icon: Icons.delete,
                         onTap: () {
-                         
+                          ReusableModal.show(
+                            width: 500,
+                            height: 300,
+                            context,
+                            deleteStatement,
+                            onClose: onClose,
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.error,
+                                  color: AppConst.red,
+                                  size: 100,
+                                ),
+                                Container(
+                                  width: 400,
+                                  height: 50,
+                                  child: AppButton(
+                                      onPress: () async {
+                                        deleteServices deleteService =
+                                            deleteServices();
+                                         deleteService.delete(
+                                                context, 'deleteUserById', row['id'].toString());
+                                        Navigator.pop(context);
+                                      },
+                                      gradient: AppConst.primaryGradient,
+                                      label: 'Delete',
+                                      borderRadius: 5,
+                                      textColor: AppConst.white),
+                                ),
+                              ],
+                            ),
+                            footer: Row(
+                              children: [
+                              ],
+                            ),
+                          );
                         },
                       ),
                       // Add more items as needed

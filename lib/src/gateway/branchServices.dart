@@ -10,7 +10,6 @@ class branchServices {
   Future getBranch(BuildContext context) async {
     SplashFunction splashDetails = SplashFunction();
     final companyId = await splashDetails.getCompanyId();
-    print('company Id' + companyId);
     Map<String, dynamic> data = {
       'companyId': companyId,
     };
