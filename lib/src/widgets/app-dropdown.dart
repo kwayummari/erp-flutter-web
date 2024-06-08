@@ -1,88 +1,123 @@
 import 'package:erp/src/gateway/dropdown-service.dart';
 import 'package:erp/src/utils/app_const.dart';
+import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 
 class DropdownTextFormField extends StatefulWidget {
   final String labelText;
   final Icon? icon;
   final Color? fillcolor;
+  final Color? dropdownColor;
   final IconButton? suffixicon;
   final String apiUrl;
   final String valueField;
   final String displayField;
+  final String dataOrigin;
   final void Function(String?)? onChanged;
+  final Color? textsColor;
+  final bool? enabled;
+  final double? circle;
+  final labelWeight;
 
-  DropdownTextFormField({
-    required this.labelText,
-    this.icon,
-    this.suffixicon,
-    required this.fillcolor,
-    required this.apiUrl,
-    required this.valueField,
-    required this.displayField,
-    this.onChanged,
-  });
+  DropdownTextFormField(
+      {required this.labelText,
+      this.icon,
+      this.suffixicon,
+      required this.fillcolor,
+      required this.dropdownColor,
+      required this.apiUrl,
+      required this.valueField,
+      required this.displayField,
+      required this.dataOrigin,
+      this.onChanged,
+      this.textsColor,
+      this.enabled,
+      this.circle,
+      this.labelWeight});
 
   @override
   State<DropdownTextFormField> createState() => _DropdownTextFormFieldState();
 }
 
 class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
+  late Future<List<DropdownMenuItem<String>>> _itemsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _itemsFuture = _getItems();
+  }
+
   Future<List<DropdownMenuItem<String>>> _getItems() async {
     final dropdownService _dropdownService = await dropdownService();
-    final data = await _dropdownService.dropdown(context, widget.apiUrl);
-    return data
-        .map<DropdownMenuItem<String>>((item) => DropdownMenuItem(
+    final data = await _dropdownService.dropdownPost(context, widget.apiUrl);
+    final dropDownData = data[widget.dataOrigin];
+
+    return dropDownData
+        .map<DropdownMenuItem<String>>((item) => DropdownMenuItem<String>(
               value: item[widget.valueField].toString(),
-              child: Text(item[widget.displayField]),
+              child: AppText(
+                txt: item[widget.displayField],
+                size: 15,
+                color: AppConst.black,
+              ),
             ))
         .toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _getItems(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          final items = snapshot.data;
-          if (items!.isNotEmpty) {
-            return DropdownButtonFormField(
-              decoration: InputDecoration(
-                enabled: true,
-                labelStyle: TextStyle(
-                  color: AppConst.white,
-                  fontFamily: 'OpenSans',
+    return Padding(
+      padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
+      child: FutureBuilder<List<DropdownMenuItem<String>>>(
+        future: _itemsFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            return Text('Failed to fetch items: ${snapshot.error}');
+          } else if (snapshot.hasData) {
+            final items = snapshot.data!;
+            if (items.isNotEmpty) {
+              return DropdownButtonFormField<String>(
+                dropdownColor: widget.dropdownColor,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(widget.circle ?? 5.0),
+                  ),
+                  label: Container(
+                    color: widget.fillcolor,
+                    child: AppText(
+                      txt: widget.labelText,
+                      size: 15,
+                      weight: widget.labelWeight ?? FontWeight.w700,
+                      color: widget.textsColor ?? AppConst.white,
+                    ),
+                  ),
+                  filled: true,
+                  fillColor: widget.fillcolor,
+                  disabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(widget.circle ?? 5.0),
+                    borderSide: BorderSide(color: AppConst.black),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(widget.circle ?? 5.0),
+                    borderSide: BorderSide(color: AppConst.black),
+                  ),
+                  prefixIcon: widget.icon,
+                  suffixIcon: widget.suffixicon,
                 ),
-                labelText: widget.labelText,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                filled: true,
-                fillColor: widget.fillcolor,
-                disabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                  borderSide: BorderSide(color: AppConst.black),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                  borderSide: BorderSide(color: AppConst.black),
-                ),
-                prefixIcon: widget.icon,
-                suffixIcon: widget.suffixicon,
-              ),
-              items: snapshot.data,
-              onChanged: widget.onChanged,
-            );
+                items: items,
+                onChanged: widget.enabled ?? true ? widget.onChanged : null,
+              );
+            } else {
+              return Text('No items found');
+            }
           } else {
-            return Text('No items found');
+            return Text('Unexpected state');
           }
-        } else if (snapshot.hasError) {
-          return Text('Failed to fetch items');
-        } else {
-          return const CircularProgressIndicator();
-        }
-      },
+        },
+      ),
     );
   }
 }

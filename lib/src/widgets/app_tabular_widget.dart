@@ -22,6 +22,7 @@ class _appTabularState extends State<appTabular> {
             border: Border.all(color: AppConst.blackOpacity),
             borderRadius: BorderRadius.all(Radius.circular(5))),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Container(
               color: AppConst.grey200,
@@ -42,14 +43,16 @@ class _appTabularState extends State<appTabular> {
                 ),
               ),
             ),
-            Divider(),
+            Divider(color: AppConst.grey200,),
             Padding(
               padding: const EdgeInsets.only(top: 0, bottom: 20, left: 20, right: 20),
               child: Container(
                 decoration: BoxDecoration(
                     border: Border.all(color: AppConst.grey),
                     borderRadius: BorderRadius.all(Radius.circular(5))),
-                child: widget.child,
+                child: SingleChildScrollView(
+                  child: widget.child,
+                ),
               ),
             ),
           ],

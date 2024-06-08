@@ -1,10 +1,12 @@
+import 'package:erp/src/screens/userManagement/addUser.dart';
+import 'package:flutter/material.dart';
 import 'package:erp/src/gateway/user.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_button.dart';
+import 'package:erp/src/widgets/app_modal.dart';
 import 'package:erp/src/widgets/app_table.dart';
 import 'package:erp/src/widgets/app_tabular_widget.dart';
-import 'package:flutter/material.dart';
 
 class userManagement extends StatefulWidget {
   const userManagement({super.key});
@@ -14,20 +16,19 @@ class userManagement extends StatefulWidget {
 }
 
 class _userManagementState extends State<userManagement> {
-  List<Map<String, dynamic>> data = [];
+  List<Map<String, dynamic>> userData = [];
   bool isLoading = true;
   bool hasError = false;
 
   Future<void> fetchData() async {
     try {
       userServices userService = userServices();
-      final response = await userService.getUser(context);
-      print(response);
-
-      if (response != null && response['users'] != null) {
+      final userResponse = await userService.getUser(context);
+      if (userResponse != null && userResponse['users'] != null) {
         setState(() {
-          data = (response['users'] as List).map((user) {
+          userData = (userResponse['users'] as List).map((user) {
             return {
+              'id': user['id'], // Ensure 'id' is included
               'fullname': user['fullname'],
               'email': user['email'],
               'phone number': user['phone'],
@@ -75,11 +76,32 @@ class _userManagementState extends State<userManagement> {
             Center(child: CircularProgressIndicator())
           else if (hasError)
             Center(child: Text('Error loading data'))
-          else if (data.isNotEmpty)
+          else if (userData.isNotEmpty)
             appTabular(
               title: 'User Management',
               button: AppButton(
-                onPress: () => {},
+                onPress: () => {
+                  ReusableModal.show(
+                    width: 500,
+                    height: 600,
+                    context,
+                    'Add User',
+                    onClose: fetchData,
+                    // addUserForm()
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[addUserForm(fetchData: fetchData)],
+                    ),
+                    footer: AppButton(
+                        onPress: () {
+                          Navigator.pop(context);
+                        },
+                        solidColor: AppConst.black,
+                        label: 'Cancel',
+                        borderRadius: 5,
+                        textColor: AppConst.white),
+                  )
+                },
                 label: 'Add user',
                 borderRadius: 5,
                 textColor: AppConst.white,
@@ -88,9 +110,13 @@ class _userManagementState extends State<userManagement> {
               child: Column(
                 children: [
                   ReusableTable(
-                    columnSpacing: 180,
+                    columnSpacing: 140,
                     titles: titles,
-                    data: data,
+                    data: userData,
+                    cellBuilder: (context, row, title) {
+                      return Text(row[title.toLowerCase()] ?? '');
+                    },
+                    onClose: fetchData,
                   ),
                 ],
               ),

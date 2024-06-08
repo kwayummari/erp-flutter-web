@@ -53,7 +53,7 @@ class _loginFormState extends State<loginForm> {
                     label: 'Email',
                     obscure: false,
                     icon: Icon(
-                      Icons.person,
+                      Icons.mail,
                       color: AppConst.black,
                     ),
                     isemail: true,
