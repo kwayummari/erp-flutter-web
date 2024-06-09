@@ -18,22 +18,25 @@ class DropdownTextFormField extends StatefulWidget {
   final bool? enabled;
   final double? circle;
   final labelWeight;
+  final String? initialValue;
 
-  DropdownTextFormField(
-      {required this.labelText,
-      this.icon,
-      this.suffixicon,
-      required this.fillcolor,
-      required this.dropdownColor,
-      required this.apiUrl,
-      required this.valueField,
-      required this.displayField,
-      required this.dataOrigin,
-      this.onChanged,
-      this.textsColor,
-      this.enabled,
-      this.circle,
-      this.labelWeight});
+  DropdownTextFormField({
+    required this.labelText,
+    this.icon,
+    this.suffixicon,
+    required this.fillcolor,
+    required this.dropdownColor,
+    required this.apiUrl,
+    required this.valueField,
+    required this.displayField,
+    required this.dataOrigin,
+    this.onChanged,
+    this.textsColor,
+    this.enabled,
+    this.circle,
+    this.labelWeight,
+    this.initialValue, // Add initialValue property
+  });
 
   @override
   State<DropdownTextFormField> createState() => _DropdownTextFormFieldState();
@@ -41,11 +44,13 @@ class DropdownTextFormField extends StatefulWidget {
 
 class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
   late Future<List<DropdownMenuItem<String>>> _itemsFuture;
+  String? _selectedValue; // Track selected value
 
   @override
   void initState() {
     super.initState();
     _itemsFuture = _getItems();
+    _selectedValue = widget.initialValue; // Initialize with initial value
   }
 
   Future<List<DropdownMenuItem<String>>> _getItems() async {
@@ -80,6 +85,7 @@ class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
             final items = snapshot.data!;
             if (items.isNotEmpty) {
               return DropdownButtonFormField<String>(
+                value: _selectedValue, // Set the initial value
                 dropdownColor: widget.dropdownColor,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -108,7 +114,14 @@ class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
                   suffixIcon: widget.suffixicon,
                 ),
                 items: items,
-                onChanged: widget.enabled ?? true ? widget.onChanged : null,
+                onChanged: widget.enabled ?? true ? (value) {
+                  setState(() {
+                    _selectedValue = value;
+                    if (widget.onChanged != null) {
+                      widget.onChanged!(value);
+                    }
+                  });
+                } : null,
               );
             } else {
               return Text('No items found');

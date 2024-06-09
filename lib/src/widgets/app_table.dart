@@ -1,4 +1,5 @@
 import 'package:erp/src/gateway/deleteService.dart';
+import 'package:erp/src/screens/userManagement/editUser.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_modal.dart';
@@ -10,6 +11,7 @@ class ReusableTable extends StatelessWidget {
   final List<String> titles;
   final String url;
   final List<Map<String, dynamic>> data;
+  final Function fetchData;
   final double columnSpacing;
   final Widget deleteStatement;
   final Widget Function(BuildContext, Map<String, dynamic>, String) cellBuilder;
@@ -17,6 +19,7 @@ class ReusableTable extends StatelessWidget {
 
   const ReusableTable(
       {Key? key,
+      required this.fetchData,
       required this.titles,
       required this.data,
       required this.deleteStatement,
@@ -65,7 +68,22 @@ class ReusableTable extends StatelessWidget {
                         title: 'Edit',
                         icon: Icons.edit,
                         onTap: () {
-                          // Handle option 1 tap
+                          ReusableModal.show(
+                            width: 500,
+                            height: 550,
+                            context,
+                            deleteStatement,
+                            onClose: onClose,
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                editUserForm(fetchData: fetchData, data: row),
+                              ],
+                            ),
+                            footer: Row(
+                              children: [],
+                            ),
+                          );
                         },
                       ),
                       CustomPopoverItem(

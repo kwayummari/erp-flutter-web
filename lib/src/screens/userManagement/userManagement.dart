@@ -34,6 +34,9 @@ class _userManagementState extends State<userManagement> {
               'email': user['email'],
               'phone number': user['phone'],
               'branch': user['branch_name'],
+              'branchId': user['branch'],
+              'companyId': user['companyId'],
+              'roleId': user['role'],
               'role': user['role_name'],
             };
           }).toList();
@@ -116,6 +119,7 @@ class _userManagementState extends State<userManagement> {
               child: Column(
                 children: [
                   ReusableTable(
+                    fetchData: fetchData,
                     columnSpacing: 140,
                     titles: titles,
                     data: userData,
@@ -126,7 +130,8 @@ class _userManagementState extends State<userManagement> {
                     deleteStatement: AppText(
                         txt: 'Are you sure you want to delete this user?',
                         size: 18,
-                        weight: FontWeight.bold), url: 'deleteUserById',
+                        weight: FontWeight.bold),
+                    url: 'deleteUserById',
                   ),
                 ],
               ),

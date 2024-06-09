@@ -5,6 +5,7 @@ import 'package:erp/src/widgets/app_text.dart';
 class AppInputText extends StatelessWidget {
   final TextEditingController? textfieldcontroller;
   final String? label;
+  final String? initialValue;
   final Icon? icon;
   final Color? fillcolor;
   final Color? textsColor;
@@ -30,6 +31,7 @@ class AppInputText extends StatelessWidget {
       this.suffixicon,
       this.onChange,
       required this.label,
+      this.initialValue,
       required this.obscure,
       this.validate,
       this.enabled,
@@ -42,6 +44,7 @@ class AppInputText extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
       child: TextFormField(
+        initialValue: initialValue,
         enabled: enabled ?? true,
         style: TextStyle(color: textsColor ?? AppConst.white),
         onChanged: onChange,

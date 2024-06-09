@@ -115,6 +115,7 @@ class _inventoryManagementState extends State<inventoryManagement> {
               child: Column(
                 children: [
                   ReusableTable(
+                    fetchData: fetchData,
                     columnSpacing: 140,
                     titles: titles,
                     data: productData,
