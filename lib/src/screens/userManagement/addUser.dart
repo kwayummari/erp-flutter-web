@@ -122,7 +122,7 @@ class _addUserFormState extends State<addUserForm> {
                           await widget.fetchData();
                           Navigator.pop(context);
                         },
-                        label: 'LOGIN',
+                        label: 'Create user',
                         borderRadius: 5,
                         textColor: AppConst.white,
                         gradient: AppConst.primaryGradient,

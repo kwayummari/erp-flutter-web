@@ -93,14 +93,19 @@ class _userManagementState extends State<userManagement> {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[addUserForm(fetchData: fetchData)],
                     ),
-                    footer: AppButton(
-                        onPress: () {
-                          Navigator.pop(context);
-                        },
-                        solidColor: AppConst.black,
-                        label: 'Cancel',
-                        borderRadius: 5,
-                        textColor: AppConst.white),
+                    footer: Row(
+                      children: [
+                        Spacer(),
+                        AppButton(
+                            onPress: () {
+                              Navigator.pop(context);
+                            },
+                            solidColor: AppConst.black,
+                            label: 'Cancel',
+                            borderRadius: 5,
+                            textColor: AppConst.white),
+                      ],
+                    ),
                   )
                 },
                 label: 'Add user',
