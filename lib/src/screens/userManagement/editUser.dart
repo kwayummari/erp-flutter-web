@@ -31,7 +31,6 @@ class _editUserFormState extends State<editUserForm> {
 
   @override
   void initState() {
-    print(widget.data);
     super.initState();
     fullname.text = widget.data['fullname'] ?? '';
     email.text = widget.data['email'] ?? '';
@@ -143,7 +142,6 @@ class _editUserFormState extends State<editUserForm> {
                                     if (!_formKey.currentState!.validate()) {
                                       return;
                                     }
-                                    print(fullname.text.toString());
                                     await addUserService().editUser(
                                         context,
                                         email.text,
