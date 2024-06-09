@@ -3,7 +3,7 @@ class RouteNames {
   static const String login = '/login';
   static const String registration = '/registration';
   static const String splash = '/splash';
-  static const String intro = '/intro';
   static const String dashboard = '/dashboard';
   static const String userManagement = '/user';
+  static const String inventory = '/inventory';
 }

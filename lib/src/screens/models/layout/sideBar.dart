@@ -105,6 +105,9 @@ class _sideBarState extends State<sideBar> {
                                     onTap: () {
                                       if (subMenu[index]['url'] == 'user') {
                                         context.go(RouteNames.userManagement);
+                                      } else if (subMenu[index]['url'] ==
+                                          'inventory') {
+                                        context.go(RouteNames.inventory);
                                       }
                                     },
                                     child: ListTile(

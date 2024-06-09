@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 
 class ReusableTable extends StatelessWidget {
   final List<String> titles;
+  final String url;
   final List<Map<String, dynamic>> data;
   final double columnSpacing;
   final Widget deleteStatement;
@@ -20,6 +21,7 @@ class ReusableTable extends StatelessWidget {
       required this.data,
       required this.deleteStatement,
       required this.cellBuilder,
+      required this.url,
       this.columnSpacing = 0,
       required this.onClose})
       : super(key: key);
@@ -91,8 +93,8 @@ class ReusableTable extends StatelessWidget {
                                       onPress: () async {
                                         deleteServices deleteService =
                                             deleteServices();
-                                         deleteService.delete(
-                                                context, 'deleteUserById', row['id'].toString());
+                                        deleteService.delete(
+                                            context, url, row['id'].toString());
                                         Navigator.pop(context);
                                       },
                                       gradient: AppConst.primaryGradient,
@@ -103,27 +105,14 @@ class ReusableTable extends StatelessWidget {
                               ],
                             ),
                             footer: Row(
-                              children: [
-                              ],
+                              children: [],
                             ),
                           );
                         },
                       ),
                       // Add more items as needed
                     ],
-                  )
-
-                  // MouseRegion(
-                  //   cursor: SystemMouseCursors.click,
-                  //   child: GestureDetector(
-                  //     onTap: () {
-                  //       final id = row['id'];
-                  //       print('More actions for item with id: $id');
-                  //     },
-                  //     child: Icon(Icons.more_vert, size: 16),
-                  //   ),
-                  // ),
-                  ),
+                  )),
             ],
           ),
       ],

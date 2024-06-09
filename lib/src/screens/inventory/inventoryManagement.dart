@@ -1,7 +1,7 @@
-import 'package:erp/src/screens/userManagement/addUser.dart';
+import 'package:erp/src/gateway/inventoryService.dart';
+import 'package:erp/src/screens/inventory/addProduct.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
-import 'package:erp/src/gateway/user.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_button.dart';
@@ -9,32 +9,34 @@ import 'package:erp/src/widgets/app_modal.dart';
 import 'package:erp/src/widgets/app_table.dart';
 import 'package:erp/src/widgets/app_tabular_widget.dart';
 
-class userManagement extends StatefulWidget {
-  const userManagement({super.key});
+class inventoryManagement extends StatefulWidget {
+  const inventoryManagement({super.key});
 
   @override
-  State<userManagement> createState() => _userManagementState();
+  State<inventoryManagement> createState() => _inventoryManagementState();
 }
 
-class _userManagementState extends State<userManagement> {
-  List<Map<String, dynamic>> userData = [];
+class _inventoryManagementState extends State<inventoryManagement> {
+  List<Map<String, dynamic>> productData = [];
   bool isLoading = true;
   bool hasError = false;
 
   Future<void> fetchData() async {
     try {
-      userServices userService = userServices();
-      final userResponse = await userService.getUser(context);
-      if (userResponse != null && userResponse['users'] != null) {
+      inventoryServices inventoryService = inventoryServices();
+      final productResponse = await inventoryService.getProduct(context);
+      if (productResponse != null && productResponse['products'] != null) {
         setState(() {
-          userData = (userResponse['users'] as List).map((user) {
+          productData = (productResponse['products'] as List).map((product) {
             return {
-              'id': user['id'], // Ensure 'id' is included
-              'fullname': user['fullname'],
-              'email': user['email'],
-              'phone number': user['phone'],
-              'branch': user['branch_name'],
-              'role': user['role_name'],
+              'id': product['id'],
+              'productno.': product['productNumber'].toString(),
+              'name': product['name'],
+              'description': product['description'],
+              'quantity': product['quantity'],
+              'buyingprice': product['buyingPrice'].toString(),
+              'sellingprice': product['sellingPrice'].toString(),
+              'branch': product['branchId'][0]['name'].toString(),
             };
           }).toList();
           isLoading = false;
@@ -61,11 +63,13 @@ class _userManagementState extends State<userManagement> {
   }
 
   final List<String> titles = [
-    'Fullname',
-    'Email',
-    'Phone number',
-    'Branch',
-    'Role',
+    'Product No.',
+    'Name',
+    'Description',
+    'Quantity',
+    'Buying Price',
+    'Selling Price',
+    'Branch'
   ];
 
   @override
@@ -77,21 +81,21 @@ class _userManagementState extends State<userManagement> {
             Center(child: CircularProgressIndicator())
           else if (hasError)
             Center(child: Text('Error loading data'))
-          else if (userData.isNotEmpty)
+          else if (productData.isNotEmpty)
             appTabular(
-              title: 'User Management',
+              title: 'Product Management',
               button: AppButton(
                 onPress: () => {
                   ReusableModal.show(
                     width: 500,
-                    height: 600,
+                    height: 800,
                     context,
-                    AppText(txt: 'Add User', size: 22, weight: FontWeight.bold),
+                    AppText(
+                        txt: 'Add Product', size: 22, weight: FontWeight.bold),
                     onClose: fetchData,
-                    // addUserForm()
                     Column(
                       mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[addUserForm(fetchData: fetchData)],
+                      children: <Widget>[addProductForm(fetchData: fetchData)],
                     ),
                     footer: AppButton(
                         onPress: () {
@@ -103,7 +107,7 @@ class _userManagementState extends State<userManagement> {
                         textColor: AppConst.white),
                   )
                 },
-                label: 'Add user',
+                label: 'Add products',
                 borderRadius: 5,
                 textColor: AppConst.white,
                 gradient: AppConst.primaryGradient,
@@ -113,15 +117,16 @@ class _userManagementState extends State<userManagement> {
                   ReusableTable(
                     columnSpacing: 140,
                     titles: titles,
-                    data: userData,
+                    data: productData,
                     cellBuilder: (context, row, title) {
-                      return Text(row[title.toLowerCase()] ?? '');
+                      return Text(
+                          row[title.toLowerCase().replaceAll(' ', '')] ?? '');
                     },
                     onClose: fetchData,
                     deleteStatement: AppText(
-                        txt: 'Are you sure you want to delete this user?',
-                        size: 18,
-                        weight: FontWeight.bold), url: 'deleteUserById',
+                        txt: 'Are you sure you want to delete this product?',
+                        size: 15,
+                        weight: FontWeight.bold), url: 'delete_product',
                   ),
                 ],
               ),
