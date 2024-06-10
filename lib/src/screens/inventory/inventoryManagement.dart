@@ -40,6 +40,8 @@ class _inventoryManagementState extends State<inventoryManagement> {
               'buyingprice': product['buyingPrice'].toString(),
               'sellingprice': product['sellingPrice'].toString(),
               'branch': product['branchId'][0]['name'].toString(),
+              'branchId': product['branchId'][0]['id'].toString(),
+              'taxId': product['taxType'].toString(),
             };
           }).toList();
           isLoading = false;
@@ -121,7 +123,7 @@ class _inventoryManagementState extends State<inventoryManagement> {
                   ReusableTable(
                     deleteModalHeight: 300,
                     deleteModalWidth: 500,
-                    editModalHeight: 700,
+                    editModalHeight: 750,
                     editModalWidth: 500,
                     editStatement: AppText(
                         txt: 'Edit product', size: 18, weight: FontWeight.bold),
@@ -140,9 +142,7 @@ class _inventoryManagementState extends State<inventoryManagement> {
                         weight: FontWeight.bold),
                     url: 'delete_product',
                     editForm: editProductForm(
-                      fetchData: fetchData,
-                      data: rowData ?? {}
-                    ),
+                        fetchData: fetchData, data: rowData ?? {}),
                   ),
                 ],
               ),

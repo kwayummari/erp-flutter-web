@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:erp/src/api/apis.dart';
+import 'package:erp/src/widgets/app_snackbar.dart';
 import 'package:flutter/material.dart';
 
 class deleteServices {
@@ -12,6 +13,17 @@ class deleteServices {
     };
     final response = await api.post(context, url, data);
     final decodedResponse = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      AppSnackbar(
+        isError: false,
+        response: decodedResponse['message'],
+      ).show(context);
+    } else {
+      AppSnackbar(
+        isError: true,
+        response: decodedResponse['message'],
+      ).show(context);
+    }
     return decodedResponse;
   }
 }

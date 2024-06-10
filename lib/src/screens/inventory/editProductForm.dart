@@ -11,7 +11,8 @@ import 'package:provider/provider.dart';
 class editProductForm extends StatefulWidget {
   final Function fetchData;
   final Map<String, dynamic> data;
-  const editProductForm({super.key, required this.fetchData, required this.data});
+  const editProductForm(
+      {super.key, required this.fetchData, required this.data});
 
   @override
   State<editProductForm> createState() => _editProductFormState();
@@ -26,6 +27,7 @@ class _editProductFormState extends State<editProductForm> {
   TextEditingController productNumber = TextEditingController();
   var branch;
   var tax;
+  var editId;
   bool marked = false;
   bool dont_show_password = true;
   final _formKey = GlobalKey<FormState>();
@@ -35,12 +37,14 @@ class _editProductFormState extends State<editProductForm> {
     name.text = widget.data['name'] ?? '';
     description.text = widget.data['description'] ?? '';
     quantity.text = widget.data['quantity'] ?? '';
-    buyingPrice.text = widget.data['buyingPrice'] ?? '';
-    sellingPrice.text = widget.data['sellingPrice'] ?? '';
-    productNumber.text = widget.data['productNumber'] ?? '';
+    buyingPrice.text = widget.data['buyingprice'] ?? '';
+    sellingPrice.text = widget.data['sellingprice'] ?? '';
+    productNumber.text = widget.data['productno.'] ?? '';
     branch = widget.data['branchId'];
     tax = widget.data['taxId'];
+    editId = widget.data['id'];
   }
+
   @override
   Widget build(BuildContext context) {
     final myProvider = Provider.of<LoadingProvider>(context);
@@ -135,20 +139,23 @@ class _editProductFormState extends State<editProductForm> {
             isPhone: false,
           ),
           DropdownTextFormField(
-              labelText: 'Select Branch',
-              fillcolor: AppConst.white,
-              apiUrl: 'getBranch',
-              textsColor: AppConst.black,
-              dropdownColor: AppConst.white,
-              dataOrigin: 'branch',
-              onChanged: (value) {
-                setState(() {
-                  branch = value.toString();
-                });
-              },
-              valueField: 'id',
-              displayField: 'name'),
+            initialValue: branch.toString(),
+            labelText: 'Select Branch',
+            fillcolor: AppConst.white,
+            apiUrl: 'getBranch',
+            textsColor: AppConst.black,
+            dropdownColor: AppConst.white,
+            dataOrigin: 'branch',
+            onChanged: (value) {
+              setState(() {
+                branch = value.toString();
+              });
+            },
+            valueField: 'id',
+            displayField: 'name',
+          ),
           DropdownTextFormField(
+              initialValue: tax.toString(),
               labelText: 'Select Tax',
               fillcolor: AppConst.white,
               apiUrl: 'tax',
@@ -170,28 +177,36 @@ class _editProductFormState extends State<editProductForm> {
                     ? SpinKitCircle(
                         color: AppConst.primary,
                       )
-                    : AppButton(
-                        onPress: () async {
-                          if (!_formKey.currentState!.validate()) {
-                            return;
-                          }
-                          addProductService().addProduct(
-                              context,
-                              name.text,
-                              description.text,
-                              quantity.text,
-                              buyingPrice.text,
-                              sellingPrice.text,
-                              productNumber.text,
-                              branch,
-                              tax);
-                          await widget.fetchData();
-                          Navigator.pop(context);
-                        },
-                        label: 'Add Product',
-                        borderRadius: 5,
-                        textColor: AppConst.white,
-                        gradient: AppConst.primaryGradient,
+                    : Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                          width: 440,
+                          height: 50,
+                          child: AppButton(
+                            onPress: () async {
+                              if (!_formKey.currentState!.validate()) {
+                                      return;
+                                    }
+                                    await addProductService().editProduct(
+                                           context,
+                                  name.text,
+                                  description.text,
+                                  quantity.text,
+                                  buyingPrice.text,
+                                  sellingPrice.text,
+                                  productNumber.text,
+                                  branch,
+                                  tax,
+                                  editId.toString() );
+                              await widget.fetchData();
+                              Navigator.pop(context);
+                            },
+                            label: 'Edit Products',
+                            borderRadius: 5,
+                            textColor: AppConst.white,
+                            gradient: AppConst.primaryGradient,
+                          ),
+                        ),
                       ),
                 Spacer(),
               ],

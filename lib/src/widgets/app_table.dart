@@ -61,7 +61,7 @@ class ReusableTable extends StatelessWidget {
                     color: AppConst.black,
                     weight: FontWeight.bold,
                   )),
-            SizedBox(width: 10), // Adjust width to control icon column width
+            SizedBox(width: 10),
           ],
         ),
         for (var row in data)
@@ -84,10 +84,8 @@ class ReusableTable extends StatelessWidget {
                           Provider.of<RowDataProvider>(context, listen: false)
                               .setRowData(row);
                           ReusableModal.show(
-                            // width: 500,
                             width: editModalWidth,
                             height: editModalHeight,
-                            // height: 550,
                             context,
                             editStatement,
                             onClose: onClose,
@@ -126,8 +124,9 @@ class ReusableTable extends StatelessWidget {
                                       onPress: () async {
                                         deleteServices deleteService =
                                             deleteServices();
-                                        deleteService.delete(
+                                        await deleteService.delete(
                                             context, url, row['id'].toString());
+                                        fetchData;
                                         Navigator.pop(context);
                                       },
                                       gradient: AppConst.primaryGradient,
@@ -143,7 +142,6 @@ class ReusableTable extends StatelessWidget {
                           );
                         },
                       ),
-                      // Add more items as needed
                     ],
                   )),
             ],
