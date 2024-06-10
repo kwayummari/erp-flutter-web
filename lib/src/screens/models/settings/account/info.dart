@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:erp/src/functions/splash.dart';
 import 'package:erp/src/gateway/profile-service.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_base_screen.dart';
