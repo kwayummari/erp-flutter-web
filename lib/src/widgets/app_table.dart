@@ -1,11 +1,12 @@
 import 'package:erp/src/gateway/deleteService.dart';
-import 'package:erp/src/screens/userManagement/editUser.dart';
+import 'package:erp/src/provider/rowProvider.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_modal.dart';
 import 'package:erp/src/widgets/app_popover.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ReusableTable extends StatelessWidget {
   final List<String> titles;
@@ -14,15 +15,19 @@ class ReusableTable extends StatelessWidget {
   final Function fetchData;
   final double columnSpacing;
   final Widget deleteStatement;
+  final Widget editStatement;
+  final Widget editForm;
   final Widget Function(BuildContext, Map<String, dynamic>, String) cellBuilder;
   final Future<void> Function()? onClose;
 
   const ReusableTable(
       {Key? key,
       required this.fetchData,
+      required this.editForm,
       required this.titles,
       required this.data,
       required this.deleteStatement,
+      required this.editStatement,
       required this.cellBuilder,
       required this.url,
       this.columnSpacing = 0,
@@ -68,16 +73,20 @@ class ReusableTable extends StatelessWidget {
                         title: 'Edit',
                         icon: Icons.edit,
                         onTap: () {
+                          // Store the row data in the provider
+                          Provider.of<RowDataProvider>(context, listen: false).setRowData(row);
+
                           ReusableModal.show(
                             width: 500,
                             height: 550,
                             context,
-                            deleteStatement,
+                            editStatement,
                             onClose: onClose,
                             Column(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
-                                editUserForm(fetchData: fetchData, data: row),
+                                // editUserForm(fetchData: fetchData, data: row),
+                                editForm
                               ],
                             ),
                             footer: Row(

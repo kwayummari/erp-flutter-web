@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:erp/src/functions/createMaterialColor.dart';
-import 'package:erp/src/provider/login-provider.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:responsive_framework/utils/scroll_behavior.dart';
+import 'package:erp/src/provider/providers.dart'; // Import the new providers file
 
 Future main() async {
   await dotenv.load(fileName: ".env");
@@ -23,8 +23,8 @@ Future main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
-  Widget build(BuildContext context) => ChangeNotifierProvider(
-      create: (context) => MyProvider(),
+  Widget build(BuildContext context) => MultiProvider(
+      providers: MyProviderList.providers,
       child: MaterialApp.router(
         routerConfig: router,
         builder: (context, widget) => ResponsiveWrapper.builder(

@@ -1,5 +1,5 @@
 import 'package:erp/src/gateway/addUser.dart';
-import 'package:erp/src/provider/login-provider.dart';
+import 'package:erp/src/provider/loadingProvider.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app-dropdown.dart';
 import 'package:erp/src/widgets/app_button.dart';
@@ -42,7 +42,7 @@ class _editUserFormState extends State<editUserForm> {
 
   @override
   Widget build(BuildContext context) {
-    final myProvider = Provider.of<MyProvider>(context);
+    final myProvider = Provider.of<LoadingProvider>(context);
     return widget.data.isNotEmpty
         ? Form(
             key: _formKey,
@@ -149,8 +149,7 @@ class _editUserFormState extends State<editUserForm> {
                                         phone.text,
                                         branch,
                                         role,
-                                        id.toString()
-                                        );
+                                        id.toString());
                                     await widget.fetchData();
                                     Navigator.pop(context);
                                   },

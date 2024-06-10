@@ -3,7 +3,7 @@ import 'package:erp/src/functions/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../api/apis.dart';
-import '../provider/login-provider.dart';
+import '../provider/loadingProvider.dart';
 import '../widgets/app_snackbar.dart';
 
 class addUserService {
@@ -11,7 +11,7 @@ class addUserService {
 
   Future<void> addUser(BuildContext context, String email, String fullname,
       String phone, String branch, String role) async {
-    final myProvider = Provider.of<MyProvider>(context, listen: false);
+    final myProvider = Provider.of<LoadingProvider>(context, listen: false);
     myProvider.updateLoging(!myProvider.myLoging);
     SplashFunction splashDetails = SplashFunction();
     final companyId = await splashDetails.getCompanyId();
@@ -45,7 +45,7 @@ class addUserService {
 
   Future<void> editUser(BuildContext context, String email, String fullname,
       String phone, String branch, String role, String id) async {
-    final myProvider = Provider.of<MyProvider>(context, listen: false);
+    final myProvider = Provider.of<LoadingProvider>(context, listen: false);
     myProvider.updateLoging(!myProvider.myLoging);
     SplashFunction splashDetails = SplashFunction();
     final companyId = await splashDetails.getCompanyId();

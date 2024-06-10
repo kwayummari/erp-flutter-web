@@ -1,5 +1,5 @@
 import 'package:erp/src/gateway/addProductService.dart';
-import 'package:erp/src/provider/login-provider.dart';
+import 'package:erp/src/provider/loadingProvider.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app-dropdown.dart';
 import 'package:erp/src/widgets/app_button.dart';
@@ -30,7 +30,7 @@ class _addProductFormState extends State<addProductForm> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    final myProvider = Provider.of<MyProvider>(context);
+    final myProvider = Provider.of<LoadingProvider>(context);
     return Form(
       key: _formKey,
       child: Column(
@@ -158,12 +158,20 @@ class _addProductFormState extends State<addProductForm> {
                         color: AppConst.primary,
                       )
                     : AppButton(
-                        onPress: () async{
+                        onPress: () async {
                           if (!_formKey.currentState!.validate()) {
                             return;
                           }
-                          addProductService().addProduct(context, name.text,
-                              description.text, quantity.text,buyingPrice.text, sellingPrice.text, productNumber.text, branch, tax);
+                          addProductService().addProduct(
+                              context,
+                              name.text,
+                              description.text,
+                              quantity.text,
+                              buyingPrice.text,
+                              sellingPrice.text,
+                              productNumber.text,
+                              branch,
+                              tax);
                           await widget.fetchData();
                           Navigator.pop(context);
                         },

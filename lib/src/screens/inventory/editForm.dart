@@ -1,4 +1,4 @@
-import 'package:erp/src/gateway/addUser.dart';
+import 'package:erp/src/gateway/addProductService.dart';
 import 'package:erp/src/provider/loadingProvider.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app-dropdown.dart';
@@ -8,20 +8,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
-class addUserForm extends StatefulWidget {
+class editProductForm extends StatefulWidget {
   final Function fetchData;
-  const addUserForm({super.key, required this.fetchData});
+  const editProductForm({super.key, required this.fetchData});
 
   @override
-  State<addUserForm> createState() => _addUserFormState();
+  State<editProductForm> createState() => _editProductFormState();
 }
 
-class _addUserFormState extends State<addUserForm> {
-  TextEditingController email = TextEditingController();
-  TextEditingController fullname = TextEditingController();
-  TextEditingController phone = TextEditingController();
+class _editProductFormState extends State<editProductForm> {
+  TextEditingController name = TextEditingController();
+  TextEditingController description = TextEditingController();
+  TextEditingController quantity = TextEditingController();
+  TextEditingController buyingPrice = TextEditingController();
+  TextEditingController sellingPrice = TextEditingController();
+  TextEditingController productNumber = TextEditingController();
   var branch;
-  var role;
+  var tax;
   bool marked = false;
   bool dont_show_password = true;
   final _formKey = GlobalKey<FormState>();
@@ -36,13 +39,13 @@ class _addUserFormState extends State<addUserForm> {
         children: [
           AppInputText(
             textsColor: AppConst.black,
-            textfieldcontroller: fullname,
+            textfieldcontroller: name,
             ispassword: false,
             fillcolor: AppConst.white,
-            label: 'Fullname',
+            label: 'Name',
             obscure: false,
             icon: Icon(
-              Icons.person,
+              Icons.production_quantity_limits,
               color: AppConst.black,
             ),
             isemail: false,
@@ -50,27 +53,69 @@ class _addUserFormState extends State<addUserForm> {
           ),
           AppInputText(
             textsColor: AppConst.black,
-            textfieldcontroller: email,
+            textfieldcontroller: description,
             ispassword: false,
             fillcolor: AppConst.white,
-            label: 'Email',
+            label: 'Description',
             obscure: false,
             icon: Icon(
-              Icons.mail,
+              Icons.description,
               color: AppConst.black,
             ),
-            isemail: true,
+            isemail: false,
             isPhone: false,
           ),
           AppInputText(
             textsColor: AppConst.black,
-            textfieldcontroller: phone,
+            textfieldcontroller: quantity,
             ispassword: false,
             fillcolor: AppConst.white,
-            label: 'Phone',
+            label: 'Quantity',
             obscure: false,
             icon: Icon(
-              Icons.phone_android,
+              Icons.numbers,
+              color: AppConst.black,
+            ),
+            isemail: false,
+            isPhone: false,
+          ),
+          AppInputText(
+            textsColor: AppConst.black,
+            textfieldcontroller: buyingPrice,
+            ispassword: false,
+            fillcolor: AppConst.white,
+            label: 'Buying Price',
+            obscure: false,
+            icon: Icon(
+              Icons.price_change,
+              color: AppConst.black,
+            ),
+            isemail: false,
+            isPhone: false,
+          ),
+          AppInputText(
+            textsColor: AppConst.black,
+            textfieldcontroller: sellingPrice,
+            ispassword: false,
+            fillcolor: AppConst.white,
+            label: 'Selling Price',
+            obscure: false,
+            icon: Icon(
+              Icons.price_change,
+              color: AppConst.black,
+            ),
+            isemail: false,
+            isPhone: false,
+          ),
+          AppInputText(
+            textsColor: AppConst.black,
+            textfieldcontroller: productNumber,
+            ispassword: false,
+            fillcolor: AppConst.white,
+            label: 'Product Number',
+            obscure: false,
+            icon: Icon(
+              Icons.monetization_on,
               color: AppConst.black,
             ),
             isemail: false,
@@ -91,15 +136,15 @@ class _addUserFormState extends State<addUserForm> {
               valueField: 'id',
               displayField: 'name'),
           DropdownTextFormField(
-              labelText: 'Select Role',
+              labelText: 'Select Tax',
               fillcolor: AppConst.white,
-              apiUrl: 'getAllRoles',
+              apiUrl: 'tax',
               textsColor: AppConst.black,
               dropdownColor: AppConst.white,
-              dataOrigin: 'roles',
+              dataOrigin: 'tax',
               onChanged: (value) {
                 setState(() {
-                  role = value.toString();
+                  tax = value.toString();
                 });
               },
               valueField: 'id',
@@ -117,12 +162,20 @@ class _addUserFormState extends State<addUserForm> {
                           if (!_formKey.currentState!.validate()) {
                             return;
                           }
-                          addUserService().addUser(context, email.text,
-                              fullname.text, phone.text, branch, role);
+                          addProductService().addProduct(
+                              context,
+                              name.text,
+                              description.text,
+                              quantity.text,
+                              buyingPrice.text,
+                              sellingPrice.text,
+                              productNumber.text,
+                              branch,
+                              tax);
                           await widget.fetchData();
                           Navigator.pop(context);
                         },
-                        label: 'Create user',
+                        label: 'Add Product',
                         borderRadius: 5,
                         textColor: AppConst.white,
                         gradient: AppConst.primaryGradient,

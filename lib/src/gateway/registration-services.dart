@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:erp/src/api/apis.dart';
-import 'package:erp/src/provider/login-provider.dart';
+import 'package:erp/src/provider/loadingProvider.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
 import 'package:erp/src/widgets/app_snackbar.dart';
@@ -17,7 +17,7 @@ class registrationService {
 
   Future<void> registration(BuildContext context, String password,
       String rpassword, String fullname, String phone) async {
-    final myProvider = Provider.of<MyProvider>(context, listen: false);
+    final myProvider = Provider.of<LoadingProvider>(context, listen: false);
     myProvider.updateLoging(!myProvider.myLoging);
     if (password.toString() == rpassword.toString()) {
       Map<String, dynamic> data = {

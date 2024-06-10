@@ -1,4 +1,6 @@
+import 'package:erp/src/provider/rowProvider.dart';
 import 'package:erp/src/screens/userManagement/addUser.dart';
+import 'package:erp/src/screens/userManagement/editUser.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/gateway/user.dart';
@@ -8,6 +10,7 @@ import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_modal.dart';
 import 'package:erp/src/widgets/app_table.dart';
 import 'package:erp/src/widgets/app_tabular_widget.dart';
+import 'package:provider/provider.dart';
 
 class userManagement extends StatefulWidget {
   const userManagement({super.key});
@@ -62,7 +65,6 @@ class _userManagementState extends State<userManagement> {
     super.initState();
     fetchData();
   }
-
   final List<String> titles = [
     'Fullname',
     'Email',
@@ -73,6 +75,7 @@ class _userManagementState extends State<userManagement> {
 
   @override
   Widget build(BuildContext context) {
+    final rowData = Provider.of<RowDataProvider>(context).rowData;
     return layout(
       child: Column(
         children: [
@@ -119,6 +122,9 @@ class _userManagementState extends State<userManagement> {
               child: Column(
                 children: [
                   ReusableTable(
+                    editForm: editUserForm(fetchData: fetchData, data: rowData ?? {}),
+                    editStatement: AppText(
+                        txt: 'Edit user', size: 18, weight: FontWeight.bold),
                     fetchData: fetchData,
                     columnSpacing: 140,
                     titles: titles,

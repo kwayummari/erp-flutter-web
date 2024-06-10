@@ -1,5 +1,5 @@
 import 'package:erp/src/gateway/login-services.dart';
-import 'package:erp/src/provider/login-provider.dart';
+import 'package:erp/src/provider/loadingProvider.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_input_text.dart';
@@ -23,7 +23,7 @@ class _loginFormState extends State<loginForm> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    final myProvider = Provider.of<MyProvider>(context);
+    final myProvider = Provider.of<LoadingProvider>(context);
     return Form(
       key: _formKey,
       child: Padding(
@@ -43,8 +43,16 @@ class _loginFormState extends State<loginForm> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppText(txt: 'Login', size: 30, weight: FontWeight.w600,),
-                  AppText(txt: 'Sign In to your account', size: 18, color: AppConst.blackOpacity,),
+                  AppText(
+                    txt: 'Login',
+                    size: 30,
+                    weight: FontWeight.w600,
+                  ),
+                  AppText(
+                    txt: 'Sign In to your account',
+                    size: 18,
+                    color: AppConst.blackOpacity,
+                  ),
                   AppInputText(
                     textsColor: AppConst.black,
                     textfieldcontroller: email,
@@ -86,26 +94,26 @@ class _loginFormState extends State<loginForm> {
                     child: Row(
                       children: [
                         myProvider.myLoging == true
-                      ? SpinKitCircle(
-                          color: AppConst.primary,
-                        )
-                      : Container(
-                          width: 100,
-                          height: 55,
-                          child: AppButton(
-                            onPress: () {
-                              if (!_formKey.currentState!.validate()) {
-                                return;
-                              }
-                              loginService()
-                                  .login(context, email.text, password.text);
-                            },
-                            label: 'LOGIN',
-                            borderRadius: 5,
-                            textColor: AppConst.white,
-                            gradient: AppConst.primaryGradient,
-                          ),
-                        ),
+                            ? SpinKitCircle(
+                                color: AppConst.primary,
+                              )
+                            : Container(
+                                width: 100,
+                                height: 55,
+                                child: AppButton(
+                                  onPress: () {
+                                    if (!_formKey.currentState!.validate()) {
+                                      return;
+                                    }
+                                    loginService().login(
+                                        context, email.text, password.text);
+                                  },
+                                  label: 'LOGIN',
+                                  borderRadius: 5,
+                                  textColor: AppConst.white,
+                                  gradient: AppConst.primaryGradient,
+                                ),
+                              ),
                         Spacer(),
                         Align(
                           alignment: Alignment.centerRight,

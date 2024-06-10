@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:go_router/go_router.dart';
 
 import '../api/apis.dart';
-import '../provider/login-provider.dart';
+import '../provider/loadingProvider.dart';
 import '../utils/routes/route-names.dart';
 import '../widgets/app_snackbar.dart';
 
@@ -14,7 +14,7 @@ class loginService {
 
   Future<void> login(
       BuildContext context, String email, String password) async {
-    final myProvider = Provider.of<MyProvider>(context, listen: false);
+    final myProvider = Provider.of<LoadingProvider>(context, listen: false);
     myProvider.updateLoging(!myProvider.myLoging);
     Map<String, dynamic> data = {
       'email': email,

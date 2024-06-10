@@ -4,15 +4,15 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../api/apis.dart';
-import '../provider/login-provider.dart';
+import '../provider/loadingProvider.dart';
 import '../widgets/app_snackbar.dart';
 
 class paymentService {
   final Api api = Api();
 
-  Future<void> payment(
-      BuildContext context, String phoneNumber, String content_id, String amount) async {
-    final myProvider = Provider.of<MyProvider>(context, listen: false);
+  Future<void> payment(BuildContext context, String phoneNumber,
+      String content_id, String amount) async {
+    final myProvider = Provider.of<LoadingProvider>(context, listen: false);
     myProvider.updateLoging(!myProvider.myLoging);
     final prefs = await SharedPreferences.getInstance();
     var user_id = await prefs.getString('id');

@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-class MyProvider extends ChangeNotifier {
+class LoadingProvider extends ChangeNotifier {
   bool _isLoging = false;
 
   bool get myLoging => _isLoging;

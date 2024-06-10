@@ -1,5 +1,5 @@
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:erp/src/provider/login-provider.dart';
+import 'package:erp/src/provider/loadingProvider.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +29,7 @@ class _RegistrationState extends State<Registration> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    final myProvider = Provider.of<MyProvider>(context);
+    final myProvider = Provider.of<LoadingProvider>(context);
     return AppBaseScreen(
       bgcolor: AppConst.white,
       isvisible: false,

@@ -3,7 +3,7 @@ import 'package:erp/src/functions/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../api/apis.dart';
-import '../provider/login-provider.dart';
+import '../provider/loadingProvider.dart';
 import '../widgets/app_snackbar.dart';
 
 class addProductService {
@@ -18,7 +18,7 @@ class addProductService {
       String productNumber,
       String branch,
       String tax) async {
-    final myProvider = Provider.of<MyProvider>(context, listen: false);
+    final myProvider = Provider.of<LoadingProvider>(context, listen: false);
     myProvider.updateLoging(!myProvider.myLoging);
     SplashFunction splashDetails = SplashFunction();
     final companyId = await splashDetails.getCompanyId();
