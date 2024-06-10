@@ -108,6 +108,9 @@ class _sideBarState extends State<sideBar> {
                                       } else if (subMenu[index]['url'] ==
                                           'inventory') {
                                         context.go(RouteNames.inventory);
+                                      } else if (subMenu[index]['url'] ==
+                                          'supplier') {
+                                        context.go(RouteNames.supplier);
                                       }
                                     },
                                     child: ListTile(

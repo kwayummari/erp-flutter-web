@@ -6,4 +6,5 @@ class RouteNames {
   static const String dashboard = '/dashboard';
   static const String userManagement = '/user';
   static const String inventory = '/inventory';
+  static const String supplier = '/supplier';
 }

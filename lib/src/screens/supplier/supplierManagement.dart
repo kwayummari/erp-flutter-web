@@ -33,7 +33,7 @@ class _supplierManagementState extends State<supplierManagement> {
           productData = (productResponse['products'] as List).map((product) {
             return {
               'id': product['id'],
-              'productno.': product['productNumber'].toString(),
+              'phone.': product['phone'].toString(),
               'name': product['name'],
               'description': product['description'],
               'quantity': product['quantity'],
@@ -89,7 +89,7 @@ class _supplierManagementState extends State<supplierManagement> {
             Center(child: Text('Error loading data'))
           else if (productData.isNotEmpty)
             appTabular(
-              title: 'Product Management',
+              title: 'Supplier Management',
               button: AppButton(
                 onPress: () => {
                   ReusableModal.show(
@@ -97,7 +97,7 @@ class _supplierManagementState extends State<supplierManagement> {
                     height: 800,
                     context,
                     AppText(
-                        txt: 'Add Product', size: 22, weight: FontWeight.bold),
+                        txt: 'Add Supplier', size: 22, weight: FontWeight.bold),
                     onClose: fetchData,
                     Column(
                       mainAxisSize: MainAxisSize.min,
@@ -113,7 +113,7 @@ class _supplierManagementState extends State<supplierManagement> {
                         textColor: AppConst.white),
                   )
                 },
-                label: 'Add products',
+                label: 'Add supplier',
                 borderRadius: 5,
                 textColor: AppConst.white,
                 gradient: AppConst.primaryGradient,
@@ -126,7 +126,7 @@ class _supplierManagementState extends State<supplierManagement> {
                     editModalHeight: 750,
                     editModalWidth: 500,
                     editStatement: AppText(
-                        txt: 'Edit product', size: 18, weight: FontWeight.bold),
+                        txt: 'Edit supplier', size: 18, weight: FontWeight.bold),
                     fetchData: fetchData,
                     columnSpacing: 140,
                     titles: titles,
@@ -137,7 +137,7 @@ class _supplierManagementState extends State<supplierManagement> {
                     },
                     onClose: fetchData,
                     deleteStatement: AppText(
-                        txt: 'Are you sure you want to delete this product?',
+                        txt: 'Are you sure you want to delete this supplier?',
                         size: 15,
                         weight: FontWeight.bold),
                     url: 'delete_product',

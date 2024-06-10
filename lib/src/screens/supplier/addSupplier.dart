@@ -1,4 +1,4 @@
-import 'package:erp/src/gateway/addProductService.dart';
+import 'package:erp/src/gateway/inventoryService.dart';
 import 'package:erp/src/provider/loadingProvider.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app-dropdown.dart';
@@ -162,7 +162,7 @@ class _addSupplierFormState extends State<addSupplierForm> {
                           if (!_formKey.currentState!.validate()) {
                             return;
                           }
-                          addProductService().addProduct(
+                          inventoryServices().addProduct(
                               context,
                               name.text,
                               description.text,
