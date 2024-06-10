@@ -65,6 +65,7 @@ class _userManagementState extends State<userManagement> {
     super.initState();
     fetchData();
   }
+
   final List<String> titles = [
     'Fullname',
     'Email',
@@ -122,7 +123,12 @@ class _userManagementState extends State<userManagement> {
               child: Column(
                 children: [
                   ReusableTable(
-                    editForm: editUserForm(fetchData: fetchData, data: rowData ?? {}),
+                    deleteModalHeight: 300,
+                    deleteModalWidth: 500,
+                    editModalHeight: 550,
+                    editModalWidth: 500,
+                    editForm:
+                        editUserForm(fetchData: fetchData, data: rowData ?? {}),
                     editStatement: AppText(
                         txt: 'Edit user', size: 18, weight: FontWeight.bold),
                     fetchData: fetchData,

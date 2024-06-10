@@ -11,6 +11,10 @@ import 'package:provider/provider.dart';
 class ReusableTable extends StatelessWidget {
   final List<String> titles;
   final String url;
+  final double deleteModalWidth;
+  final double deleteModalHeight;
+  final double editModalWidth;
+  final double editModalHeight;
   final List<Map<String, dynamic>> data;
   final Function fetchData;
   final double columnSpacing;
@@ -22,6 +26,10 @@ class ReusableTable extends StatelessWidget {
 
   const ReusableTable(
       {Key? key,
+      required this.deleteModalWidth,
+      required this.deleteModalHeight,
+      required this.editModalWidth,
+      required this.editModalHeight,
       required this.fetchData,
       required this.editForm,
       required this.titles,
@@ -73,21 +81,19 @@ class ReusableTable extends StatelessWidget {
                         title: 'Edit',
                         icon: Icons.edit,
                         onTap: () {
-                          // Store the row data in the provider
-                          Provider.of<RowDataProvider>(context, listen: false).setRowData(row);
-
+                          Provider.of<RowDataProvider>(context, listen: false)
+                              .setRowData(row);
                           ReusableModal.show(
-                            width: 500,
-                            height: 550,
+                            // width: 500,
+                            width: editModalWidth,
+                            height: editModalHeight,
+                            // height: 550,
                             context,
                             editStatement,
                             onClose: onClose,
                             Column(
                               mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                // editUserForm(fetchData: fetchData, data: row),
-                                editForm
-                              ],
+                              children: <Widget>[editForm],
                             ),
                             footer: Row(
                               children: [],
@@ -100,8 +106,8 @@ class ReusableTable extends StatelessWidget {
                         icon: Icons.delete,
                         onTap: () {
                           ReusableModal.show(
-                            width: 500,
-                            height: 300,
+                            width: deleteModalWidth,
+                            height: deleteModalHeight,
                             context,
                             deleteStatement,
                             onClose: onClose,

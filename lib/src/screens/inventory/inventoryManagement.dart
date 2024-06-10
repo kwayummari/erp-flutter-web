@@ -1,6 +1,7 @@
 import 'package:erp/src/gateway/inventoryService.dart';
+import 'package:erp/src/provider/rowProvider.dart';
 import 'package:erp/src/screens/inventory/addProduct.dart';
-import 'package:erp/src/screens/inventory/editForm.dart';
+import 'package:erp/src/screens/inventory/editProductForm.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
@@ -9,6 +10,7 @@ import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_modal.dart';
 import 'package:erp/src/widgets/app_table.dart';
 import 'package:erp/src/widgets/app_tabular_widget.dart';
+import 'package:provider/provider.dart';
 
 class inventoryManagement extends StatefulWidget {
   const inventoryManagement({super.key});
@@ -75,6 +77,7 @@ class _inventoryManagementState extends State<inventoryManagement> {
 
   @override
   Widget build(BuildContext context) {
+    final rowData = Provider.of<RowDataProvider>(context).rowData;
     return layout(
       child: Column(
         children: [
@@ -116,6 +119,10 @@ class _inventoryManagementState extends State<inventoryManagement> {
               child: Column(
                 children: [
                   ReusableTable(
+                    deleteModalHeight: 300,
+                    deleteModalWidth: 500,
+                    editModalHeight: 700,
+                    editModalWidth: 500,
                     editStatement: AppText(
                         txt: 'Edit product', size: 18, weight: FontWeight.bold),
                     fetchData: fetchData,
@@ -131,7 +138,11 @@ class _inventoryManagementState extends State<inventoryManagement> {
                         txt: 'Are you sure you want to delete this product?',
                         size: 15,
                         weight: FontWeight.bold),
-                    url: 'delete_product', editForm: editProductForm(fetchData: fetchData,),
+                    url: 'delete_product',
+                    editForm: editProductForm(
+                      fetchData: fetchData,
+                      data: rowData ?? {}
+                    ),
                   ),
                 ],
               ),

@@ -10,7 +10,8 @@ import 'package:provider/provider.dart';
 
 class editProductForm extends StatefulWidget {
   final Function fetchData;
-  const editProductForm({super.key, required this.fetchData});
+  final Map<String, dynamic> data;
+  const editProductForm({super.key, required this.fetchData, required this.data});
 
   @override
   State<editProductForm> createState() => _editProductFormState();
@@ -28,6 +29,18 @@ class _editProductFormState extends State<editProductForm> {
   bool marked = false;
   bool dont_show_password = true;
   final _formKey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    super.initState();
+    name.text = widget.data['name'] ?? '';
+    description.text = widget.data['description'] ?? '';
+    quantity.text = widget.data['quantity'] ?? '';
+    buyingPrice.text = widget.data['buyingPrice'] ?? '';
+    sellingPrice.text = widget.data['sellingPrice'] ?? '';
+    productNumber.text = widget.data['productNumber'] ?? '';
+    branch = widget.data['branchId'];
+    tax = widget.data['taxId'];
+  }
   @override
   Widget build(BuildContext context) {
     final myProvider = Provider.of<LoadingProvider>(context);
