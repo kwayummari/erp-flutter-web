@@ -1,7 +1,7 @@
-import 'package:erp/src/gateway/inventoryService.dart';
+import 'package:erp/src/gateway/supplierService.dart';
 import 'package:erp/src/provider/rowProvider.dart';
-import 'package:erp/src/screens/inventory/addProduct.dart';
-import 'package:erp/src/screens/inventory/editProductForm.dart';
+import 'package:erp/src/screens/supplier/addSupplier.dart';
+import 'package:erp/src/screens/supplier/editSupplierForm.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
@@ -26,22 +26,19 @@ class _supplierManagementState extends State<supplierManagement> {
 
   Future<void> fetchData() async {
     try {
-      inventoryServices inventoryService = inventoryServices();
-      final productResponse = await inventoryService.getProduct(context);
-      if (productResponse != null && productResponse['products'] != null) {
+      supplierServices supplierService = supplierServices();
+      final productResponse = await supplierService.getSupplier(context);
+      if (productResponse != null && productResponse['suppliers'] != null) {
         setState(() {
-          productData = (productResponse['products'] as List).map((product) {
+          productData = (productResponse['suppliers'] as List).map((product) {
             return {
               'id': product['id'],
-              'phone.': product['phone'].toString(),
+              'phone': product['phone'],
               'name': product['name'],
-              'description': product['description'],
-              'quantity': product['quantity'],
-              'buyingprice': product['buyingPrice'].toString(),
-              'sellingprice': product['sellingPrice'].toString(),
-              'branch': product['branchId'][0]['name'].toString(),
-              'branchId': product['branchId'][0]['id'].toString(),
-              'taxId': product['taxType'].toString(),
+              'tin': product['tin'],
+              'vrn': product['vrn'],
+              'location': product['branchName'],
+              'branchId': product['branch'],
             };
           }).toList();
           isLoading = false;
@@ -68,13 +65,11 @@ class _supplierManagementState extends State<supplierManagement> {
   }
 
   final List<String> titles = [
-    'Product No.',
+    'Phone',
     'Name',
-    'Description',
-    'Quantity',
-    'Buying Price',
-    'Selling Price',
-    'Branch'
+    'Tin',
+    'Vrn',
+    'Location'
   ];
 
   @override
@@ -94,14 +89,14 @@ class _supplierManagementState extends State<supplierManagement> {
                 onPress: () => {
                   ReusableModal.show(
                     width: 500,
-                    height: 800,
+                    height: 550,
                     context,
                     AppText(
                         txt: 'Add Supplier', size: 22, weight: FontWeight.bold),
                     onClose: fetchData,
                     Column(
                       mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[addProductForm(fetchData: fetchData)],
+                      children: <Widget>[addSupplierForm(fetchData: fetchData)],
                     ),
                     footer: AppButton(
                         onPress: () {
@@ -123,10 +118,12 @@ class _supplierManagementState extends State<supplierManagement> {
                   ReusableTable(
                     deleteModalHeight: 300,
                     deleteModalWidth: 500,
-                    editModalHeight: 750,
+                    editModalHeight: 600,
                     editModalWidth: 500,
                     editStatement: AppText(
-                        txt: 'Edit supplier', size: 18, weight: FontWeight.bold),
+                        txt: 'Edit supplier',
+                        size: 18,
+                        weight: FontWeight.bold),
                     fetchData: fetchData,
                     columnSpacing: 140,
                     titles: titles,
@@ -140,8 +137,8 @@ class _supplierManagementState extends State<supplierManagement> {
                         txt: 'Are you sure you want to delete this supplier?',
                         size: 15,
                         weight: FontWeight.bold),
-                    url: 'delete_product',
-                    editForm: editProductForm(
+                    url: 'deleteSupplier',
+                    editForm: editSupplierForm(
                         fetchData: fetchData, data: rowData ?? {}),
                   ),
                 ],

@@ -1,4 +1,4 @@
-import 'package:erp/src/gateway/inventoryService.dart';
+import 'package:erp/src/gateway/supplierService.dart';
 import 'package:erp/src/provider/loadingProvider.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app-dropdown.dart';
@@ -18,13 +18,10 @@ class addSupplierForm extends StatefulWidget {
 
 class _addSupplierFormState extends State<addSupplierForm> {
   TextEditingController name = TextEditingController();
-  TextEditingController description = TextEditingController();
-  TextEditingController quantity = TextEditingController();
-  TextEditingController buyingPrice = TextEditingController();
-  TextEditingController sellingPrice = TextEditingController();
-  TextEditingController productNumber = TextEditingController();
+  TextEditingController phone = TextEditingController();
+  TextEditingController tin = TextEditingController();
+  TextEditingController vrn = TextEditingController();
   var branch;
-  var tax;
   bool marked = false;
   bool dont_show_password = true;
   final _formKey = GlobalKey<FormState>();
@@ -53,13 +50,13 @@ class _addSupplierFormState extends State<addSupplierForm> {
           ),
           AppInputText(
             textsColor: AppConst.black,
-            textfieldcontroller: description,
+            textfieldcontroller: phone,
             ispassword: false,
             fillcolor: AppConst.white,
-            label: 'Description',
+            label: 'Phone',
             obscure: false,
             icon: Icon(
-              Icons.description,
+              Icons.phone,
               color: AppConst.black,
             ),
             isemail: false,
@@ -67,10 +64,10 @@ class _addSupplierFormState extends State<addSupplierForm> {
           ),
           AppInputText(
             textsColor: AppConst.black,
-            textfieldcontroller: quantity,
+            textfieldcontroller: tin,
             ispassword: false,
             fillcolor: AppConst.white,
-            label: 'Quantity',
+            label: 'Tin',
             obscure: false,
             icon: Icon(
               Icons.numbers,
@@ -81,41 +78,13 @@ class _addSupplierFormState extends State<addSupplierForm> {
           ),
           AppInputText(
             textsColor: AppConst.black,
-            textfieldcontroller: buyingPrice,
+            textfieldcontroller: vrn,
             ispassword: false,
             fillcolor: AppConst.white,
-            label: 'Buying Price',
+            label: 'Vrn',
             obscure: false,
             icon: Icon(
-              Icons.price_change,
-              color: AppConst.black,
-            ),
-            isemail: false,
-            isPhone: false,
-          ),
-          AppInputText(
-            textsColor: AppConst.black,
-            textfieldcontroller: sellingPrice,
-            ispassword: false,
-            fillcolor: AppConst.white,
-            label: 'Selling Price',
-            obscure: false,
-            icon: Icon(
-              Icons.price_change,
-              color: AppConst.black,
-            ),
-            isemail: false,
-            isPhone: false,
-          ),
-          AppInputText(
-            textsColor: AppConst.black,
-            textfieldcontroller: productNumber,
-            ispassword: false,
-            fillcolor: AppConst.white,
-            label: 'Product Number',
-            obscure: false,
-            icon: Icon(
-              Icons.monetization_on,
+              Icons.numbers,
               color: AppConst.black,
             ),
             isemail: false,
@@ -135,20 +104,6 @@ class _addSupplierFormState extends State<addSupplierForm> {
               },
               valueField: 'id',
               displayField: 'name'),
-          DropdownTextFormField(
-              labelText: 'Select Tax',
-              fillcolor: AppConst.white,
-              apiUrl: 'tax',
-              textsColor: AppConst.black,
-              dropdownColor: AppConst.white,
-              dataOrigin: 'tax',
-              onChanged: (value) {
-                setState(() {
-                  tax = value.toString();
-                });
-              },
-              valueField: 'id',
-              displayField: 'name'),
           Padding(
             padding: const EdgeInsets.only(right: 20, top: 20),
             child: Row(
@@ -162,20 +117,17 @@ class _addSupplierFormState extends State<addSupplierForm> {
                           if (!_formKey.currentState!.validate()) {
                             return;
                           }
-                          inventoryServices().addProduct(
+                          supplierServices().addSupplier(
                               context,
                               name.text,
-                              description.text,
-                              quantity.text,
-                              buyingPrice.text,
-                              sellingPrice.text,
-                              productNumber.text,
-                              branch,
-                              tax);
+                              phone.text,
+                              tin.text,
+                              vrn.text,
+                              branch);
                           await widget.fetchData();
                           Navigator.pop(context);
                         },
-                        label: 'Add Product',
+                        label: 'Add Supplier',
                         borderRadius: 5,
                         textColor: AppConst.white,
                         gradient: AppConst.primaryGradient,

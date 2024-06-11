@@ -1,4 +1,4 @@
-import 'package:erp/src/gateway/inventoryService.dart';
+import 'package:erp/src/gateway/supplierService.dart';
 import 'package:erp/src/provider/loadingProvider.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app-dropdown.dart';
@@ -20,13 +20,10 @@ class editSupplierForm extends StatefulWidget {
 
 class _editSupplierFormState extends State<editSupplierForm> {
   TextEditingController name = TextEditingController();
-  TextEditingController description = TextEditingController();
-  TextEditingController quantity = TextEditingController();
-  TextEditingController buyingPrice = TextEditingController();
-  TextEditingController sellingPrice = TextEditingController();
-  TextEditingController productNumber = TextEditingController();
+  TextEditingController phone = TextEditingController();
+  TextEditingController tin = TextEditingController();
+  TextEditingController vrn = TextEditingController();
   var branch;
-  var tax;
   var editId;
   bool marked = false;
   bool dont_show_password = true;
@@ -34,14 +31,12 @@ class _editSupplierFormState extends State<editSupplierForm> {
   @override
   void initState() {
     super.initState();
+    print(widget.data);
     name.text = widget.data['name'] ?? '';
-    description.text = widget.data['description'] ?? '';
-    quantity.text = widget.data['quantity'] ?? '';
-    buyingPrice.text = widget.data['buyingprice'] ?? '';
-    sellingPrice.text = widget.data['sellingprice'] ?? '';
-    productNumber.text = widget.data['productno.'] ?? '';
+    phone.text = widget.data['phone'] ?? '';
+    tin.text = widget.data['tin'] ?? '';
+    vrn.text = widget.data['vrn'] ?? '';
     branch = widget.data['branchId'];
-    tax = widget.data['taxId'];
     editId = widget.data['id'];
   }
 
@@ -70,13 +65,13 @@ class _editSupplierFormState extends State<editSupplierForm> {
           ),
           AppInputText(
             textsColor: AppConst.black,
-            textfieldcontroller: description,
+            textfieldcontroller: phone,
             ispassword: false,
             fillcolor: AppConst.white,
-            label: 'Description',
+            label: 'Phone',
             obscure: false,
             icon: Icon(
-              Icons.description,
+              Icons.phone,
               color: AppConst.black,
             ),
             isemail: false,
@@ -84,10 +79,10 @@ class _editSupplierFormState extends State<editSupplierForm> {
           ),
           AppInputText(
             textsColor: AppConst.black,
-            textfieldcontroller: quantity,
+            textfieldcontroller: tin,
             ispassword: false,
             fillcolor: AppConst.white,
-            label: 'Quantity',
+            label: 'Tin',
             obscure: false,
             icon: Icon(
               Icons.numbers,
@@ -98,41 +93,13 @@ class _editSupplierFormState extends State<editSupplierForm> {
           ),
           AppInputText(
             textsColor: AppConst.black,
-            textfieldcontroller: buyingPrice,
+            textfieldcontroller: vrn,
             ispassword: false,
             fillcolor: AppConst.white,
-            label: 'Buying Price',
+            label: 'Vrn',
             obscure: false,
             icon: Icon(
-              Icons.price_change,
-              color: AppConst.black,
-            ),
-            isemail: false,
-            isPhone: false,
-          ),
-          AppInputText(
-            textsColor: AppConst.black,
-            textfieldcontroller: sellingPrice,
-            ispassword: false,
-            fillcolor: AppConst.white,
-            label: 'Selling Price',
-            obscure: false,
-            icon: Icon(
-              Icons.price_change,
-              color: AppConst.black,
-            ),
-            isemail: false,
-            isPhone: false,
-          ),
-          AppInputText(
-            textsColor: AppConst.black,
-            textfieldcontroller: productNumber,
-            ispassword: false,
-            fillcolor: AppConst.white,
-            label: 'Product Number',
-            obscure: false,
-            icon: Icon(
-              Icons.monetization_on,
+              Icons.numbers,
               color: AppConst.black,
             ),
             isemail: false,
@@ -154,21 +121,6 @@ class _editSupplierFormState extends State<editSupplierForm> {
             valueField: 'id',
             displayField: 'name',
           ),
-          DropdownTextFormField(
-              initialValue: tax.toString(),
-              labelText: 'Select Tax',
-              fillcolor: AppConst.white,
-              apiUrl: 'tax',
-              textsColor: AppConst.black,
-              dropdownColor: AppConst.white,
-              dataOrigin: 'tax',
-              onChanged: (value) {
-                setState(() {
-                  tax = value.toString();
-                });
-              },
-              valueField: 'id',
-              displayField: 'name'),
           Padding(
             padding: const EdgeInsets.only(right: 20, top: 20),
             child: Row(
@@ -185,23 +137,20 @@ class _editSupplierFormState extends State<editSupplierForm> {
                           child: AppButton(
                             onPress: () async {
                               if (!_formKey.currentState!.validate()) {
-                                      return;
-                                    }
-                                    await inventoryServices().editProduct(
-                                           context,
+                                return;
+                              }
+                              await supplierServices().editSupplier(
+                                  context,
                                   name.text,
-                                  description.text,
-                                  quantity.text,
-                                  buyingPrice.text,
-                                  sellingPrice.text,
-                                  productNumber.text,
+                                  phone.text,
+                                  tin.text,
+                                  vrn.text,
                                   branch,
-                                  tax,
-                                  editId.toString() );
+                                  editId.toString());
                               await widget.fetchData();
                               Navigator.pop(context);
                             },
-                            label: 'Edit Products',
+                            label: 'Edit Supplier',
                             borderRadius: 5,
                             textColor: AppConst.white,
                             gradient: AppConst.primaryGradient,
