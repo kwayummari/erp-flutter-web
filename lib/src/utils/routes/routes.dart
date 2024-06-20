@@ -1,5 +1,6 @@
 import 'package:erp/src/screens/dashboard/dashboard.dart';
 import 'package:erp/src/screens/inventory/inventoryManagement.dart';
+import 'package:erp/src/screens/roles/rolesManagement.dart';
 import 'package:erp/src/screens/supplier/supplierManagement.dart';
 import 'package:erp/src/screens/userManagement/userManagement.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
@@ -38,6 +39,10 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: RouteNames.supplier,
       builder: (context, state) => supplierManagement(),
+    ),
+    GoRoute(
+      path: RouteNames.roles,
+      builder: (context, state) => rolesManagement(),
     ),
   ],
 );
