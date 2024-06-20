@@ -57,7 +57,7 @@ class _editSupplierFormState extends State<editSupplierForm> {
             label: 'Name',
             obscure: false,
             icon: Icon(
-              Icons.production_quantity_limits,
+              Icons.person,
               color: AppConst.black,
             ),
             isemail: false,
