@@ -125,7 +125,7 @@ class _supplierManagementState extends State<supplierManagement> {
                         size: 18,
                         weight: FontWeight.bold),
                     fetchData: fetchData,
-                    columnSpacing: 140,
+                    columnSpacing: 110,
                     titles: titles,
                     data: productData,
                     cellBuilder: (context, row, title) {

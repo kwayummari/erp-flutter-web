@@ -132,7 +132,7 @@ class _userManagementState extends State<userManagement> {
                     editStatement: AppText(
                         txt: 'Edit user', size: 18, weight: FontWeight.bold),
                     fetchData: fetchData,
-                    columnSpacing: 140,
+                    columnSpacing: 100,
                     titles: titles,
                     data: userData,
                     cellBuilder: (context, row, title) {

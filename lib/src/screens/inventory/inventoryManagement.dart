@@ -128,7 +128,7 @@ class _inventoryManagementState extends State<inventoryManagement> {
                     editStatement: AppText(
                         txt: 'Edit product', size: 18, weight: FontWeight.bold),
                     fetchData: fetchData,
-                    columnSpacing: 140,
+                    columnSpacing: 45,
                     titles: titles,
                     data: productData,
                     cellBuilder: (context, row, title) {
