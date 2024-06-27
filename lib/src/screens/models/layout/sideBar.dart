@@ -21,7 +21,7 @@ class _sideBarState extends State<sideBar> {
     menuServices menuService = menuServices();
     final datas = await menuService.getMenu(context);
     setState(() {
-      data = datas['contents'];
+      data = datas['permissions'];
     });
   }
 
