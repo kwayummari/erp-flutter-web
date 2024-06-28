@@ -4,15 +4,15 @@ import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
 
-class permissionsManagement extends StatefulWidget {
+class PermissionsManagement extends StatefulWidget {
   final Map<String, dynamic> data;
-  const permissionsManagement({super.key, required this.data});
+  const PermissionsManagement({super.key, required this.data});
 
   @override
-  State<permissionsManagement> createState() => _permissionsManagementState();
+  State<PermissionsManagement> createState() => _PermissionsManagementState();
 }
 
-class _permissionsManagementState extends State<permissionsManagement> {
+class _PermissionsManagementState extends State<PermissionsManagement> {
   List permissionData = [];
   bool isLoading = true;
   bool hasError = false;
@@ -26,6 +26,7 @@ class _permissionsManagementState extends State<permissionsManagement> {
           permissionsResponse['permissions'] != null) {
         setState(() {
           permissionData = permissionsResponse['permissions'];
+          print(permissionData);
           isLoading = false;
         });
       } else {
@@ -73,10 +74,9 @@ class _permissionsManagementState extends State<permissionsManagement> {
                   padding: EdgeInsets.all(10.0),
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount:
-                      permissionData.length, // Add one for the Add Role button
+                  itemCount: permissionData.length,
                   itemBuilder: (context, index) {
-                    Material(
+                    return Material(
                       elevation: 10,
                       color: AppConst.white,
                       child: Container(
@@ -93,7 +93,6 @@ class _permissionsManagementState extends State<permissionsManagement> {
                         ),
                       ),
                     );
-                    return null;
                   },
                 ),
               ),

@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 
 class Api {
   static String baseUrl = dotenv.env['API_SERVER'] ?? 'http://noapi';
-
   // Check for internet connection
   Future<bool> hasInternetConnection() async {
     try {
@@ -60,7 +59,6 @@ class Api {
       _handleError(response);
       return response;
     } catch (e) {
-      print(e);
       AppSnackbar(
         isError: true,
         response: e.toString(),

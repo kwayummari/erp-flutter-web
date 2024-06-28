@@ -49,7 +49,7 @@ final GoRouter router = GoRouter(
   path: RouteNames.permissions,
   builder: (context, state) {
     final data = state.extra as Map<String, dynamic>;
-    return permissionsManagement(data: data);
+    return PermissionsManagement(data: data);
   },
 ),
   ],
