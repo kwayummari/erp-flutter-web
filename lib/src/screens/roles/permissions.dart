@@ -1,5 +1,6 @@
 import 'package:erp/src/gateway/permissions.dart';
 import 'package:erp/src/utils/app_const.dart';
+import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
@@ -16,6 +17,7 @@ class _PermissionsManagementState extends State<PermissionsManagement> {
   List permissionData = [];
   bool isLoading = true;
   bool hasError = false;
+  Map<String, Map<String, dynamic>> selectedItems = {};
 
   Future<void> fetchData() async {
     try {
@@ -26,7 +28,6 @@ class _PermissionsManagementState extends State<PermissionsManagement> {
           permissionsResponse['permissions'] != null) {
         setState(() {
           permissionData = permissionsResponse['permissions'];
-          print(permissionData);
           isLoading = false;
         });
       } else {
@@ -42,6 +43,27 @@ class _PermissionsManagementState extends State<PermissionsManagement> {
         isLoading = false;
       });
     }
+  }
+
+  void handleCheckboxChange(int index, String typeValue) {
+    setState(() {
+      var id = permissionData[index]['id'];
+      var itemKey = '$id-$typeValue';
+      var item = {
+        'id': id,
+        'typeValue': typeValue,
+        'status': permissionData[index][typeValue] == '1' ? '0' : '1'
+      };
+
+      if (selectedItems.containsKey(itemKey)) {
+        selectedItems.remove(itemKey);
+      } else {
+        selectedItems[itemKey] = item;
+      }
+
+      permissionData[index][typeValue] =
+          permissionData[index][typeValue] == '1' ? '0' : '1';
+    });
   }
 
   @override
@@ -65,11 +87,10 @@ class _PermissionsManagementState extends State<PermissionsManagement> {
                 width: MediaQuery.of(context).size.width,
                 child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount:
-                        5, // Adjust based on available space and design
+                    crossAxisCount: 4,
                     mainAxisSpacing: 8.0,
                     crossAxisSpacing: 8.0,
-                    mainAxisExtent: 70,
+                    mainAxisExtent: 200,
                   ),
                   padding: EdgeInsets.all(10.0),
                   shrinkWrap: true,
@@ -84,18 +105,133 @@ class _PermissionsManagementState extends State<PermissionsManagement> {
                         height: 200.0,
                         decoration: BoxDecoration(
                           color: AppConst.white,
-                          borderRadius: BorderRadius.circular(10.0),
+                          borderRadius: BorderRadius.circular(30.0),
                         ),
-                        child: AppText(
-                          txt: permissionData[index]['name'],
-                          size: 15,
-                          color: AppConst.black,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: AppText(
+                                  txt: permissionData[index]['name'],
+                                  size: 15,
+                                  color: AppConst.black,
+                                  weight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 12,
+                              ),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                    value: permissionData[index]['find'] == '1',
+                                    onChanged: (bool? newValue) {
+                                      handleCheckboxChange(index, 'find');
+                                    },
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  AppText(
+                                    txt: 'Get Data',
+                                    size: 15,
+                                    color: AppConst.black,
+                                    weight: FontWeight.bold,
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                    value: permissionData[index]['increase'] ==
+                                        '1',
+                                    onChanged: (bool? newValue) {
+                                      handleCheckboxChange(index, 'increase');
+                                    },
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  AppText(
+                                    txt: 'Post Data',
+                                    size: 15,
+                                    color: AppConst.black,
+                                    weight: FontWeight.bold,
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                    value:
+                                        permissionData[index]['upgrade'] == '1',
+                                    onChanged: (bool? newValue) {
+                                      handleCheckboxChange(index, 'upgrade');
+                                    },
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  AppText(
+                                    txt: 'Update Data',
+                                    size: 15,
+                                    color: AppConst.black,
+                                    weight: FontWeight.bold,
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                    value:
+                                        permissionData[index]['remove'] == '1',
+                                    onChanged: (bool? newValue) {
+                                      handleCheckboxChange(index, 'remove');
+                                    },
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  AppText(
+                                    txt: 'Delete Data',
+                                    size: 15,
+                                    color: AppConst.black,
+                                    weight: FontWeight.bold,
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );
                   },
                 ),
               ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 50,
+                  child: AppButton(
+                    onPress: () async {
+                      permissionsServices permissionsService =
+                          permissionsServices();
+                      final permissionsResponse = await permissionsService
+                          .addPermission(context,
+                              {'permissions': selectedItems.values.toList()});
+                      selectedItems.clear();
+                      fetchData();
+                    },
+                    label: 'Submit',
+                    borderRadius: 5,
+                    textColor: AppConst.white,
+                    gradient: AppConst.primaryGradient,
+                  )),
+            )
           ],
         ),
       ),
