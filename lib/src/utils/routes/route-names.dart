@@ -10,4 +10,5 @@ class RouteNames {
   static const String roles = '/roles';
   static const String permissions = '/permissions';
   static const String branch = '/branch';
+  static const String purchaseOrder = '/purchaseOrder';
 }

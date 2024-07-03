@@ -1,6 +1,7 @@
 import 'package:erp/src/screens/branch/branchManagement.dart';
 import 'package:erp/src/screens/dashboard/dashboard.dart';
 import 'package:erp/src/screens/inventory/inventoryManagement.dart';
+import 'package:erp/src/screens/purchaseOrder/purchaseOrder.dart';
 import 'package:erp/src/screens/roles/permissions.dart';
 import 'package:erp/src/screens/roles/rolesManagement.dart';
 import 'package:erp/src/screens/supplier/supplierManagement.dart';
@@ -51,11 +52,15 @@ final GoRouter router = GoRouter(
       builder: (context, state) => branchManagement(),
     ),
     GoRoute(
-  path: RouteNames.permissions,
-  builder: (context, state) {
-    final data = state.extra as Map<String, dynamic>;
-    return PermissionsManagement(data: data);
-  },
-),
+      path: RouteNames.purchaseOrder,
+      builder: (context, state) => purchaseOrderManagement(),
+    ),
+    GoRoute(
+      path: RouteNames.permissions,
+      builder: (context, state) {
+        final data = state.extra as Map<String, dynamic>;
+        return PermissionsManagement(data: data);
+      },
+    ),
   ],
 );
