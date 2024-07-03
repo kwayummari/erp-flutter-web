@@ -1,4 +1,4 @@
-import 'package:erp/src/gateway/rolesService.dart';
+import 'package:erp/src/gateway/branchService.dart';
 import 'package:erp/src/provider/loadingProvider.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_button.dart';
@@ -7,16 +7,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
-class editRole extends StatefulWidget {
+class editBranch extends StatefulWidget {
   final Function fetchData;
   final Map<String, dynamic> data;
-  const editRole({super.key, required this.fetchData, required this.data});
+  const editBranch({super.key, required this.fetchData, required this.data});
 
   @override
-  State<editRole> createState() => _editRoleState();
+  State<editBranch> createState() => _editBranchState();
 }
 
-class _editRoleState extends State<editRole> {
+class _editBranchState extends State<editBranch> {
   TextEditingController name = TextEditingController();
   var branch;
   var tax;
@@ -72,7 +72,7 @@ class _editRoleState extends State<editRole> {
                               if (!_formKey.currentState!.validate()) {
                                 return;
                               }
-                              await rolesServices().editRole(
+                              await branchServices().editBranch(
                                   context, name.text, editId.toString());
                               await widget.fetchData();
                               Navigator.pop(context);

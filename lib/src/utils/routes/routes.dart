@@ -1,3 +1,4 @@
+import 'package:erp/src/screens/branch/branchManagement.dart';
 import 'package:erp/src/screens/dashboard/dashboard.dart';
 import 'package:erp/src/screens/inventory/inventoryManagement.dart';
 import 'package:erp/src/screens/roles/permissions.dart';
@@ -44,6 +45,10 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: RouteNames.roles,
       builder: (context, state) => rolesManagement(),
+    ),
+    GoRoute(
+      path: RouteNames.branch,
+      builder: (context, state) => branchManagement(),
     ),
     GoRoute(
   path: RouteNames.permissions,

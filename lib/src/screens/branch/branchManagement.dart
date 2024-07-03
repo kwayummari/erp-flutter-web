@@ -1,4 +1,4 @@
-import 'package:erp/src/gateway/branchServices.dart';
+import 'package:erp/src/gateway/branchService.dart';
 import 'package:erp/src/screens/branch/addBranch.dart';
 import 'package:erp/src/screens/roles/editRolesForm.dart';
 import 'package:erp/src/utils/app_const.dart';
