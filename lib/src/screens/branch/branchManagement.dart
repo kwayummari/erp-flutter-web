@@ -1,13 +1,12 @@
 import 'package:erp/src/gateway/branchService.dart';
 import 'package:erp/src/screens/branch/addBranch.dart';
-import 'package:erp/src/screens/roles/editRolesForm.dart';
+import 'package:erp/src/screens/branch/editBranchForm.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
 import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_modal.dart';
 import 'package:erp/src/widgets/app_popover.dart';
 import 'package:flutter/material.dart';
-import 'package:erp/src/gateway/rolesService.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
 import 'package:go_router/go_router.dart';
@@ -69,8 +68,7 @@ class _branchManagementState extends State<branchManagement> {
                 width: MediaQuery.of(context).size.width,
                 child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount:
-                        5,
+                    crossAxisCount: 5,
                     mainAxisSpacing: 8.0,
                     crossAxisSpacing: 8.0,
                     mainAxisExtent: 70,
@@ -78,8 +76,7 @@ class _branchManagementState extends State<branchManagement> {
                   padding: EdgeInsets.all(10.0),
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount:
-                      rolesData.length + 1,
+                  itemCount: rolesData.length + 1,
                   itemBuilder: (context, index) {
                     if (index == rolesData.length) {
                       return MouseRegion(
@@ -186,14 +183,14 @@ class _branchManagementState extends State<branchManagement> {
                                             height: 300,
                                             context,
                                             AppText(
-                                                txt: 'Edit Role',
+                                                txt: 'Edit Branch',
                                                 size: 18,
                                                 weight: FontWeight.bold),
                                             onClose: fetchData,
                                             Column(
                                               mainAxisSize: MainAxisSize.min,
                                               children: <Widget>[
-                                                editRole(
+                                                editBranch(
                                                     fetchData: fetchData,
                                                     data: data)
                                               ],
@@ -213,7 +210,7 @@ class _branchManagementState extends State<branchManagement> {
                                             height: 300,
                                             context,
                                             AppText(
-                                                txt: 'Delete Role',
+                                                txt: 'Delete Branch',
                                                 size: 18,
                                                 weight: FontWeight.bold),
                                             onClose: fetchData,
@@ -230,11 +227,11 @@ class _branchManagementState extends State<branchManagement> {
                                                   height: 50,
                                                   child: AppButton(
                                                       onPress: () async {
-                                                        rolesServices
-                                                            roleService =
-                                                            rolesServices();
-                                                        await roleService
-                                                            .deleteRole(
+                                                        branchServices
+                                                            branchService =
+                                                            branchServices();
+                                                        await branchService
+                                                            .deleteBranch(
                                                                 context,
                                                                 rolesData[index]
                                                                         ['id']

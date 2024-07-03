@@ -77,7 +77,7 @@ class _editBranchState extends State<editBranch> {
                               await widget.fetchData();
                               Navigator.pop(context);
                             },
-                            label: 'Edit Role',
+                            label: 'Edit Branch',
                             borderRadius: 5,
                             textColor: AppConst.white,
                             gradient: AppConst.primaryGradient,
