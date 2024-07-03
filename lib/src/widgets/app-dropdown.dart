@@ -35,7 +35,7 @@ class DropdownTextFormField extends StatefulWidget {
     this.enabled,
     this.circle,
     this.labelWeight,
-    this.initialValue, // Add initialValue property
+    this.initialValue,
   });
 
   @override
@@ -44,13 +44,13 @@ class DropdownTextFormField extends StatefulWidget {
 
 class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
   late Future<List<DropdownMenuItem<String>>> _itemsFuture;
-  String? _selectedValue; // Track selected value
+  String? _selectedValue;
 
   @override
   void initState() {
     super.initState();
     _itemsFuture = _getItems();
-    _selectedValue = widget.initialValue; // Initialize with initial value
+    _selectedValue = widget.initialValue;
   }
 
   Future<List<DropdownMenuItem<String>>> _getItems() async {

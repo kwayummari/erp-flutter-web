@@ -1,9 +1,13 @@
+import 'dart:math';
+
 import 'package:erp/src/gateway/purchaseOrderService.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app-dropdown.dart';
+import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
+import 'package:intl/intl.dart';
 
 class purchaseOrderManagement extends StatefulWidget {
   const purchaseOrderManagement({super.key});
@@ -19,6 +23,8 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
   bool hasError = false;
   var supplierId;
   var supplier;
+  var todayDate;
+  var randomNumber;
 
   Future<void> fetchData() async {
     try {
@@ -50,6 +56,11 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
   void initState() {
     super.initState();
     if (supplierId != null) fetchData();
+    var now = DateTime.now();
+    var formatter = DateFormat('yyyy-MM-dd');
+    todayDate = formatter.format(now);
+    Random random = new Random();
+    randomNumber = random.nextInt(1000000);
   }
 
   @override
@@ -110,7 +121,7 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, top: 40, bottom: 40),
+                  padding: const EdgeInsets.only(left: 20, top: 40, bottom: 20),
                   child: AppText(
                     txt: 'Purchase Order',
                     size: 25,
@@ -118,20 +129,65 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
                     weight: FontWeight.bold,
                   ),
                 ),
-                DropdownTextFormField(
-                    labelText: 'Select Supplier',
-                    fillcolor: AppConst.white,
-                    apiUrl: 'suppliers',
-                    textsColor: AppConst.black,
-                    dropdownColor: AppConst.white,
-                    dataOrigin: 'suppliers',
-                    onChanged: (value) {
-                      setState(() {
-                        supplier = value.toString();
-                      });
-                    },
-                    valueField: 'id',
-                    displayField: 'name'),
+                Row(
+                  children: [
+                    Container(
+                      width: 400,
+                      child: DropdownTextFormField(
+                          labelText: 'Select Supplier',
+                          fillcolor: AppConst.white,
+                          apiUrl: 'suppliers',
+                          textsColor: AppConst.black,
+                          dropdownColor: AppConst.white,
+                          dataOrigin: 'suppliers',
+                          onChanged: (value) {
+                            setState(() {
+                              supplier = value.toString();
+                            });
+                          },
+                          valueField: 'id',
+                          displayField: 'name'),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15),
+                      child: Container(
+                        height: 50,
+                        child: AppButton(
+                          onPress: () {},
+                          label: 'Add Supplier',
+                          borderRadius: 8,
+                          textColor: AppConst.white,
+                          solidColor: AppConst.black,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                Row(
+                  children: [
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 20, top: 20, bottom: 20),
+                      child: AppText(
+                        txt: 'Purchase Order #${randomNumber}',
+                        size: 20,
+                        color: AppConst.black,
+                        weight: FontWeight.bold,
+                      ),
+                    ),
+                    Spacer(),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(right: 20, top: 20, bottom: 20),
+                      child: AppText(
+                        txt: 'Date: ${todayDate}',
+                        size: 20,
+                        color: AppConst.black,
+                        weight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                )
               ],
             ),
           ),
