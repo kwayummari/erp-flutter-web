@@ -164,7 +164,7 @@ class _sideBarState extends State<sideBar> {
                   ),
                   ListTile(
                     onTap: () {
-                      context.go(RouteNames.dashboard);
+                      context.go(RouteNames.branch);
                     },
                     title: AppText(
                       txt: 'Branch',

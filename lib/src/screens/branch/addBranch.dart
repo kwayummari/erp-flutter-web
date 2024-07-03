@@ -1,3 +1,4 @@
+import 'package:erp/src/gateway/branchService.dart';
 import 'package:erp/src/gateway/rolesService.dart';
 import 'package:erp/src/provider/loadingProvider.dart';
 import 'package:erp/src/utils/app_const.dart';
@@ -58,13 +59,11 @@ class _addBranchFormState extends State<addBranchForm> {
                           if (!_formKey.currentState!.validate()) {
                             return;
                           }
-                          rolesServices().addRole(
-                              context,
-                              name.text);
+                          branchServices().addBranch(context, name.text);
                           await widget.fetchData();
                           Navigator.pop(context);
                         },
-                        label: 'Add Role',
+                        label: 'Add Branch',
                         borderRadius: 5,
                         textColor: AppConst.white,
                         gradient: AppConst.primaryGradient,

@@ -91,7 +91,7 @@ class _branchManagementState extends State<branchManagement> {
                               height: 300,
                               context,
                               AppText(
-                                  txt: 'Add Role',
+                                  txt: 'Add Branch',
                                   size: 22,
                                   weight: FontWeight.bold),
                               onClose: fetchData,
@@ -129,7 +129,7 @@ class _branchManagementState extends State<branchManagement> {
                                       width: 20,
                                     ),
                                     AppText(
-                                      txt: ' Add Role',
+                                      txt: ' Add Branch',
                                       size: 20,
                                       color: Colors.white,
                                       weight: FontWeight.bold,
