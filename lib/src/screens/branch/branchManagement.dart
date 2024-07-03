@@ -1,4 +1,5 @@
-import 'package:erp/src/screens/roles/addRoles.dart';
+import 'package:erp/src/gateway/branchServices.dart';
+import 'package:erp/src/screens/branch/addBranch.dart';
 import 'package:erp/src/screens/roles/editRolesForm.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
@@ -11,25 +12,25 @@ import 'package:erp/src/widgets/app_text.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
 import 'package:go_router/go_router.dart';
 
-class rolesManagement extends StatefulWidget {
-  const rolesManagement({super.key});
+class branchManagement extends StatefulWidget {
+  const branchManagement({super.key});
 
   @override
-  State<rolesManagement> createState() => _rolesManagementState();
+  State<branchManagement> createState() => _branchManagementState();
 }
 
-class _rolesManagementState extends State<rolesManagement> {
+class _branchManagementState extends State<branchManagement> {
   List rolesData = [];
   bool isLoading = true;
   bool hasError = false;
 
   Future<void> fetchData() async {
     try {
-      rolesServices rolesService = rolesServices();
-      final rolesResponse = await rolesService.getRoles(context);
-      if (rolesResponse != null && rolesResponse['roles'] != null) {
+      branchServices branchService = branchServices();
+      final branchResponse = await branchService.getBranch(context);
+      if (branchResponse != null && branchResponse['branch'] != null) {
         setState(() {
-          rolesData = rolesResponse['roles'];
+          rolesData = branchResponse['branch'];
           isLoading = false;
         });
       } else {
@@ -69,7 +70,7 @@ class _rolesManagementState extends State<rolesManagement> {
                 child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount:
-                        5, // Adjust based on available space and design
+                        5,
                     mainAxisSpacing: 8.0,
                     crossAxisSpacing: 8.0,
                     mainAxisExtent: 70,
@@ -78,7 +79,7 @@ class _rolesManagementState extends State<rolesManagement> {
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemCount:
-                      rolesData.length + 1, // Add one for the Add Role button
+                      rolesData.length + 1,
                   itemBuilder: (context, index) {
                     if (index == rolesData.length) {
                       return MouseRegion(
@@ -97,7 +98,7 @@ class _rolesManagementState extends State<rolesManagement> {
                               Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
-                                  addRolesForm(fetchData: fetchData)
+                                  addBranchForm(fetchData: fetchData)
                                 ],
                               ),
                               footer: AppButton(
@@ -115,7 +116,7 @@ class _rolesManagementState extends State<rolesManagement> {
                             color: Colors.grey,
                             borderRadius: BorderRadius.circular(10.0),
                             child: Container(
-                              width: 200, // Fixed width for each grid item
+                              width: 200,
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
@@ -157,7 +158,7 @@ class _rolesManagementState extends State<rolesManagement> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10.0),
                           child: Container(
-                            width: 200, // Fixed width for each grid item
+                            width: 200,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Row(

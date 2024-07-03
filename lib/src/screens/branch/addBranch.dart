@@ -7,15 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
-class addRolesForm extends StatefulWidget {
+class addBranchForm extends StatefulWidget {
   final Function fetchData;
-  const addRolesForm({super.key, required this.fetchData});
+  const addBranchForm({super.key, required this.fetchData});
 
   @override
-  State<addRolesForm> createState() => _addRolesFormState();
+  State<addBranchForm> createState() => _addBranchFormState();
 }
 
-class _addRolesFormState extends State<addRolesForm> {
+class _addBranchFormState extends State<addBranchForm> {
   TextEditingController name = TextEditingController();
   var branch;
   var tax;
