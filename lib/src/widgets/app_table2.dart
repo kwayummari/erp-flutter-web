@@ -139,20 +139,18 @@ class _DataSource extends DataTableSource {
                     textsColor: AppConst.black,
                     ispassword: false,
                     fillcolor: AppConst.white,
-                    label: 'Quantity',
+                    label: '',
                     obscure: false,
                     isemail: false,
                     isPhone: false,
                     initialValue: row['quantity'],
                     onChange: (value) {
-                      // Update the quantity in the data
                       final newQuantity = double.tryParse(value) ?? 0;
                       final price = double.tryParse(row['price']) ?? 0;
                       final newTotal = (price * newQuantity).toString();
 
                       row['quantity'] = value;
                       row['total'] = newTotal;
-                      // Notify listeners to refresh the table
                       notifyListeners();
                     },
                   )
