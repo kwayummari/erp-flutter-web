@@ -126,7 +126,9 @@ class _addSupplierFormState extends State<addSupplierForm> {
                               phone.text, tin.text, vrn.text, branch);
                           await widget.fetchData();
                           Navigator.pop(context);
-                          widget.refreshSuppliers;
+                          if (widget.refreshSuppliers != null) {
+                            widget.refreshSuppliers!();
+                          }
                         },
                         label: 'Add Supplier',
                         borderRadius: 5,

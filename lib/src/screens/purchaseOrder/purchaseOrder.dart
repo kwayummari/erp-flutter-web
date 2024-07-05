@@ -38,6 +38,7 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
   void refreshSuppliers() {
     setState(() {
       fetchSupplier = !fetchSupplier;
+      print(fetchSupplier);
     });
   }
 
@@ -201,7 +202,9 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
                               Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
-                                  addSupplierForm(fetchData: fetchData, refreshSuppliers: refreshSuppliers)
+                                  addSupplierForm(
+                                      fetchData: fetchData,
+                                      refreshSuppliers: refreshSuppliers)
                                 ],
                               ),
                               footer: AppButton(
@@ -213,7 +216,6 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
                                   borderRadius: 5,
                                   textColor: AppConst.white),
                             );
-                            refreshSuppliers();
                           },
                           label: 'Add Supplier',
                           borderRadius: 8,
