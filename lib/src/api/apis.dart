@@ -49,7 +49,6 @@ class Api {
     // if (!(await hasInternetConnection())) {
     //   throw Exception("No internet connection");
     // } else {
-    print(baseUrl);
     try {
       final response = await http
           .post(

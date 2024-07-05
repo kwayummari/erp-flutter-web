@@ -201,7 +201,7 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
                               Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
-                                  addSupplierForm(fetchData: fetchData)
+                                  addSupplierForm(fetchData: fetchData, refreshSuppliers: refreshSuppliers)
                                 ],
                               ),
                               footer: AppButton(

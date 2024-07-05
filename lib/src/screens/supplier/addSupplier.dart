@@ -10,7 +10,12 @@ import 'package:provider/provider.dart';
 
 class addSupplierForm extends StatefulWidget {
   final Function fetchData;
-  const addSupplierForm({super.key, required this.fetchData});
+  final void Function()? refreshSuppliers;
+  const addSupplierForm({
+    super.key,
+    required this.fetchData,
+    this.refreshSuppliers,
+  });
 
   @override
   State<addSupplierForm> createState() => _addSupplierFormState();
@@ -117,15 +122,11 @@ class _addSupplierFormState extends State<addSupplierForm> {
                           if (!_formKey.currentState!.validate()) {
                             return;
                           }
-                          supplierServices().addSupplier(
-                              context,
-                              name.text,
-                              phone.text,
-                              tin.text,
-                              vrn.text,
-                              branch);
+                          supplierServices().addSupplier(context, name.text,
+                              phone.text, tin.text, vrn.text, branch);
                           await widget.fetchData();
                           Navigator.pop(context);
+                          widget.refreshSuppliers;
                         },
                         label: 'Add Supplier',
                         borderRadius: 5,

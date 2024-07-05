@@ -1,4 +1,5 @@
 import 'package:erp/src/gateway/dropdown-service.dart';
+import 'package:erp/src/utils/animations/shimmers/dropdown.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class DropdownTextFormField extends StatefulWidget {
   final bool? enabled;
   final bool? fetchSupplier;
   final double? circle;
-  final FontWeight? labelWeight;
+  final labelWeight;
   final String? initialValue;
 
   DropdownTextFormField({
@@ -53,12 +54,9 @@ class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
   @override
   void initState() {
     super.initState();
-    if (widget.fetchSupplier ?? false) {
-      _itemsFuture = _getItems();
-    }
+    _itemsFuture = _getItems();
     _selectedValue = widget.initialValue;
   }
-
   @override
   void didUpdateWidget(DropdownTextFormField oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -96,14 +94,14 @@ class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
         future: _itemsFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
+            return  dropdownShimmer(width: 400, height: 50, borderRadius: 5.0);
           } else if (snapshot.hasError) {
             return Text('Failed to fetch items: ${snapshot.error}');
           } else if (snapshot.hasData) {
             final items = snapshot.data!;
             if (items.isNotEmpty) {
               return DropdownButtonFormField<String>(
-                value: _selectedValue,
+                value: _selectedValue, // Set the initial value
                 dropdownColor: widget.dropdownColor,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(

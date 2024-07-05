@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-class availableCoursesShimmerLoad extends StatefulWidget {
+class dropdownShimmer extends StatefulWidget {
   final double width;
   final double height;
   final double borderRadius;
 
-  availableCoursesShimmerLoad({required this.width, required this.height, required this.borderRadius});
+  dropdownShimmer({required this.width, required this.height, required this.borderRadius});
 
   @override
-  _availableCoursesShimmerLoadState createState() => _availableCoursesShimmerLoadState();
+  _dropdownShimmerState createState() => _dropdownShimmerState();
 }
 
-class _availableCoursesShimmerLoadState extends State<availableCoursesShimmerLoad>
+class _dropdownShimmerState extends State<dropdownShimmer>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _gradientPosition;
