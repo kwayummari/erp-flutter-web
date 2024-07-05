@@ -47,7 +47,7 @@ class AppInputText extends StatelessWidget {
       padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
       child: TextFormField(
         keyboardType: keyboardType,
-        initialValue: initialValue ?? '',
+        initialValue: initialValue,
         enabled: enabled ?? true,
         style: TextStyle(color: textsColor ?? AppConst.white),
         onChanged: onChange,
