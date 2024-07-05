@@ -1,10 +1,7 @@
 import 'dart:math';
 import 'package:erp/src/gateway/purchaseOrderService.dart';
-import 'package:erp/src/screens/supplier/addSupplier.dart';
+import 'package:erp/src/screens/purchaseOrder/topOfOrder.dart';
 import 'package:erp/src/utils/app_const.dart';
-import 'package:erp/src/widgets/app-dropdown.dart';
-import 'package:erp/src/widgets/app_button.dart';
-import 'package:erp/src/widgets/app_modal.dart';
 import 'package:erp/src/widgets/app_table2.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
@@ -38,32 +35,31 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
   void refreshSuppliers() {
     setState(() {
       fetchSupplier = !fetchSupplier;
-      print(fetchSupplier);
     });
   }
 
   Future<void> fetchData() async {
+    print(supplierId);
     try {
       purchaseOrderServices purchaseOrderService = purchaseOrderServices();
       final purchaseOrderResponse =
           await purchaseOrderService.getPurchaseOrder(context, supplierId);
+      print(purchaseOrderResponse);
       if (purchaseOrderResponse != null &&
           purchaseOrderResponse['orders'] != null) {
         setState(() {
           purchaseData = [];
           for (var order in purchaseOrderResponse['orders']) {
-            for (var inventoryList in order['inventoryDetails']) {
-              for (var inventory in inventoryList) {
-                purchaseData.add({
-                  'name': inventory['name'].toString(),
-                  'description': inventory['description'].toString(),
-                  'quantity': inventory['quantity'].toString(),
-                  'price': inventory['buyingPrice'].toString(),
-                  'total': (int.parse(inventory['buyingPrice']) *
-                          int.parse(inventory['quantity']))
-                      .toString(),
-                });
-              }
+            for (var inventory in order['inventoryDetails']) {
+              purchaseData.add({
+                'name': inventory['name'].toString(),
+                'description': inventory['description'].toString(),
+                'quantity': inventory['quantity'].toString(),
+                'price': inventory['buyingPrice'].toString(),
+                'total': (int.parse(inventory['buyingPrice']) *
+                        int.parse(inventory['quantity']))
+                    .toString(),
+              });
             }
           }
           isLoading = false;
@@ -75,7 +71,6 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
         });
       }
     } catch (e) {
-      print('Error fetching data: $e');
       setState(() {
         hasError = true;
         isLoading = false;
@@ -120,136 +115,20 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Image.asset(
-                    'assets/logo.png',
-                    width: 100,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, top: 10),
-                  child: AppText(
-                    txt: 'JamSolutions,',
-                    size: 15,
-                    color: AppConst.black,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, top: 10),
-                  child: AppText(
-                    txt: 'Dar Es Salaam,',
-                    size: 15,
-                    color: AppConst.black,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, top: 10),
-                  child: AppText(
-                    txt: '+255 762 996 305',
-                    size: 15,
-                    color: AppConst.black,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, top: 40, bottom: 20),
-                  child: AppText(
-                    txt: 'Purchase Order',
-                    size: 25,
-                    color: AppConst.black,
-                    weight: FontWeight.bold,
-                  ),
-                ),
-                Row(
-                  children: [
-                    Container(
-                      width: 400,
-                      child: DropdownTextFormField(
-                        fetchSupplier: fetchSupplier,
-                        refreshSuppliers: refreshSuppliers,
-                        labelText: 'Select Supplier',
-                        fillcolor: AppConst.white,
-                        apiUrl: 'suppliers',
-                        textsColor: AppConst.black,
-                        dropdownColor: AppConst.white,
-                        dataOrigin: 'suppliers',
-                        onChanged: (value) {
-                          purchaseData = [];
-                          setState(() {
-                            supplierId = value.toString();
-                          });
-                          fetchData();
-                        },
-                        valueField: 'id',
-                        displayField: 'name',
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 15),
-                      child: Container(
-                        height: 50,
-                        child: AppButton(
-                          onPress: () {
-                            ReusableModal.show(
-                              width: 500,
-                              height: 550,
-                              context,
-                              AppText(
-                                  txt: 'Add Supplier',
-                                  size: 22,
-                                  weight: FontWeight.bold),
-                              onClose: fetchData,
-                              Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  addSupplierForm(
-                                      fetchData: fetchData,
-                                      refreshSuppliers: refreshSuppliers)
-                                ],
-                              ),
-                              footer: AppButton(
-                                  onPress: () {
-                                    Navigator.pop(context);
-                                  },
-                                  solidColor: AppConst.black,
-                                  label: 'Cancel',
-                                  borderRadius: 5,
-                                  textColor: AppConst.white),
-                            );
-                          },
-                          label: 'Add Supplier',
-                          borderRadius: 8,
-                          textColor: AppConst.white,
-                          solidColor: AppConst.black,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 20, top: 20, bottom: 20),
-                      child: AppText(
-                        txt: 'Purchase Order #${randomNumber}',
-                        size: 20,
-                        color: AppConst.black,
-                        weight: FontWeight.bold,
-                      ),
-                    ),
-                    Spacer(),
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(right: 20, top: 20, bottom: 20),
-                      child: AppText(
-                        txt: 'Date: ${todayDate}',
-                        size: 20,
-                        color: AppConst.black,
-                        weight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+                TopOfOrder(
+                  randomNumber: randomNumber,
+                  todayDate: todayDate,
+                  refreshSuppliers: refreshSuppliers,
+                  fetchSupplier: fetchSupplier,
+                  purchaseData: purchaseData,
+                  supplierId: supplierId,
+                  fetchData: fetchData,
+                  fetchData1: fetchData,
+                  onSupplierChanged: (value) {
+                    setState(() {
+                      supplierId = value;
+                    });
+                  },
                 ),
                 Container(
                   height: 300,
