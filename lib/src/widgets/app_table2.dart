@@ -1,4 +1,5 @@
 import 'package:erp/src/utils/app_const.dart';
+import 'package:erp/src/widgets/app_input_text.dart';
 import 'package:erp/src/widgets/app_popover.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
@@ -18,22 +19,22 @@ class ReusableTable2 extends StatefulWidget {
   final Widget Function(BuildContext, Map<String, dynamic>, String) cellBuilder;
   final Future<void> Function()? onClose;
 
-  const ReusableTable2(
-      {Key? key,
-      required this.deleteModalWidth,
-      required this.deleteModalHeight,
-      required this.editModalWidth,
-      required this.editModalHeight,
-      required this.fetchData,
-      required this.titles,
-      required this.data,
-      required this.deleteStatement,
-      required this.editStatement,
-      required this.cellBuilder,
-      required this.url,
-      required this.columnSpacing,
-      required this.onClose})
-      : super(key: key);
+  const ReusableTable2({
+    Key? key,
+    required this.deleteModalWidth,
+    required this.deleteModalHeight,
+    required this.editModalWidth,
+    required this.editModalHeight,
+    required this.fetchData,
+    required this.titles,
+    required this.data,
+    required this.deleteStatement,
+    required this.editStatement,
+    required this.cellBuilder,
+    required this.url,
+    required this.columnSpacing,
+    required this.onClose,
+  }) : super(key: key);
 
   @override
   _ReusableTable2State createState() => _ReusableTable2State();
@@ -48,7 +49,7 @@ class _ReusableTable2State extends State<ReusableTable2> {
     PaginatedDataTable.defaultRowsPerPage,
     PaginatedDataTable.defaultRowsPerPage * 2,
     PaginatedDataTable.defaultRowsPerPage * 5,
-    PaginatedDataTable.defaultRowsPerPage * 10
+    PaginatedDataTable.defaultRowsPerPage * 10,
   ];
 
   void _sort<T>(Comparable<T> Function(Map<String, dynamic> d) getField,
@@ -73,7 +74,6 @@ class _ReusableTable2State extends State<ReusableTable2> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: PaginatedDataTable(
-        // header: Text('Data Table'),
         headingRowColor: WidgetStateProperty.all(AppConst.grey200),
         columnSpacing: widget.columnSpacing,
         columns: [
@@ -86,8 +86,13 @@ class _ReusableTable2State extends State<ReusableTable2> {
                 weight: FontWeight.bold,
               ),
               onSort: (int columnIndex, bool ascending) {
-                _sort<String>((d) => d[widget.titles[columnIndex]].toString(),
-                    columnIndex, ascending);
+                _sort<String>(
+                    (d) => d[widget.titles[columnIndex]
+                            .toLowerCase()
+                            .replaceAll(' ', '')]
+                        .toString(),
+                    columnIndex,
+                    ascending);
               },
             ),
           DataColumn(
@@ -123,25 +128,65 @@ class _DataSource extends DataTableSource {
   @override
   DataRow getRow(int index) {
     final row = widget.data[index];
-    return DataRow.byIndex(index: index, cells: [
-      for (String title in widget.titles)
-        DataCell(widget.cellBuilder(context, row, title)),
-      DataCell(CustomPopover(
-        icon: Icons.more_vert,
-        items: [
-          CustomPopoverItem(
-            title: 'Delete',
-            icon: Icons.delete,
-            onTap: () {
-              // deleteServices deleteService = deleteServices();
-              // await deleteService.delete(context, widget.url, row['id'].toString());
-              // widget.fetchData();
-              // Navigator.pop(context);
-            },
+    return DataRow.byIndex(
+      index: index,
+      cells: [
+        for (String title in widget.titles)
+          DataCell(
+            title == 'Quantity'
+                ? AppInputText(
+                    keyboardType: TextInputType.number,
+                    textsColor: AppConst.black,
+                    ispassword: false,
+                    fillcolor: AppConst.white,
+                    label: 'Quantity',
+                    obscure: false,
+                    isemail: false,
+                    isPhone: false,
+                    initialValue: row['quantity'],
+                    onChange: (value) {
+                      // Update the quantity in the data
+                      final newQuantity = double.tryParse(value) ?? 0;
+                      final price = double.tryParse(row['price']) ?? 0;
+                      final newTotal = (price * newQuantity).toString();
+
+                      row['quantity'] = value;
+                      row['total'] = newTotal;
+                      // Notify listeners to refresh the table
+                      notifyListeners();
+                    },
+                  )
+                : widget.cellBuilder(context, row, title),
           ),
-        ],
-      )),
-    ]);
+        DataCell(
+          CustomPopover(
+            icon: Icons.more_vert,
+            items: [
+              CustomPopoverItem(
+                title: 'Edit',
+                icon: Icons.edit,
+                onTap: () {
+                  // Handle edit action
+                },
+              ),
+              CustomPopoverItem(
+                title: 'Delete',
+                icon: Icons.delete,
+                onTap: () async {
+                  // Delete the item
+                  // deleteServices deleteService = deleteServices();
+                  // await deleteService.delete(context, widget.url, row['id'].toString());
+                  await widget.fetchData();
+                  if (widget.onClose != null) {
+                    await widget.onClose!();
+                  }
+                },
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 
   @override

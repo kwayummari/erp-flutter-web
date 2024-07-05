@@ -19,10 +19,11 @@ class AppInputText extends StatelessWidget {
   final bool? isPhone;
   final double? circle;
   final labelWeight;
+  final TextInputType? keyboardType;
   AppInputText(
       {Key? key,
       this.isPhone,
-      required this.textfieldcontroller,
+      this.textfieldcontroller,
       required this.ispassword,
       required this.isemail,
       required this.fillcolor,
@@ -36,7 +37,8 @@ class AppInputText extends StatelessWidget {
       this.validate,
       this.enabled,
       this.circle,
-      this.labelWeight})
+      this.labelWeight,
+      this.keyboardType})
       : super(key: key);
 
   @override
@@ -44,7 +46,8 @@ class AppInputText extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
       child: TextFormField(
-        initialValue: initialValue,
+        keyboardType: keyboardType,
+        initialValue: initialValue ?? '',
         enabled: enabled ?? true,
         style: TextStyle(color: textsColor ?? AppConst.white),
         onChanged: onChange,

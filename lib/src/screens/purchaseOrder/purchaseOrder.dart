@@ -39,12 +39,10 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
   }
 
   Future<void> fetchData() async {
-    print(supplierId);
     try {
       purchaseOrderServices purchaseOrderService = purchaseOrderServices();
       final purchaseOrderResponse =
           await purchaseOrderService.getPurchaseOrder(context, supplierId);
-      print(purchaseOrderResponse);
       if (purchaseOrderResponse != null &&
           purchaseOrderResponse['orders'] != null) {
         setState(() {
