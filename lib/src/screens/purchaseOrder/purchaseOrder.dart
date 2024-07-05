@@ -1,8 +1,10 @@
 import 'dart:math';
 import 'package:erp/src/gateway/purchaseOrderService.dart';
+import 'package:erp/src/screens/supplier/addSupplier.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app-dropdown.dart';
 import 'package:erp/src/widgets/app_button.dart';
+import 'package:erp/src/widgets/app_modal.dart';
 import 'package:erp/src/widgets/app_table2.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +26,7 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
   var supplierId;
   var todayDate;
   var randomNumber;
+  bool fetchSupplier = false;
   final List<String> titles = [
     'Name',
     'Description',
@@ -31,6 +34,12 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
     'Price',
     'Total',
   ];
+
+  void refreshSuppliers() {
+    setState(() {
+      fetchSupplier = !fetchSupplier;
+    });
+  }
 
   Future<void> fetchData() async {
     try {
@@ -155,6 +164,8 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
                     Container(
                       width: 400,
                       child: DropdownTextFormField(
+                        fetchSupplier: fetchSupplier,
+                        refreshSuppliers: refreshSuppliers,
                         labelText: 'Select Supplier',
                         fillcolor: AppConst.white,
                         apiUrl: 'suppliers',
@@ -178,7 +189,31 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
                         height: 50,
                         child: AppButton(
                           onPress: () {
-                            
+                            ReusableModal.show(
+                              width: 500,
+                              height: 550,
+                              context,
+                              AppText(
+                                  txt: 'Add Supplier',
+                                  size: 22,
+                                  weight: FontWeight.bold),
+                              onClose: fetchData,
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  addSupplierForm(fetchData: fetchData)
+                                ],
+                              ),
+                              footer: AppButton(
+                                  onPress: () {
+                                    Navigator.pop(context);
+                                  },
+                                  solidColor: AppConst.black,
+                                  label: 'Cancel',
+                                  borderRadius: 5,
+                                  textColor: AppConst.white),
+                            );
+                            refreshSuppliers();
                           },
                           label: 'Add Supplier',
                           borderRadius: 8,

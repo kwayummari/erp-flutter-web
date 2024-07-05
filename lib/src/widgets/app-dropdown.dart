@@ -14,10 +14,12 @@ class DropdownTextFormField extends StatefulWidget {
   final String displayField;
   final String dataOrigin;
   final void Function(String?)? onChanged;
+  final void Function()? refreshSuppliers;
   final Color? textsColor;
   final bool? enabled;
+  final bool? fetchSupplier;
   final double? circle;
-  final labelWeight;
+  final FontWeight? labelWeight;
   final String? initialValue;
 
   DropdownTextFormField({
@@ -31,6 +33,8 @@ class DropdownTextFormField extends StatefulWidget {
     required this.displayField,
     required this.dataOrigin,
     this.onChanged,
+    this.refreshSuppliers,
+    this.fetchSupplier,
     this.textsColor,
     this.enabled,
     this.circle,
@@ -49,8 +53,22 @@ class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
   @override
   void initState() {
     super.initState();
-    _itemsFuture = _getItems();
+    if (widget.fetchSupplier ?? false) {
+      _itemsFuture = _getItems();
+    }
     _selectedValue = widget.initialValue;
+  }
+
+  @override
+  void didUpdateWidget(DropdownTextFormField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.fetchSupplier != oldWidget.fetchSupplier &&
+        widget.fetchSupplier == true) {
+      setState(() {
+        _itemsFuture = _getItems();
+        widget.refreshSuppliers;
+      });
+    }
   }
 
   Future<List<DropdownMenuItem<String>>> _getItems() async {
@@ -85,7 +103,7 @@ class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
             final items = snapshot.data!;
             if (items.isNotEmpty) {
               return DropdownButtonFormField<String>(
-                value: _selectedValue, // Set the initial value
+                value: _selectedValue,
                 dropdownColor: widget.dropdownColor,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -114,14 +132,16 @@ class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
                   suffixIcon: widget.suffixicon,
                 ),
                 items: items,
-                onChanged: widget.enabled ?? true ? (value) {
-                  setState(() {
-                    _selectedValue = value;
-                    if (widget.onChanged != null) {
-                      widget.onChanged!(value);
-                    }
-                  });
-                } : null,
+                onChanged: widget.enabled ?? true
+                    ? (value) {
+                        setState(() {
+                          _selectedValue = value;
+                          if (widget.onChanged != null) {
+                            widget.onChanged!(value);
+                          }
+                        });
+                      }
+                    : null,
               );
             } else {
               return Text('No items found');
