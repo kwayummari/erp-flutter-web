@@ -49,6 +49,7 @@ class Api {
     // if (!(await hasInternetConnection())) {
     //   throw Exception("No internet connection");
     // } else {
+    print(baseUrl);
     try {
       final response = await http
           .post(
@@ -69,9 +70,9 @@ class Api {
 
   // PUT Request
   Future<dynamic> put(String endPoint, Map<String, dynamic> data) async {
-    if (!(await hasInternetConnection())) {
-      throw Exception("No internet connection");
-    }
+    // if (!(await hasInternetConnection())) {
+    //   throw Exception("No internet connection");
+    // }
     try {
       final response = await http
           .put(Uri.parse("$baseUrl/$endPoint"), body: data)
@@ -85,9 +86,9 @@ class Api {
 
   // DELETE Request
   Future<dynamic> delete(String endPoint) async {
-    if (!(await hasInternetConnection())) {
-      throw Exception("No internet connection");
-    }
+    // if (!(await hasInternetConnection())) {
+    //   throw Exception("No internet connection");
+    // }
     try {
       final response = await http
           .delete(Uri.parse("$baseUrl/$endPoint"))

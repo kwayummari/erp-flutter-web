@@ -1,9 +1,9 @@
 import 'dart:math';
-
 import 'package:erp/src/gateway/purchaseOrderService.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app-dropdown.dart';
 import 'package:erp/src/widgets/app_button.dart';
+import 'package:erp/src/widgets/app_table2.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
@@ -18,13 +18,19 @@ class purchaseOrderManagement extends StatefulWidget {
 }
 
 class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
-  List rolesData = [];
+  List<Map<String, dynamic>> purchaseData = [];
   bool isLoading = true;
   bool hasError = false;
   var supplierId;
-  var supplier;
   var todayDate;
   var randomNumber;
+  final List<String> titles = [
+    'Name',
+    'Description',
+    'Quantity',
+    'Price',
+    'Total',
+  ];
 
   Future<void> fetchData() async {
     try {
@@ -34,7 +40,22 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
       if (purchaseOrderResponse != null &&
           purchaseOrderResponse['orders'] != null) {
         setState(() {
-          rolesData = purchaseOrderResponse['orders'];
+          purchaseData = [];
+          for (var order in purchaseOrderResponse['orders']) {
+            for (var inventoryList in order['inventoryDetails']) {
+              for (var inventory in inventoryList) {
+                purchaseData.add({
+                  'name': inventory['name'].toString(),
+                  'description': inventory['description'].toString(),
+                  'quantity': inventory['quantity'].toString(),
+                  'price': inventory['buyingPrice'].toString(),
+                  'total': (int.parse(inventory['buyingPrice']) *
+                          int.parse(inventory['quantity']))
+                      .toString(),
+                });
+              }
+            }
+          }
           isLoading = false;
         });
       } else {
@@ -134,33 +155,38 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
                     Container(
                       width: 400,
                       child: DropdownTextFormField(
-                          labelText: 'Select Supplier',
-                          fillcolor: AppConst.white,
-                          apiUrl: 'suppliers',
-                          textsColor: AppConst.black,
-                          dropdownColor: AppConst.white,
-                          dataOrigin: 'suppliers',
-                          onChanged: (value) {
-                            setState(() {
-                              supplier = value.toString();
-                            });
-                          },
-                          valueField: 'id',
-                          displayField: 'name'),
+                        labelText: 'Select Supplier',
+                        fillcolor: AppConst.white,
+                        apiUrl: 'suppliers',
+                        textsColor: AppConst.black,
+                        dropdownColor: AppConst.white,
+                        dataOrigin: 'suppliers',
+                        onChanged: (value) {
+                          purchaseData = [];
+                          setState(() {
+                            supplierId = value.toString();
+                          });
+                          fetchData();
+                        },
+                        valueField: 'id',
+                        displayField: 'name',
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 15),
                       child: Container(
                         height: 50,
                         child: AppButton(
-                          onPress: () {},
+                          onPress: () {
+                            
+                          },
                           label: 'Add Supplier',
                           borderRadius: 8,
                           textColor: AppConst.white,
                           solidColor: AppConst.black,
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
                 Row(
@@ -187,7 +213,33 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
                       ),
                     ),
                   ],
-                )
+                ),
+                Container(
+                  height: 300,
+                  width: MediaQuery.of(context).size.width,
+                  child: ReusableTable2(
+                    deleteModalHeight: 300,
+                    deleteModalWidth: 500,
+                    editModalHeight: 550,
+                    editModalWidth: 500,
+                    editStatement: AppText(
+                        txt: 'Edit user', size: 18, weight: FontWeight.bold),
+                    fetchData: fetchData,
+                    columnSpacing: 100,
+                    titles: titles,
+                    data: purchaseData,
+                    cellBuilder: (context, row, title) {
+                      return Text(
+                          row[title.toLowerCase().replaceAll(' ', '')] ?? '');
+                    },
+                    onClose: fetchData,
+                    deleteStatement: AppText(
+                        txt: 'Are you sure you want to delete this user?',
+                        size: 18,
+                        weight: FontWeight.bold),
+                    url: 'deleteUserById',
+                  ),
+                ),
               ],
             ),
           ),

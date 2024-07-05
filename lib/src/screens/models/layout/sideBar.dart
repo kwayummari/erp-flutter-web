@@ -37,7 +37,7 @@ class _sideBarState extends State<sideBar> {
       width: 310,
       height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
-        gradient: AppConst.primaryGradient,
+        color: AppConst.black,
         borderRadius: BorderRadius.circular(0.0),
       ),
       child: Column(
