@@ -20,6 +20,7 @@ class _addUserFormState extends State<addUserForm> {
   TextEditingController email = TextEditingController();
   TextEditingController fullname = TextEditingController();
   TextEditingController phone = TextEditingController();
+  List allData = [];
   var branch;
   var role;
   bool marked = false;
@@ -89,7 +90,7 @@ class _addUserFormState extends State<addUserForm> {
                 });
               },
               valueField: 'id',
-              displayField: 'name'),
+              displayField: 'name', allData: allData,),
           DropdownTextFormField(
               labelText: 'Select Role',
               fillcolor: AppConst.white,
@@ -103,7 +104,7 @@ class _addUserFormState extends State<addUserForm> {
                 });
               },
               valueField: 'id',
-              displayField: 'name'),
+              displayField: 'name', allData: allData,),
           Padding(
             padding: const EdgeInsets.only(right: 20, top: 20),
             child: Row(
