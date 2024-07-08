@@ -160,7 +160,11 @@ class _DataSource extends DataTableSource {
                   dataOrigin: 'products',
                   onChanged: (value) {
                     print(value);
-                    print(allData);
+                    if (allData.isNotEmpty) {
+                      final selectedItem = allData.first;
+                      print('Selected Item Data: $selectedItem');
+                      // Perform further actions with the selectedItem
+                    }
                     // setState(() {
                     //   widget.purchaseData.clear();
                     //   widget.onSupplierChanged(value.toString());

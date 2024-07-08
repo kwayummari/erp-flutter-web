@@ -92,42 +92,48 @@ class _sideBarState extends State<sideBar> {
                   itemnumber: data.length,
                   itemBuilder: (BuildContext context, int index) {
                     List subMenu = data[index]['submenu'];
-                    return ExpandableCard(
-                      title: data[index]['name'],
-                      children: [
-                        if (data[index]['find'] == '1' && subMenu.isNotEmpty)
-                          Padding(
-                            padding: const EdgeInsets.only(left: 40),
-                            child: AppListviewBuilder(
-                                itemnumber: subMenu.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      if (subMenu[index]['url'] == 'user') {
-                                        context.go(RouteNames.userManagement);
-                                      } else if (subMenu[index]['url'] ==
-                                          'inventory') {
-                                        context.go(RouteNames.inventory);
-                                      } else if (subMenu[index]['url'] ==
-                                          'supplier') {
-                                        context.go(RouteNames.supplier);
-                                      } else if (subMenu[index]['url'] ==
-                                          'purchase') {
-                                        context.go(RouteNames.purchaseOrder);
-                                      }
-                                    },
-                                    child: ListTile(
-                                      title: AppText(
-                                        txt: subMenu[index]['name'],
-                                        size: 15,
-                                        color: AppConst.white,
-                                      ),
-                                    ),
-                                  );
-                                }),
+                    return data[index]['find'] == '1'
+                        ? ExpandableCard(
+                            title: data[index]['name'],
+                            children: [
+                              if (subMenu.isNotEmpty)
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 40),
+                                  child: AppListviewBuilder(
+                                      itemnumber: subMenu.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return GestureDetector(
+                                          onTap: () {
+                                            if (subMenu[index]['url'] ==
+                                                'user') {
+                                              context.go(
+                                                  RouteNames.userManagement);
+                                            } else if (subMenu[index]['url'] ==
+                                                'inventory') {
+                                              context.go(RouteNames.inventory);
+                                            } else if (subMenu[index]['url'] ==
+                                                'supplier') {
+                                              context.go(RouteNames.supplier);
+                                            } else if (subMenu[index]['url'] ==
+                                                'purchase') {
+                                              context
+                                                  .go(RouteNames.purchaseOrder);
+                                            }
+                                          },
+                                          child: ListTile(
+                                            title: AppText(
+                                              txt: subMenu[index]['name'],
+                                              size: 15,
+                                              color: AppConst.white,
+                                            ),
+                                          ),
+                                        );
+                                      }),
+                                )
+                            ],
                           )
-                      ],
-                    );
+                        : Container();
                   }),
             ),
           Padding(

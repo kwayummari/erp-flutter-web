@@ -52,7 +52,7 @@ class DropdownTextFormField extends StatefulWidget {
 class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
   late Future<List<DropdownMenuItem<String>>> _itemsFuture;
   String? _selectedValue;
-  late Map<String, dynamic> _apiData;
+  late List<Map<String, dynamic>> _apiData;
 
   @override
   void initState() {
@@ -75,12 +75,14 @@ class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
 
   Future<List<DropdownMenuItem<String>>> _getItems() async {
     final dropdownService _dropdownService = await dropdownService();
-    _apiData = await _dropdownService.dropdownPost(context, widget.apiUrl);
-    final dropDownData = _apiData[widget.dataOrigin];
-    setState(() {
-      widget.allData = dropDownData;
-    });
-    return dropDownData
+    final apiResponse =
+        await _dropdownService.dropdownPost(context, widget.apiUrl);
+    _apiData = List<Map<String, dynamic>>.from(apiResponse[widget.dataOrigin]);
+
+    // Update allData with the fetched data
+    widget.allData = _apiData;
+
+    return _apiData
         .map<DropdownMenuItem<String>>((item) => DropdownMenuItem<String>(
               value: item[widget.valueField].toString(),
               child: AppText(
@@ -143,6 +145,17 @@ class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
                           if (widget.onChanged != null) {
                             widget.onChanged!(value);
                           }
+
+                          // Get the full details of the selected item
+                          final selectedItem = _apiData.firstWhere(
+                            (item) =>
+                                item[widget.valueField].toString() == value,
+                            orElse: () => {},
+                          );
+                          print(selectedItem);
+                          setState(() {
+                            widget.allData = [selectedItem];
+                          });
                         });
                       }
                     : null,
