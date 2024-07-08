@@ -22,6 +22,7 @@ class DropdownTextFormField extends StatefulWidget {
   final double? circle;
   final labelWeight;
   final String? initialValue;
+  List allData;
 
   DropdownTextFormField({
     required this.labelText,
@@ -41,6 +42,7 @@ class DropdownTextFormField extends StatefulWidget {
     this.circle,
     this.labelWeight,
     this.initialValue,
+    required this.allData,
   });
 
   @override
@@ -50,6 +52,7 @@ class DropdownTextFormField extends StatefulWidget {
 class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
   late Future<List<DropdownMenuItem<String>>> _itemsFuture;
   String? _selectedValue;
+  late Map<String, dynamic> _apiData;
 
   @override
   void initState() {
@@ -57,6 +60,7 @@ class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
     _itemsFuture = _getItems();
     _selectedValue = widget.initialValue;
   }
+
   @override
   void didUpdateWidget(DropdownTextFormField oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -71,9 +75,11 @@ class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
 
   Future<List<DropdownMenuItem<String>>> _getItems() async {
     final dropdownService _dropdownService = await dropdownService();
-    final data = await _dropdownService.dropdownPost(context, widget.apiUrl);
-    final dropDownData = data[widget.dataOrigin];
-
+    _apiData = await _dropdownService.dropdownPost(context, widget.apiUrl);
+    final dropDownData = _apiData[widget.dataOrigin];
+    setState(() {
+      widget.allData = dropDownData;
+    });
     return dropDownData
         .map<DropdownMenuItem<String>>((item) => DropdownMenuItem<String>(
               value: item[widget.valueField].toString(),
@@ -94,7 +100,7 @@ class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
         future: _itemsFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return  dropdownShimmer(width: 400, height: 50, borderRadius: 5.0);
+            return dropdownShimmer(width: 400, height: 50, borderRadius: 5.0);
           } else if (snapshot.hasError) {
             return Text('Failed to fetch items: ${snapshot.error}');
           } else if (snapshot.hasData) {

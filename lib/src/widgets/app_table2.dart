@@ -73,6 +73,7 @@ class _ReusableTable2State extends State<ReusableTable2> {
     final _DataSource dataSource = _DataSource(context, widget);
     return SingleChildScrollView(
       child: PaginatedDataTable(
+        dataRowMaxHeight: 70,
         headingRowColor: WidgetStateProperty.all(AppConst.grey200),
         columnSpacing: widget.columnSpacing,
         columns: [
@@ -123,6 +124,7 @@ class _DataSource extends DataTableSource {
   final ReusableTable2 widget;
   bool isAddingNewRow = false;
   Map<String, TextEditingController> newRowControllers = {};
+  List allData = [];
 
   _DataSource(this.context, this.widget) {
     for (var title in widget.titles) {
@@ -166,6 +168,7 @@ class _DataSource extends DataTableSource {
                   },
                   valueField: 'id',
                   displayField: 'name',
+                  allData: allData,
                 ),
               )
             else
