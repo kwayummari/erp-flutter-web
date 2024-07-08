@@ -160,6 +160,7 @@ class _DataSource extends DataTableSource {
                   dataOrigin: 'products',
                   onChanged: (value) {
                     print(value);
+                    print(allData);
                     // setState(() {
                     //   widget.purchaseData.clear();
                     //   widget.onSupplierChanged(value.toString());
@@ -176,6 +177,7 @@ class _DataSource extends DataTableSource {
                 AppInputText(
                   controller: newRowControllers[
                       title.toLowerCase().replaceAll(' ', '')],
+                  // initialValue: allData[title],
                   textsColor: AppConst.black,
                   ispassword: false,
                   fillcolor: AppConst.white,
