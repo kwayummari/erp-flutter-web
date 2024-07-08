@@ -159,9 +159,8 @@ class _DataSource extends DataTableSource {
                   dropdownColor: AppConst.white,
                   dataOrigin: 'products',
                   onChanged: (value) {
-                    print(value);
                     if (allData.isNotEmpty) {
-                      final selectedItem = allData.first;
+                      final selectedItem = allData;
                       print('Selected Item Data: $selectedItem');
                       // Perform further actions with the selectedItem
                     }

@@ -15,6 +15,7 @@ class DropdownTextFormField extends StatefulWidget {
   final String displayField;
   final String dataOrigin;
   final void Function(String?)? onChanged;
+  final void Function(List)? onDataChanged;
   final void Function()? refreshSuppliers;
   final Color? textsColor;
   final bool? enabled;
@@ -35,6 +36,7 @@ class DropdownTextFormField extends StatefulWidget {
     required this.displayField,
     required this.dataOrigin,
     this.onChanged,
+    this.onDataChanged,
     this.refreshSuppliers,
     this.fetchSupplier,
     this.textsColor,
@@ -152,10 +154,11 @@ class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
                                 item[widget.valueField].toString() == value,
                             orElse: () => {},
                           );
-                          print(selectedItem);
-                          setState(() {
-                            widget.allData = [selectedItem];
-                          });
+                          // print(selectedItem);
+                          widget.allData = [selectedItem];
+                          if (widget.onDataChanged != null) {
+                            widget.onDataChanged!(widget.allData);
+                          }
                         });
                       }
                     : null,
