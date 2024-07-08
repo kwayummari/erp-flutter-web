@@ -164,11 +164,11 @@ class _DataSource extends DataTableSource {
                       print('Selected Item Data: $selectedItem');
                       // Perform further actions with the selectedItem
                     }
+                  },
+                  onDataChanged: (newData) {
                     // setState(() {
-                    //   widget.purchaseData.clear();
-                    //   widget.onSupplierChanged(value.toString());
+                    allData = newData;
                     // });
-                    // widget.fetchData!();
                   },
                   valueField: 'id',
                   displayField: 'name',
