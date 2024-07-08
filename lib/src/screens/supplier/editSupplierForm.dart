@@ -23,6 +23,7 @@ class _editSupplierFormState extends State<editSupplierForm> {
   TextEditingController phone = TextEditingController();
   TextEditingController tin = TextEditingController();
   TextEditingController vrn = TextEditingController();
+  List allData = [];
   var branch;
   var editId;
   bool marked = false;
@@ -119,7 +120,7 @@ class _editSupplierFormState extends State<editSupplierForm> {
               });
             },
             valueField: 'id',
-            displayField: 'name',
+            displayField: 'name', allData: allData,
           ),
           Padding(
             padding: const EdgeInsets.only(right: 20, top: 20),
