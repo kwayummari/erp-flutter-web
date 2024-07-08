@@ -147,42 +147,44 @@ class _DataSource extends DataTableSource {
       return DataRow(
         cells: [
           for (String title in widget.titles)
-          if(title == 'Name')
-          DataCell(
-              DropdownTextFormField(
-                labelText: 'Select Product',
-                fillcolor: AppConst.white,
-                apiUrl: 'products',
-                textsColor: AppConst.black,
-                dropdownColor: AppConst.white,
-                dataOrigin: 'products',
-                onChanged: (value) {
-                  // setState(() {
-                  //   widget.purchaseData.clear();
-                  //   widget.onSupplierChanged(value.toString());
-                  // });
-                  // widget.fetchData!();
-                },
-                valueField: 'id',
-                displayField: 'name',
+            if (title == 'Name')
+              DataCell(
+                DropdownTextFormField(
+                  labelText: 'Select Product',
+                  fillcolor: AppConst.white,
+                  apiUrl: 'products',
+                  textsColor: AppConst.black,
+                  dropdownColor: AppConst.white,
+                  dataOrigin: 'products',
+                  onChanged: (value) {
+                    print(value);
+                    // setState(() {
+                    //   widget.purchaseData.clear();
+                    //   widget.onSupplierChanged(value.toString());
+                    // });
+                    // widget.fetchData!();
+                  },
+                  valueField: 'id',
+                  displayField: 'name',
+                ),
+              )
+            else
+              DataCell(
+                AppInputText(
+                  controller: newRowControllers[
+                      title.toLowerCase().replaceAll(' ', '')],
+                  textsColor: AppConst.black,
+                  ispassword: false,
+                  fillcolor: AppConst.white,
+                  label: title,
+                  obscure: false,
+                  isemail: false,
+                  isPhone: false,
+                  onChange: (value) {
+                    notifyListeners();
+                  },
+                ),
               ),
-            ) else
-            DataCell(
-              AppInputText(
-                controller:
-                    newRowControllers[title.toLowerCase().replaceAll(' ', '')],
-                textsColor: AppConst.black,
-                ispassword: false,
-                fillcolor: AppConst.white,
-                label: title,
-                obscure: false,
-                isemail: false,
-                isPhone: false,
-                onChange: (value) {
-                  notifyListeners();
-                },
-              ),
-            ),
           DataCell(
             IconButton(
               icon: Icon(Icons.check),
