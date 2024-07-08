@@ -25,6 +25,7 @@ class _editProductFormState extends State<editProductForm> {
   TextEditingController buyingPrice = TextEditingController();
   TextEditingController sellingPrice = TextEditingController();
   TextEditingController productNumber = TextEditingController();
+  List allData = [];
   var branch;
   var tax;
   var editId;
@@ -152,7 +153,7 @@ class _editProductFormState extends State<editProductForm> {
               });
             },
             valueField: 'id',
-            displayField: 'name',
+            displayField: 'name', allData: allData,
           ),
           DropdownTextFormField(
               initialValue: tax.toString(),
@@ -168,7 +169,7 @@ class _editProductFormState extends State<editProductForm> {
                 });
               },
               valueField: 'id',
-              displayField: 'name'),
+              displayField: 'name', allData: allData,),
           Padding(
             padding: const EdgeInsets.only(right: 20, top: 20),
             child: Row(
