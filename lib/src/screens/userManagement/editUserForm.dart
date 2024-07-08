@@ -22,6 +22,7 @@ class _editUserFormState extends State<editUserForm> {
   TextEditingController email = TextEditingController();
   TextEditingController fullname = TextEditingController();
   TextEditingController phone = TextEditingController();
+  List allData = [];
   var branch;
   var role;
   var id;
@@ -106,7 +107,7 @@ class _editUserFormState extends State<editUserForm> {
                     });
                   },
                   valueField: 'id',
-                  displayField: 'name',
+                  displayField: 'name', allData: allData,
                 ),
                 DropdownTextFormField(
                   labelText: 'Select Role',
@@ -122,7 +123,7 @@ class _editUserFormState extends State<editUserForm> {
                     });
                   },
                   valueField: 'id',
-                  displayField: 'name',
+                  displayField: 'name', allData: allData,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 20, top: 20),
