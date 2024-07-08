@@ -35,6 +35,7 @@ class TopOfOrder extends StatefulWidget {
 }
 
 class _TopOfOrderState extends State<TopOfOrder> {
+  List allData = [];
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -102,7 +103,7 @@ class _TopOfOrderState extends State<TopOfOrder> {
                   widget.fetchData!();
                 },
                 valueField: 'id',
-                displayField: 'name',
+                displayField: 'name', allData: allData,
               ),
             ),
             Padding(
