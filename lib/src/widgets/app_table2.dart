@@ -125,6 +125,7 @@ class _DataSource extends DataTableSource {
   bool isAddingNewRow = false;
   Map<String, TextEditingController> newRowControllers = {};
   List allData = [];
+  var productId;
 
   _DataSource(this.context, this.widget) {
     for (var title in widget.titles) {
@@ -159,16 +160,17 @@ class _DataSource extends DataTableSource {
                   dropdownColor: AppConst.white,
                   dataOrigin: 'products',
                   onChanged: (value) {
-                    if (allData.isNotEmpty) {
-                      final selectedItem = allData;
-                      print('Selected Item Data: $selectedItem');
-                      // Perform further actions with the selectedItem
+                    if (value!.isNotEmpty) {
+                      productId = value;
                     }
                   },
                   onDataChanged: (newData) {
-                    // setState(() {
-                    allData = newData;
-                    // });
+                    if (newData.isNotEmpty) {
+                      // setState(() {
+                      allData = newData;
+                      // });
+                      print('Selected Item Data: $allData');
+                    }
                   },
                   valueField: 'id',
                   displayField: 'name',
@@ -180,7 +182,7 @@ class _DataSource extends DataTableSource {
                 AppInputText(
                   controller: newRowControllers[
                       title.toLowerCase().replaceAll(' ', '')],
-                  // initialValue: allData[title],
+                  initialValue: allData.isNotEmpty ? allData[0][title] : '',
                   textsColor: AppConst.black,
                   ispassword: false,
                   fillcolor: AppConst.white,
