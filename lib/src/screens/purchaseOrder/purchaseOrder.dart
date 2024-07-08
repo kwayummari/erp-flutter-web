@@ -3,7 +3,6 @@ import 'package:erp/src/gateway/purchaseOrderService.dart';
 import 'package:erp/src/screens/purchaseOrder/topOfOrder.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_table2.dart';
-import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
 import 'package:intl/intl.dart';
@@ -50,6 +49,7 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
           for (var order in purchaseOrderResponse['orders']) {
             for (var inventory in order['inventoryDetails']) {
               purchaseData.add({
+                'id': inventory['id'].toString(),
                 'name': inventory['name'].toString(),
                 'description': inventory['description'].toString(),
                 'quantity': inventory['quantity'].toString(),
@@ -136,8 +136,6 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
                     deleteModalWidth: 500,
                     editModalHeight: 550,
                     editModalWidth: 500,
-                    editStatement: AppText(
-                        txt: 'Edit user', size: 18, weight: FontWeight.bold),
                     fetchData: fetchData,
                     columnSpacing: 100,
                     titles: titles,
@@ -147,11 +145,7 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
                           row[title.toLowerCase().replaceAll(' ', '')] ?? '');
                     },
                     onClose: fetchData,
-                    deleteStatement: AppText(
-                        txt: 'Are you sure you want to delete this user?',
-                        size: 18,
-                        weight: FontWeight.bold),
-                    url: 'deleteUserById',
+                    url: 'deleteOrder',
                   ),
                 ),
               ],

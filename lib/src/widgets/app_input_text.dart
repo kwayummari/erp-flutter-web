@@ -38,7 +38,7 @@ class AppInputText extends StatelessWidget {
       this.enabled,
       this.circle,
       this.labelWeight,
-      this.keyboardType})
+      this.keyboardType, TextEditingController? controller})
       : super(key: key);
 
   @override

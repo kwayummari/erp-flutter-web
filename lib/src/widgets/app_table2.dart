@@ -1,3 +1,4 @@
+import 'package:erp/src/gateway/deleteService.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_input_text.dart';
 import 'package:erp/src/widgets/app_popover.dart';
@@ -14,8 +15,6 @@ class ReusableTable2 extends StatefulWidget {
   final List<Map<String, dynamic>> data;
   final Function fetchData;
   final double columnSpacing;
-  final Widget deleteStatement;
-  final Widget editStatement;
   final Widget Function(BuildContext, Map<String, dynamic>, String) cellBuilder;
   final Future<void> Function()? onClose;
 
@@ -28,8 +27,6 @@ class ReusableTable2 extends StatefulWidget {
     required this.fetchData,
     required this.titles,
     required this.data,
-    required this.deleteStatement,
-    required this.editStatement,
     required this.cellBuilder,
     required this.url,
     required this.columnSpacing,
@@ -72,48 +69,61 @@ class _ReusableTable2State extends State<ReusableTable2> {
 
   @override
   Widget build(BuildContext context) {
+    final _DataSource dataSource = _DataSource(context, widget);
     return SingleChildScrollView(
-      child: PaginatedDataTable(
-        headingRowColor: WidgetStateProperty.all(AppConst.grey200),
-        columnSpacing: widget.columnSpacing,
-        columns: [
-          for (int i = 0; i < widget.titles.length; i++)
-            DataColumn(
-              label: AppText(
-                txt: widget.titles[i],
-                size: 20,
-                color: AppConst.black,
-                weight: FontWeight.bold,
+      child: Column(
+        children: [
+          PaginatedDataTable(
+            headingRowColor: WidgetStateProperty.all(AppConst.grey200),
+            columnSpacing: widget.columnSpacing,
+            columns: [
+              for (int i = 0; i < widget.titles.length; i++)
+                DataColumn(
+                  label: AppText(
+                    txt: widget.titles[i],
+                    size: 20,
+                    color: AppConst.black,
+                    weight: FontWeight.bold,
+                  ),
+                  onSort: (int columnIndex, bool ascending) {
+                    _sort<String>(
+                        (d) => d[widget.titles[columnIndex]
+                                .toLowerCase()
+                                .replaceAll(' ', '')]
+                            .toString(),
+                        columnIndex,
+                        ascending);
+                  },
+                ),
+              DataColumn(
+                label: AppText(
+                  txt: 'Actions',
+                  size: 20,
+                  color: AppConst.black,
+                  weight: FontWeight.bold,
+                ),
               ),
-              onSort: (int columnIndex, bool ascending) {
-                _sort<String>(
-                    (d) => d[widget.titles[columnIndex]
-                            .toLowerCase()
-                            .replaceAll(' ', '')]
-                        .toString(),
-                    columnIndex,
-                    ascending);
-              },
-            ),
-          DataColumn(
-            label: AppText(
-              txt: 'Actions',
-              size: 20,
-              color: AppConst.black,
-              weight: FontWeight.bold,
-            ),
+            ],
+            source: dataSource,
+            rowsPerPage: _rowsPerPage,
+            availableRowsPerPage: availableRowsPerPage,
+            onRowsPerPageChanged: (int? value) {
+              setState(() {
+                _rowsPerPage = value!;
+              });
+            },
+            sortColumnIndex: _sortColumnIndex,
+            sortAscending: _sortAscending,
+          ),
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                dataSource.isAddingNewRow = true;
+              });
+            },
+            child: Text('Add New Row'),
           ),
         ],
-        source: _DataSource(context, widget),
-        rowsPerPage: _rowsPerPage,
-        availableRowsPerPage: availableRowsPerPage,
-        onRowsPerPageChanged: (int? value) {
-          setState(() {
-            _rowsPerPage = value!;
-          });
-        },
-        sortColumnIndex: _sortColumnIndex,
-        sortAscending: _sortAscending,
       ),
     );
   }
@@ -122,11 +132,60 @@ class _ReusableTable2State extends State<ReusableTable2> {
 class _DataSource extends DataTableSource {
   final BuildContext context;
   final ReusableTable2 widget;
+  bool isAddingNewRow = false;
+  Map<String, TextEditingController> newRowControllers = {};
 
-  _DataSource(this.context, this.widget);
+  _DataSource(this.context, this.widget) {
+    for (var title in widget.titles) {
+      newRowControllers[title.toLowerCase().replaceAll(' ', '')] =
+          TextEditingController();
+    }
+  }
+
+  void addNewRow() {
+    final newRow = <String, dynamic>{};
+    for (var title in widget.titles) {
+      final key = title.toLowerCase().replaceAll(' ', '');
+      newRow[key] = newRowControllers[key]?.text ?? '';
+    }
+    widget.data.add(newRow);
+    notifyListeners();
+  }
 
   @override
   DataRow getRow(int index) {
+    if (index >= widget.data.length) {
+      return DataRow(
+        cells: [
+          for (String title in widget.titles)
+            DataCell(
+              AppInputText(
+                controller:
+                    newRowControllers[title.toLowerCase().replaceAll(' ', '')],
+                textsColor: AppConst.black,
+                ispassword: false,
+                fillcolor: AppConst.white,
+                label: '',
+                obscure: false,
+                isemail: false,
+                isPhone: false,
+                onChange: (value) {
+                  notifyListeners();
+                },
+              ),
+            ),
+          DataCell(
+            IconButton(
+              icon: Icon(Icons.check),
+              onPressed: () {
+                addNewRow();
+              },
+            ),
+          ),
+        ],
+      );
+    }
+
     final row = widget.data[index];
     return DataRow.byIndex(
       index: index,
@@ -161,19 +220,12 @@ class _DataSource extends DataTableSource {
             icon: Icons.more_vert,
             items: [
               CustomPopoverItem(
-                title: 'Edit',
-                icon: Icons.edit,
-                onTap: () {
-                  // Handle edit action
-                },
-              ),
-              CustomPopoverItem(
                 title: 'Delete',
                 icon: Icons.delete,
                 onTap: () async {
-                  // Delete the item
-                  // deleteServices deleteService = deleteServices();
-                  // await deleteService.delete(context, widget.url, row['id'].toString());
+                  deleteServices deleteService = deleteServices();
+                  await deleteService.delete(
+                      context, widget.url, row['id'].toString());
                   await widget.fetchData();
                   if (widget.onClose != null) {
                     await widget.onClose!();
@@ -188,7 +240,7 @@ class _DataSource extends DataTableSource {
   }
 
   @override
-  int get rowCount => widget.data.length;
+  int get rowCount => widget.data.length + 1;
 
   @override
   bool get isRowCountApproximate => false;
