@@ -147,14 +147,11 @@ class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
                           if (widget.onChanged != null) {
                             widget.onChanged!(value);
                           }
-
-                          // Get the full details of the selected item
                           final selectedItem = _apiData.firstWhere(
                             (item) =>
                                 item[widget.valueField].toString() == value,
                             orElse: () => {},
                           );
-                          // print(selectedItem);
                           widget.allData = [selectedItem];
                           if (widget.onDataChanged != null) {
                             widget.onDataChanged!(widget.allData);
