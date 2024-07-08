@@ -1,5 +1,6 @@
 import 'package:erp/src/gateway/deleteService.dart';
 import 'package:erp/src/utils/app_const.dart';
+import 'package:erp/src/widgets/app-dropdown.dart';
 import 'package:erp/src/widgets/app_input_text.dart';
 import 'package:erp/src/widgets/app_popover.dart';
 import 'package:erp/src/widgets/app_text.dart';
@@ -71,59 +72,47 @@ class _ReusableTable2State extends State<ReusableTable2> {
   Widget build(BuildContext context) {
     final _DataSource dataSource = _DataSource(context, widget);
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          PaginatedDataTable(
-            headingRowColor: WidgetStateProperty.all(AppConst.grey200),
-            columnSpacing: widget.columnSpacing,
-            columns: [
-              for (int i = 0; i < widget.titles.length; i++)
-                DataColumn(
-                  label: AppText(
-                    txt: widget.titles[i],
-                    size: 20,
-                    color: AppConst.black,
-                    weight: FontWeight.bold,
-                  ),
-                  onSort: (int columnIndex, bool ascending) {
-                    _sort<String>(
-                        (d) => d[widget.titles[columnIndex]
-                                .toLowerCase()
-                                .replaceAll(' ', '')]
-                            .toString(),
-                        columnIndex,
-                        ascending);
-                  },
-                ),
-              DataColumn(
-                label: AppText(
-                  txt: 'Actions',
-                  size: 20,
-                  color: AppConst.black,
-                  weight: FontWeight.bold,
-                ),
+      child: PaginatedDataTable(
+        headingRowColor: WidgetStateProperty.all(AppConst.grey200),
+        columnSpacing: widget.columnSpacing,
+        columns: [
+          for (int i = 0; i < widget.titles.length; i++)
+            DataColumn(
+              label: AppText(
+                txt: widget.titles[i],
+                size: 20,
+                color: AppConst.black,
+                weight: FontWeight.bold,
               ),
-            ],
-            source: dataSource,
-            rowsPerPage: _rowsPerPage,
-            availableRowsPerPage: availableRowsPerPage,
-            onRowsPerPageChanged: (int? value) {
-              setState(() {
-                _rowsPerPage = value!;
-              });
-            },
-            sortColumnIndex: _sortColumnIndex,
-            sortAscending: _sortAscending,
-          ),
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                dataSource.isAddingNewRow = true;
-              });
-            },
-            child: Text('Add New Row'),
+              onSort: (int columnIndex, bool ascending) {
+                _sort<String>(
+                    (d) => d[widget.titles[columnIndex]
+                            .toLowerCase()
+                            .replaceAll(' ', '')]
+                        .toString(),
+                    columnIndex,
+                    ascending);
+              },
+            ),
+          DataColumn(
+            label: AppText(
+              txt: 'Actions',
+              size: 20,
+              color: AppConst.black,
+              weight: FontWeight.bold,
+            ),
           ),
         ],
+        source: dataSource,
+        rowsPerPage: _rowsPerPage,
+        availableRowsPerPage: availableRowsPerPage,
+        onRowsPerPageChanged: (int? value) {
+          setState(() {
+            _rowsPerPage = value!;
+          });
+        },
+        sortColumnIndex: _sortColumnIndex,
+        sortAscending: _sortAscending,
       ),
     );
   }
@@ -158,6 +147,26 @@ class _DataSource extends DataTableSource {
       return DataRow(
         cells: [
           for (String title in widget.titles)
+          if(title == 'Name')
+          DataCell(
+              DropdownTextFormField(
+                labelText: 'Select Product',
+                fillcolor: AppConst.white,
+                apiUrl: 'products',
+                textsColor: AppConst.black,
+                dropdownColor: AppConst.white,
+                dataOrigin: 'products',
+                onChanged: (value) {
+                  // setState(() {
+                  //   widget.purchaseData.clear();
+                  //   widget.onSupplierChanged(value.toString());
+                  // });
+                  // widget.fetchData!();
+                },
+                valueField: 'id',
+                displayField: 'name',
+              ),
+            ) else
             DataCell(
               AppInputText(
                 controller:
@@ -165,7 +174,7 @@ class _DataSource extends DataTableSource {
                 textsColor: AppConst.black,
                 ispassword: false,
                 fillcolor: AppConst.white,
-                label: '',
+                label: title,
                 obscure: false,
                 isemail: false,
                 isPhone: false,
