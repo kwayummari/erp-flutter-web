@@ -26,6 +26,7 @@ class _addSupplierFormState extends State<addSupplierForm> {
   TextEditingController phone = TextEditingController();
   TextEditingController tin = TextEditingController();
   TextEditingController vrn = TextEditingController();
+  List allData = [];
   var branch;
   bool marked = false;
   bool dont_show_password = true;
@@ -108,7 +109,7 @@ class _addSupplierFormState extends State<addSupplierForm> {
                 });
               },
               valueField: 'id',
-              displayField: 'name'),
+              displayField: 'name', allData: allData,),
           Padding(
             padding: const EdgeInsets.only(right: 20, top: 20),
             child: Row(
