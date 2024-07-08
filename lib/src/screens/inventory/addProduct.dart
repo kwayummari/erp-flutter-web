@@ -23,6 +23,7 @@ class _addProductFormState extends State<addProductForm> {
   TextEditingController buyingPrice = TextEditingController();
   TextEditingController sellingPrice = TextEditingController();
   TextEditingController productNumber = TextEditingController();
+  List allData = [];
   var branch;
   var tax;
   bool marked = false;
@@ -134,7 +135,7 @@ class _addProductFormState extends State<addProductForm> {
                 });
               },
               valueField: 'id',
-              displayField: 'name'),
+              displayField: 'name', allData: allData,),
           DropdownTextFormField(
               labelText: 'Select Tax',
               fillcolor: AppConst.white,
@@ -148,7 +149,7 @@ class _addProductFormState extends State<addProductForm> {
                 });
               },
               valueField: 'id',
-              displayField: 'name'),
+              displayField: 'name', allData: allData,),
           Padding(
             padding: const EdgeInsets.only(right: 20, top: 20),
             child: Row(
