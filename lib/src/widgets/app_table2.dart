@@ -68,13 +68,18 @@ class _ReusableTable2State extends State<ReusableTable2> {
     });
   }
 
+  void _updateParentState() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    final _DataSource dataSource = _DataSource(context, widget);
+    final _DataSource dataSource =
+        _DataSource(context, widget, _updateParentState);
     return SingleChildScrollView(
       child: PaginatedDataTable(
         dataRowMaxHeight: 70,
-        headingRowColor: WidgetStateProperty.all(AppConst.grey200),
+        headingRowColor: MaterialStateProperty.all(AppConst.grey200),
         columnSpacing: widget.columnSpacing,
         columns: [
           for (int i = 0; i < widget.titles.length; i++)
@@ -122,12 +127,12 @@ class _ReusableTable2State extends State<ReusableTable2> {
 class _DataSource extends DataTableSource {
   final BuildContext context;
   final ReusableTable2 widget;
+  final VoidCallback updateParentState;
   bool isAddingNewRow = false;
   Map<String, TextEditingController> newRowControllers = {};
-  List allData = [];
-  var productId;
+  List<Map<String, dynamic>> allData = [];
 
-  _DataSource(this.context, this.widget) {
+  _DataSource(this.context, this.widget, this.updateParentState) {
     for (var title in widget.titles) {
       newRowControllers[title.toLowerCase().replaceAll(' ', '')] =
           TextEditingController();
@@ -142,6 +147,7 @@ class _DataSource extends DataTableSource {
     }
     widget.data.add(newRow);
     notifyListeners();
+    updateParentState(); // Call parent setState
   }
 
   @override
@@ -151,6 +157,7 @@ class _DataSource extends DataTableSource {
         cells: [
           for (String title in widget.titles)
             if (title == 'Name')
+            //instead of datarow for user to add another product it is better to use a dialogue popup to avoid wasting time
               DataCell(
                 DropdownTextFormField(
                   labelText: 'Select Product',
@@ -160,17 +167,19 @@ class _DataSource extends DataTableSource {
                   dropdownColor: AppConst.white,
                   dataOrigin: 'products',
                   onChanged: (value) {
-                    if (value!.isNotEmpty) {
-                      productId = value;
-                    }
+                    // Do something with the selected value if needed
                   },
                   onDataChanged: (newData) {
-                    if (newData.isNotEmpty) {
-                      // setState(() {
-                      allData = newData;
-                      // });
-                      print('Selected Item Data: $allData');
+                    allData = newData;
+                    for (var title in widget.titles) {
+                      final key = title.toLowerCase().replaceAll(' ', '');
+                      if (newRowControllers[key] != null &&
+                          allData.isNotEmpty) {
+                        newRowControllers[key]!.text = allData[0][key] ?? '';
+                        print(newRowControllers[key]!.text);
+                      }
                     }
+                    notifyListeners();
                   },
                   valueField: 'id',
                   displayField: 'name',
@@ -182,7 +191,8 @@ class _DataSource extends DataTableSource {
                 AppInputText(
                   controller: newRowControllers[
                       title.toLowerCase().replaceAll(' ', '')],
-                  initialValue: allData.isNotEmpty ? allData[0][title] : '',
+                  // initialValue:
+                  //     allData.isNotEmpty ? allData[0][title.toLowerCase()] : '',
                   textsColor: AppConst.black,
                   ispassword: false,
                   fillcolor: AppConst.white,

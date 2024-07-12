@@ -15,8 +15,8 @@ class DropdownTextFormField extends StatefulWidget {
   final String displayField;
   final String dataOrigin;
   final void Function(String?)? onChanged;
-  final void Function(List)? onDataChanged;
   final void Function()? refreshSuppliers;
+  final void Function(List<Map<String, dynamic>>)? onDataChanged;
   final Color? textsColor;
   final bool? enabled;
   final bool? fetchSupplier;
@@ -36,7 +36,6 @@ class DropdownTextFormField extends StatefulWidget {
     required this.displayField,
     required this.dataOrigin,
     this.onChanged,
-    this.onDataChanged,
     this.refreshSuppliers,
     this.fetchSupplier,
     this.textsColor,
@@ -45,6 +44,7 @@ class DropdownTextFormField extends StatefulWidget {
     this.labelWeight,
     this.initialValue,
     required this.allData,
+    this.onDataChanged,
   });
 
   @override
@@ -83,6 +83,9 @@ class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
 
     // Update allData with the fetched data
     widget.allData = _apiData;
+    if (widget.onDataChanged != null) {
+      widget.onDataChanged!(_apiData);
+    }
 
     return _apiData
         .map<DropdownMenuItem<String>>((item) => DropdownMenuItem<String>(
@@ -111,7 +114,7 @@ class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
             final items = snapshot.data!;
             if (items.isNotEmpty) {
               return DropdownButtonFormField<String>(
-                value: _selectedValue, // Set the initial value
+                value: _selectedValue,
                 dropdownColor: widget.dropdownColor,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -147,15 +150,16 @@ class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
                           if (widget.onChanged != null) {
                             widget.onChanged!(value);
                           }
+
+                          // Get the full details of the selected item
                           final selectedItem = _apiData.firstWhere(
                             (item) =>
                                 item[widget.valueField].toString() == value,
                             orElse: () => {},
                           );
-                          widget.allData = [selectedItem];
-                          if (widget.onDataChanged != null) {
-                            widget.onDataChanged!(widget.allData);
-                          }
+                          setState(() {
+                            widget.allData = [selectedItem];
+                          });
                         });
                       }
                     : null,
