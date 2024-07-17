@@ -79,7 +79,7 @@ class _ReusableTable2State extends State<ReusableTable2> {
     return SingleChildScrollView(
       child: PaginatedDataTable(
         dataRowMaxHeight: 70,
-        headingRowColor: MaterialStateProperty.all(AppConst.grey200),
+        headingRowColor: WidgetStateProperty.all(AppConst.grey200),
         columnSpacing: widget.columnSpacing,
         columns: [
           for (int i = 0; i < widget.titles.length; i++)
