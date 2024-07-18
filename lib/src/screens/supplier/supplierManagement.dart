@@ -97,14 +97,14 @@ class _supplierManagementState extends State<supplierManagement> {
                         )
                       ],
                     ),
-                    footer: AppButton(
-                        onPress: () {
-                          Navigator.pop(context);
-                        },
-                        solidColor: AppConst.black,
-                        label: 'Cancel',
-                        borderRadius: 5,
-                        textColor: AppConst.white),
+                    // footer: AppButton(
+                    //     onPress: () {
+                    //       Navigator.pop(context);
+                    //     },
+                    //     solidColor: AppConst.black,
+                    //     label: 'Cancel',
+                    //     borderRadius: 5,
+                    //     textColor: AppConst.white),
                   )
                 },
                 label: 'Add supplier',

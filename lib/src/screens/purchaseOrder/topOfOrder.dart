@@ -128,19 +128,20 @@ class _TopOfOrderState extends State<TopOfOrder> {
                         children: <Widget>[
                           addSupplierForm(
                             fetchData: widget.fetchData1,
-                            refreshSuppliers: widget.refreshSuppliers, buttonWidth: 500,
+                            refreshSuppliers: widget.refreshSuppliers,
+                            buttonWidth: 500,
                           ),
                         ],
                       ),
-                      footer: AppButton(
-                        onPress: () {
-                          Navigator.pop(context);
-                        },
-                        solidColor: AppConst.black,
-                        label: 'Cancel',
-                        borderRadius: 5,
-                        textColor: AppConst.white,
-                      ),
+                      // footer: AppButton(
+                      //   onPress: () {
+                      //     Navigator.pop(context);
+                      //   },
+                      //   solidColor: AppConst.black,
+                      //   label: 'Cancel',
+                      //   borderRadius: 5,
+                      //   textColor: AppConst.white,
+                      // ),
                     );
                   },
                   label: 'Add Supplier',
@@ -172,19 +173,20 @@ class _TopOfOrderState extends State<TopOfOrder> {
                         children: <Widget>[
                           addSupplierForm(
                             fetchData: widget.fetchData1,
-                            refreshSuppliers: widget.refreshSuppliers, buttonWidth: 500,
+                            refreshSuppliers: widget.refreshSuppliers,
+                            buttonWidth: 500,
                           ),
                         ],
                       ),
-                      footer: AppButton(
-                        onPress: () {
-                          Navigator.pop(context);
-                        },
-                        solidColor: AppConst.black,
-                        label: 'Cancel',
-                        borderRadius: 5,
-                        textColor: AppConst.white,
-                      ),
+                      // footer: AppButton(
+                      //   onPress: () {
+                      //     Navigator.pop(context);
+                      //   },
+                      //   solidColor: AppConst.black,
+                      //   label: 'Cancel',
+                      //   borderRadius: 5,
+                      //   textColor: AppConst.white,
+                      // ),
                     );
                   },
                   label: 'Add Order',
