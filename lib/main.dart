@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
           ],
         ),
         debugShowCheckedModeBanner: false,
-        title: 'K-Structure',
+        title: 'JAMSOLUTIONS',
         theme: ThemeData(
             cardColor: AppConst.primary,
             highlightColor: AppConst.primary,
