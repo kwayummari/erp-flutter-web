@@ -19,6 +19,7 @@ class AppInputText extends StatelessWidget {
   final bool? isPhone;
   final double? circle;
   final labelWeight;
+  final double? labelSize;
   final TextInputType? keyboardType;
   AppInputText(
       {Key? key,
@@ -38,7 +39,9 @@ class AppInputText extends StatelessWidget {
       this.enabled,
       this.circle,
       this.labelWeight,
-      this.keyboardType, TextEditingController? controller})
+      this.keyboardType,
+      this.labelSize,
+      TextEditingController? controller})
       : super(key: key);
 
   @override
@@ -62,7 +65,7 @@ class AppInputText extends StatelessWidget {
             color: fillcolor,
             child: AppText(
               txt: label,
-              size: 15,
+              size: labelSize ?? 15,
               weight: labelWeight ?? FontWeight.w700,
               color: textsColor ?? AppConst.white,
             ),

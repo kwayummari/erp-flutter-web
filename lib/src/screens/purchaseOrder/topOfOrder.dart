@@ -46,7 +46,7 @@ class _TopOfOrderState extends State<TopOfOrder> {
           padding: const EdgeInsets.all(8.0),
           child: Image.asset(
             'assets/logo.png',
-            width: 100,
+            width: 300,
           ),
         ),
         Padding(
@@ -103,7 +103,8 @@ class _TopOfOrderState extends State<TopOfOrder> {
                   widget.fetchData!();
                 },
                 valueField: 'id',
-                displayField: 'name', allData: allData,
+                displayField: 'name',
+                allData: allData,
               ),
             ),
             Padding(
@@ -143,6 +144,50 @@ class _TopOfOrderState extends State<TopOfOrder> {
                     );
                   },
                   label: 'Add Supplier',
+                  borderRadius: 8,
+                  textColor: AppConst.white,
+                  solidColor: AppConst.black,
+                ),
+              ),
+            ),
+            Spacer(),
+            Padding(
+              padding: const EdgeInsets.only(top: 15, right: 20),
+              child: Container(
+                height: 50,
+                child: AppButton(
+                  onPress: () {
+                    ReusableModal.show(
+                      width: 500,
+                      height: 550,
+                      context,
+                      AppText(
+                        txt: 'Add Supplier',
+                        size: 22,
+                        weight: FontWeight.bold,
+                      ),
+                      onClose: widget.fetchData,
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          addSupplierForm(
+                            fetchData: widget.fetchData1,
+                            refreshSuppliers: widget.refreshSuppliers,
+                          ),
+                        ],
+                      ),
+                      footer: AppButton(
+                        onPress: () {
+                          Navigator.pop(context);
+                        },
+                        solidColor: AppConst.black,
+                        label: 'Cancel',
+                        borderRadius: 5,
+                        textColor: AppConst.white,
+                      ),
+                    );
+                  },
+                  label: 'Add Order',
                   borderRadius: 8,
                   textColor: AppConst.white,
                   solidColor: AppConst.black,

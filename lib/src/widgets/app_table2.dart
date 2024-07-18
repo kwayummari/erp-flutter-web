@@ -1,7 +1,6 @@
 import 'package:erp/src/gateway/deleteService.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app-dropdown.dart';
-import 'package:erp/src/widgets/app_input_text.dart';
 import 'package:erp/src/widgets/app_popover.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
@@ -68,10 +67,6 @@ class _ReusableTable2State extends State<ReusableTable2> {
     });
   }
 
-  void _updateParentState() {
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
     final _DataSource dataSource =
@@ -122,99 +117,60 @@ class _ReusableTable2State extends State<ReusableTable2> {
       ),
     );
   }
+
+  void _updateParentState() {
+    setState(() {
+      // Call any necessary updates here
+    });
+  }
 }
 
 class _DataSource extends DataTableSource {
   final BuildContext context;
   final ReusableTable2 widget;
   final VoidCallback updateParentState;
-  bool isAddingNewRow = false;
-  Map<String, TextEditingController> newRowControllers = {};
-  List<Map<String, dynamic>> allData = [];
 
-  _DataSource(this.context, this.widget, this.updateParentState) {
-    for (var title in widget.titles) {
-      newRowControllers[title.toLowerCase().replaceAll(' ', '')] =
-          TextEditingController();
-    }
-  }
+  _DataSource(this.context, this.widget, this.updateParentState);
 
   void addNewRow() {
     final newRow = <String, dynamic>{};
     for (var title in widget.titles) {
       final key = title.toLowerCase().replaceAll(' ', '');
-      newRow[key] = newRowControllers[key]?.text ?? '';
+      newRow[key] = ''; // Initialize new row with empty values
     }
     widget.data.add(newRow);
     notifyListeners();
-    updateParentState(); // Call parent setState
+    updateParentState();
   }
 
   @override
   DataRow getRow(int index) {
-    if (index >= widget.data.length) {
+    if (widget.data.isEmpty) {
       return DataRow(
-        cells: [
-          for (String title in widget.titles)
-            if (title == 'Name')
-            //instead of datarow for user to add another product it is better to use a dialogue popup to avoid wasting time
-              DataCell(
-                DropdownTextFormField(
-                  labelText: 'Select Product',
-                  fillcolor: AppConst.white,
-                  apiUrl: 'products',
-                  textsColor: AppConst.black,
-                  dropdownColor: AppConst.white,
-                  dataOrigin: 'products',
-                  onChanged: (value) {
-                    // Do something with the selected value if needed
-                  },
-                  onDataChanged: (newData) {
-                    allData = newData;
-                    for (var title in widget.titles) {
-                      final key = title.toLowerCase().replaceAll(' ', '');
-                      if (newRowControllers[key] != null &&
-                          allData.isNotEmpty) {
-                        newRowControllers[key]!.text = allData[0][key] ?? '';
-                        print(newRowControllers[key]!.text);
-                      }
-                    }
-                    notifyListeners();
-                  },
-                  valueField: 'id',
-                  displayField: 'name',
-                  allData: allData,
-                ),
-              )
-            else
-              DataCell(
-                AppInputText(
-                  controller: newRowControllers[
-                      title.toLowerCase().replaceAll(' ', '')],
-                  // initialValue:
-                  //     allData.isNotEmpty ? allData[0][title.toLowerCase()] : '',
-                  textsColor: AppConst.black,
-                  ispassword: false,
-                  fillcolor: AppConst.white,
-                  label: title,
-                  obscure: false,
-                  isemail: false,
-                  isPhone: false,
-                  onChange: (value) {
-                    notifyListeners();
-                  },
-                ),
-              ),
-          DataCell(
-            IconButton(
-              icon: Icon(Icons.check),
-              onPressed: () {
-                addNewRow();
-              },
-            ),
+        cells: List<DataCell>.generate(
+          widget.titles.length + 1,
+          (i) => DataCell(
+            i == 0
+                ? Center(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'No data at the moment',
+                        style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          color: AppConst.black,
+                        ),
+                      ),
+                    ),
+                  )
+                : SizedBox.shrink(),
           ),
-        ],
+        ),
       );
+    }
+
+    if (index >= widget.data.length) {
+      return DataRow(cells: []);
     }
 
     final row = widget.data[index];
@@ -223,28 +179,7 @@ class _DataSource extends DataTableSource {
       cells: [
         for (String title in widget.titles)
           DataCell(
-            title == 'Quantity'
-                ? AppInputText(
-                    keyboardType: TextInputType.number,
-                    textsColor: AppConst.black,
-                    ispassword: false,
-                    fillcolor: AppConst.white,
-                    label: '',
-                    obscure: false,
-                    isemail: false,
-                    isPhone: false,
-                    initialValue: row['quantity'],
-                    onChange: (value) {
-                      final newQuantity = double.tryParse(value) ?? 0;
-                      final price = double.tryParse(row['price']) ?? 0;
-                      final newTotal = (price * newQuantity).toString();
-
-                      row['quantity'] = value;
-                      row['total'] = newTotal;
-                      notifyListeners();
-                    },
-                  )
-                : widget.cellBuilder(context, row, title),
+            widget.cellBuilder(context, row, title),
           ),
         DataCell(
           CustomPopover(
@@ -271,7 +206,7 @@ class _DataSource extends DataTableSource {
   }
 
   @override
-  int get rowCount => widget.data.length + 1;
+  int get rowCount => widget.data.isEmpty ? 1 : widget.data.length;
 
   @override
   bool get isRowCountApproximate => false;

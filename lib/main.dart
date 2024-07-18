@@ -47,6 +47,6 @@ class MyApp extends StatelessWidget {
             visualDensity: VisualDensity.adaptivePlatformDensity,
             colorScheme: ColorScheme.fromSwatch(
               primarySwatch: createMaterialColor(AppConst.primary),
-            ).copyWith(background: AppConst.primary)),
+            ).copyWith(surface: AppConst.primary)),
       ));
 }

@@ -1,3 +1,4 @@
+import 'package:erp/src/provider/table2_notifier.dart';
 import 'package:provider/provider.dart';
 import 'package:erp/src/provider/loadingProvider.dart';
 import 'package:erp/src/provider/rowProvider.dart';
@@ -7,6 +8,8 @@ class MyProviderList {
     ChangeNotifierProvider<LoadingProvider>(create: (context) => LoadingProvider()),
     ChangeNotifierProvider<RowDataProvider>(
         create: (context) => RowDataProvider()),
-    // Add other providers here
+    ChangeNotifierProvider<TableDataNotifier>(
+      create: (context) => TableDataNotifier(),
+    ),
   ];
 }
