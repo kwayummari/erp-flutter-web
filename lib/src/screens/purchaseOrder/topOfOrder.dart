@@ -128,7 +128,7 @@ class _TopOfOrderState extends State<TopOfOrder> {
                         children: <Widget>[
                           addSupplierForm(
                             fetchData: widget.fetchData1,
-                            refreshSuppliers: widget.refreshSuppliers,
+                            refreshSuppliers: widget.refreshSuppliers, buttonWidth: 500,
                           ),
                         ],
                       ),
@@ -172,7 +172,7 @@ class _TopOfOrderState extends State<TopOfOrder> {
                         children: <Widget>[
                           addSupplierForm(
                             fetchData: widget.fetchData1,
-                            refreshSuppliers: widget.refreshSuppliers,
+                            refreshSuppliers: widget.refreshSuppliers, buttonWidth: 500,
                           ),
                         ],
                       ),

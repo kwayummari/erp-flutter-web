@@ -64,13 +64,7 @@ class _supplierManagementState extends State<supplierManagement> {
     fetchData();
   }
 
-  final List<String> titles = [
-    'Phone',
-    'Name',
-    'Tin',
-    'Vrn',
-    'Location'
-  ];
+  final List<String> titles = ['Phone', 'Name', 'Tin', 'Vrn', 'Location'];
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +90,12 @@ class _supplierManagementState extends State<supplierManagement> {
                     onClose: fetchData,
                     Column(
                       mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[addSupplierForm(fetchData: fetchData)],
+                      children: <Widget>[
+                        addSupplierForm(
+                          fetchData: fetchData,
+                          buttonWidth: 500,
+                        )
+                      ],
                     ),
                     footer: AppButton(
                         onPress: () {
