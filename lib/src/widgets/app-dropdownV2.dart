@@ -4,7 +4,7 @@ import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 
-class DropdownTextFormField extends StatefulWidget {
+class DropdownTextFormFieldV2 extends StatefulWidget {
   final String labelText;
   final Icon? icon;
   final Color? fillcolor;
@@ -14,7 +14,7 @@ class DropdownTextFormField extends StatefulWidget {
   final String valueField;
   final String displayField;
   final String dataOrigin;
-  final void Function(String?)? onChanged;
+  final void Function(String?, List?)? onChanged;
   final void Function()? refreshSuppliers;
   final void Function(List<Map<String, dynamic>>)? onDataChanged;
   final Color? textsColor;
@@ -26,7 +26,7 @@ class DropdownTextFormField extends StatefulWidget {
   String? valueHolder;
   List allData;
 
-  DropdownTextFormField({
+  DropdownTextFormFieldV2({
     required this.labelText,
     this.icon,
     this.suffixicon,
@@ -50,10 +50,11 @@ class DropdownTextFormField extends StatefulWidget {
   });
 
   @override
-  State<DropdownTextFormField> createState() => _DropdownTextFormFieldState();
+  State<DropdownTextFormFieldV2> createState() =>
+      _DropdownTextFormFieldV2State();
 }
 
-class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
+class _DropdownTextFormFieldV2State extends State<DropdownTextFormFieldV2> {
   late Future<List<DropdownMenuItem<String>>> _itemsFuture;
   String? _selectedValue;
   late List<Map<String, dynamic>> _apiData;
@@ -66,7 +67,7 @@ class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
   }
 
   @override
-  void didUpdateWidget(DropdownTextFormField oldWidget) {
+  void didUpdateWidget(DropdownTextFormFieldV2 oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.fetchSupplier != oldWidget.fetchSupplier &&
         widget.fetchSupplier == true) {
@@ -150,7 +151,7 @@ class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
                         setState(() {
                           _selectedValue = value;
                           if (widget.onChanged != null) {
-                            widget.onChanged!(value);
+                            widget.onChanged!(value, widget.allData);
                           }
                           widget.valueHolder = value;
                           final selectedItem = _apiData.firstWhere(

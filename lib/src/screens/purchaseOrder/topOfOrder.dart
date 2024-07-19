@@ -1,3 +1,4 @@
+import 'package:erp/src/screens/purchaseOrder/addOrderForm.dart';
 import 'package:erp/src/screens/supplier/addSupplier.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app-dropdown.dart';
@@ -36,6 +37,7 @@ class TopOfOrder extends StatefulWidget {
 
 class _TopOfOrderState extends State<TopOfOrder> {
   List allData = [];
+  bool addOrder = false;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -97,6 +99,7 @@ class _TopOfOrderState extends State<TopOfOrder> {
                 dataOrigin: 'suppliers',
                 onChanged: (value) {
                   setState(() {
+                    addOrder = true;
                     widget.purchaseData.clear();
                     widget.onSupplierChanged(value.toString());
                   });
@@ -133,15 +136,6 @@ class _TopOfOrderState extends State<TopOfOrder> {
                           ),
                         ],
                       ),
-                      // footer: AppButton(
-                      //   onPress: () {
-                      //     Navigator.pop(context);
-                      //   },
-                      //   solidColor: AppConst.black,
-                      //   label: 'Cancel',
-                      //   borderRadius: 5,
-                      //   textColor: AppConst.white,
-                      // ),
                     );
                   },
                   label: 'Add Supplier',
@@ -152,50 +146,42 @@ class _TopOfOrderState extends State<TopOfOrder> {
               ),
             ),
             Spacer(),
-            Padding(
-              padding: const EdgeInsets.only(top: 15, right: 20),
-              child: Container(
-                height: 50,
-                child: AppButton(
-                  onPress: () {
-                    ReusableModal.show(
-                      width: 500,
-                      height: 550,
-                      context,
-                      AppText(
-                        txt: 'Add Supplier',
-                        size: 22,
-                        weight: FontWeight.bold,
-                      ),
-                      onClose: widget.fetchData,
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          addSupplierForm(
-                            fetchData: widget.fetchData1,
-                            refreshSuppliers: widget.refreshSuppliers,
-                            buttonWidth: 500,
-                          ),
-                        ],
-                      ),
-                      // footer: AppButton(
-                      //   onPress: () {
-                      //     Navigator.pop(context);
-                      //   },
-                      //   solidColor: AppConst.black,
-                      //   label: 'Cancel',
-                      //   borderRadius: 5,
-                      //   textColor: AppConst.white,
-                      // ),
-                    );
-                  },
-                  label: 'Add Order',
-                  borderRadius: 8,
-                  textColor: AppConst.white,
-                  solidColor: AppConst.black,
+            if (addOrder == true)
+              Padding(
+                padding: const EdgeInsets.only(top: 15, right: 20),
+                child: Container(
+                  height: 50,
+                  child: AppButton(
+                    onPress: () {
+                      ReusableModal.show(
+                        width: 500,
+                        height: 600,
+                        context,
+                        AppText(
+                          txt: 'Add Orders',
+                          size: 22,
+                          weight: FontWeight.bold,
+                        ),
+                        onClose: widget.fetchData,
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            AddOrderForm(
+                              fetchData: widget.fetchData1,
+                              refreshSuppliers: widget.refreshSuppliers,
+                              buttonWidth: 500,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    label: 'Add Order',
+                    borderRadius: 8,
+                    textColor: AppConst.white,
+                    solidColor: AppConst.black,
+                  ),
                 ),
               ),
-            ),
           ],
         ),
         Row(
