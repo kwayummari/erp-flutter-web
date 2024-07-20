@@ -12,12 +12,13 @@ class AddOrderForm extends StatefulWidget {
   final Function fetchData;
   final void Function()? refreshSuppliers;
   final double buttonWidth;
-
+  final String? supplierId;
   const AddOrderForm({
     super.key,
     required this.fetchData,
     required this.buttonWidth,
     this.refreshSuppliers,
+    this.supplierId,
   });
 
   @override
@@ -35,11 +36,10 @@ class _AddOrderFormState extends State<AddOrderForm> {
   bool marked = false;
   bool dontShowPassword = true;
   final _formKey = GlobalKey<FormState>();
-
   @override
   void initState() {
     super.initState();
-    quantity.text = '1'; // Set default quantity to 1
+    quantity.text = '1';
   }
 
   void _updateFields(newData, value) async {
@@ -66,7 +66,6 @@ class _AddOrderFormState extends State<AddOrderForm> {
   @override
   Widget build(BuildContext context) {
     final myProvider = Provider.of<LoadingProvider>(context);
-
     return Form(
       key: _formKey,
       child: Column(
@@ -116,11 +115,9 @@ class _AddOrderFormState extends State<AddOrderForm> {
             isPhone: false,
             keyboardType: TextInputType.number,
             onChange: (value) {
-              // Recalculate total when quantity changes
               final price = double.tryParse(sellingPrice.text) ?? 0;
               final qty = double.tryParse(value) ?? 1;
               final totalAmount = price * qty;
-
               total.text = totalAmount.toStringAsFixed(2);
             },
           ),
@@ -139,11 +136,9 @@ class _AddOrderFormState extends State<AddOrderForm> {
             isPhone: false,
             keyboardType: TextInputType.number,
             onChange: (value) {
-              // Recalculate total when selling price changes
               final price = double.tryParse(value) ?? 0;
               final qty = double.tryParse(quantity.text) ?? 1;
               final totalAmount = price * qty;
-
               total.text = totalAmount.toStringAsFixed(2);
             },
           ),
@@ -161,7 +156,7 @@ class _AddOrderFormState extends State<AddOrderForm> {
             isemail: false,
             isPhone: false,
             keyboardType: TextInputType.number,
-            enabled: false, // Total should be read-only
+            enabled: false,
           ),
           DropdownTextFormField(
             labelText: 'Select Branch',
@@ -179,42 +174,42 @@ class _AddOrderFormState extends State<AddOrderForm> {
             displayField: 'name',
             allData: allData,
           ),
-          Padding(
-            padding: const EdgeInsets.only(right: 20, top: 20),
-            child: Row(
-              children: [
-                myProvider.myLoging == true
-                    ? SpinKitCircle(
-                        color: AppConst.primary,
-                      )
-                    : Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Container(
-                          width: widget.buttonWidth - 70,
-                          height: 50,
-                          child: AppButton(
-                            onPress: () async {
-                              if (!_formKey.currentState!.validate()) {
-                                return;
-                              }
-                              // Call fetchData and possibly refreshSuppliers
-                              await widget.fetchData();
-                              Navigator.pop(context);
-                              if (widget.refreshSuppliers != null) {
-                                widget.refreshSuppliers!();
-                              }
-                            },
-                            label: 'Add Order',
-                            borderRadius: 5,
-                            textColor: AppConst.white,
-                            gradient: AppConst.primaryGradient,
+          if (widget.supplierId != null)
+            Padding(
+              padding: const EdgeInsets.only(right: 20, top: 20),
+              child: Row(
+                children: [
+                  myProvider.myLoging == true
+                      ? SpinKitCircle(
+                          color: AppConst.primary,
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Container(
+                            width: widget.buttonWidth - 70,
+                            height: 50,
+                            child: AppButton(
+                              onPress: () async {
+                                if (!_formKey.currentState!.validate()) {
+                                  return;
+                                }
+                                await widget.fetchData();
+                                Navigator.pop(context);
+                                if (widget.refreshSuppliers != null) {
+                                  widget.refreshSuppliers!();
+                                }
+                              },
+                              label: 'Add Order',
+                              borderRadius: 5,
+                              textColor: AppConst.white,
+                              gradient: AppConst.primaryGradient,
+                            ),
                           ),
                         ),
-                      ),
-                Spacer(),
-              ],
+                  Spacer(),
+                ],
+              ),
             ),
-          ),
         ],
       ),
     );

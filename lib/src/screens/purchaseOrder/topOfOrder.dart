@@ -38,6 +38,7 @@ class TopOfOrder extends StatefulWidget {
 class _TopOfOrderState extends State<TopOfOrder> {
   List allData = [];
   bool addOrder = false;
+  var supplierId;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -99,6 +100,7 @@ class _TopOfOrderState extends State<TopOfOrder> {
                 dataOrigin: 'suppliers',
                 onChanged: (value) {
                   setState(() {
+                    supplierId = value.toString();
                     addOrder = true;
                     widget.purchaseData.clear();
                     widget.onSupplierChanged(value.toString());
@@ -167,6 +169,7 @@ class _TopOfOrderState extends State<TopOfOrder> {
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             AddOrderForm(
+                              supplierId: supplierId,
                               fetchData: widget.fetchData1,
                               refreshSuppliers: widget.refreshSuppliers,
                               buttonWidth: 500,
