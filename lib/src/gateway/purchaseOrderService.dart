@@ -73,17 +73,19 @@ class purchaseOrderServices {
 
   Future<void> addPurchaseOrder(
       BuildContext context,
-      String name) async {
+      String inventoryId, String quantity, String purchaseId, String orderId) async {
     final myProvider = Provider.of<LoadingProvider>(context, listen: false);
     myProvider.updateLoging(!myProvider.myLoging);
     SplashFunction splashDetails = SplashFunction();
     final companyId = await splashDetails.getCompanyId();
     Map<String, dynamic> data = {
-      'name': name,
-      'companyId': companyId,
+      'inventoryId': inventoryId,
+      'quantity': quantity,
+      'purchaseId': purchaseId,
+      'orderId': orderId
     };
 
-    final response = await api.post(context, 'register_branch', data);
+    final response = await api.post(context, 'add_product_list', data);
     final newResponse = jsonDecode(response.body);
 
     if (response.statusCode == 200) {

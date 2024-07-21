@@ -1,3 +1,4 @@
+import 'package:erp/src/gateway/purchaseOrderService.dart';
 import 'package:erp/src/provider/loadingProvider.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app-dropdown.dart';
@@ -13,13 +14,14 @@ class AddOrderForm extends StatefulWidget {
   final void Function()? refreshSuppliers;
   final double buttonWidth;
   final String? supplierId;
-  const AddOrderForm({
-    super.key,
-    required this.fetchData,
-    required this.buttonWidth,
-    this.refreshSuppliers,
-    this.supplierId,
-  });
+  final String? orderId;
+  const AddOrderForm(
+      {super.key,
+      required this.fetchData,
+      required this.buttonWidth,
+      this.refreshSuppliers,
+      this.supplierId,
+      required this.orderId});
 
   @override
   State<AddOrderForm> createState() => _AddOrderFormState();
@@ -33,6 +35,7 @@ class _AddOrderFormState extends State<AddOrderForm> {
   List allData = [];
   var valueHolder;
   var branch;
+  var inventoryId;
   bool marked = false;
   bool dontShowPassword = true;
   final _formKey = GlobalKey<FormState>();
@@ -51,14 +54,13 @@ class _AddOrderFormState extends State<AddOrderForm> {
       orElse: () => {},
     );
     setState(() {
+      inventoryId = selectedItem['id'].toString();
       description.text = selectedItem['description'] ?? '';
       sellingPrice.text = selectedItem['sellingPrice']?.toString() ?? '';
       quantity.text = '1';
-
       final price = double.tryParse(sellingPrice.text) ?? 0;
       final qty = double.tryParse(quantity.text) ?? 1;
       final totalAmount = price * qty;
-
       total.text = totalAmount.toStringAsFixed(2);
     });
   }
@@ -193,6 +195,8 @@ class _AddOrderFormState extends State<AddOrderForm> {
                                 if (!_formKey.currentState!.validate()) {
                                   return;
                                 }
+                                purchaseOrderServices().addPurchaseOrder(context, inventoryId,
+                              quantity.text.toString(), widget.orderId.toString(), widget.orderId.toString());
                                 await widget.fetchData();
                                 Navigator.pop(context);
                                 if (widget.refreshSuppliers != null) {

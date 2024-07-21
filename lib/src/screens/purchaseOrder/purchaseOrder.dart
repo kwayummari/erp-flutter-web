@@ -4,10 +4,11 @@ import 'package:erp/src/provider/table2_notifier.dart';
 import 'package:erp/src/screens/purchaseOrder/topOfOrder.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_table2.dart';
+import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart'; // Import provider
+import 'package:provider/provider.dart';
 
 class purchaseOrderManagement extends StatefulWidget {
   const purchaseOrderManagement({super.key});
@@ -21,6 +22,7 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
   List<Map<String, dynamic>> purchaseData = [];
   bool isLoading = true;
   bool hasError = false;
+  var orderId;
   var supplierId;
   var todayDate;
   var randomNumber;
@@ -48,6 +50,7 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
           purchaseOrderResponse['orders'] != null) {
         purchaseData = [];
         setState(() {
+          orderId = purchaseOrderResponse['orders'][0]['id'].toString();
           purchaseData = [];
           for (var order in purchaseOrderResponse['orders']) {
             for (var inventory in order['inventoryDetails']) {
@@ -144,6 +147,7 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
                   supplierId: supplierId,
                   fetchData: fetchData,
                   fetchData1: fetchData,
+                  orderId: orderId,
                   onSupplierChanged: (value) {
                     setState(() {
                       supplierId = value;

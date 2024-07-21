@@ -11,6 +11,7 @@ class TopOfOrder extends StatefulWidget {
   final int randomNumber;
   final String todayDate;
   final String? supplierId;
+  final String? orderId;
   final bool fetchSupplier;
   final List<Map<String, dynamic>> purchaseData;
   final void Function()? refreshSuppliers;
@@ -29,6 +30,7 @@ class TopOfOrder extends StatefulWidget {
     required this.fetchData,
     required this.fetchData1,
     required this.onSupplierChanged,
+    required this.orderId,
   }) : super(key: key);
 
   @override
@@ -172,6 +174,7 @@ class _TopOfOrderState extends State<TopOfOrder> {
                               supplierId: supplierId,
                               fetchData: widget.fetchData1,
                               refreshSuppliers: widget.refreshSuppliers,
+                              orderId: widget.orderId,
                               buttonWidth: 500,
                             ),
                           ],
