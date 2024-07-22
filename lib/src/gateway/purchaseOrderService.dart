@@ -22,7 +22,8 @@ class purchaseOrderServices {
     return decodedResponse;
   }
 
-  Future<void> editPurchaseOrder( BuildContext context, String name, String editId ) async {
+  Future<void> editPurchaseOrder(
+      BuildContext context, String name, String editId) async {
     final myProvider = Provider.of<LoadingProvider>(context, listen: false);
     myProvider.updateLoging(!myProvider.myLoging);
     Map<String, dynamic> data = {
@@ -47,7 +48,8 @@ class purchaseOrderServices {
     }
   }
 
-  Future<void> deletePurchaseOrder( BuildContext context, String deleteId ) async {
+  Future<void> deletePurchaseOrder(
+      BuildContext context, String deleteId) async {
     final myProvider = Provider.of<LoadingProvider>(context, listen: false);
     myProvider.updateLoging(!myProvider.myLoging);
     Map<String, dynamic> data = {
@@ -71,9 +73,8 @@ class purchaseOrderServices {
     }
   }
 
-  Future<void> addPurchaseOrder(
-      BuildContext context,
-      String inventoryId, String quantity, String purchaseId, String orderId) async {
+  Future<void> addPurchaseOrder(BuildContext context, String inventoryId,
+      String quantity, String purchaseId, String orderId) async {
     final myProvider = Provider.of<LoadingProvider>(context, listen: false);
     myProvider.updateLoging(!myProvider.myLoging);
     SplashFunction splashDetails = SplashFunction();

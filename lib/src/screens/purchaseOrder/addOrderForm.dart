@@ -160,22 +160,6 @@ class _AddOrderFormState extends State<AddOrderForm> {
             keyboardType: TextInputType.number,
             enabled: false,
           ),
-          DropdownTextFormField(
-            labelText: 'Select Branch',
-            fillcolor: AppConst.white,
-            apiUrl: 'getBranch',
-            textsColor: AppConst.black,
-            dropdownColor: AppConst.white,
-            dataOrigin: 'branch',
-            onChanged: (value) {
-              setState(() {
-                branch = value.toString();
-              });
-            },
-            valueField: 'id',
-            displayField: 'name',
-            allData: allData,
-          ),
           if (widget.supplierId != null)
             Padding(
               padding: const EdgeInsets.only(right: 20, top: 20),

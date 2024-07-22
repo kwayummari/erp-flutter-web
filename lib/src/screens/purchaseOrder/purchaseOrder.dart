@@ -26,7 +26,11 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
   var supplierId;
   var todayDate;
   var randomNumber;
+  var purchaseOrderId;
   bool fetchSupplier = false;
+  double totalAmount = 0.0;
+  double vatAmount = 0.0;
+  double grandTotal = 0.0;
   final List<String> titles = [
     'Name',
     'Description',
@@ -49,23 +53,29 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
       if (purchaseOrderResponse != null &&
           purchaseOrderResponse['orders'] != null) {
         purchaseData = [];
+        totalAmount = 0.0;
         setState(() {
           orderId = purchaseOrderResponse['orders'][0]['id'].toString();
+          purchaseOrderId = purchaseOrderResponse['orders'][0]['orderId'];
           purchaseData = [];
           for (var order in purchaseOrderResponse['orders']) {
             for (var inventory in order['inventoryDetails']) {
+              double total = double.parse(inventory['buyingPrice']) *
+                  double.parse(inventory['quantity']);
+              totalAmount += total;
               purchaseData.add({
                 'id': inventory['id'].toString(),
+                'orderedId': inventory['orderedId'].toString(),
                 'name': inventory['name'].toString(),
                 'description': inventory['description'].toString(),
                 'quantity': inventory['quantity'].toString(),
                 'price': inventory['buyingPrice'].toString(),
-                'total': (int.parse(inventory['buyingPrice']) *
-                        int.parse(inventory['quantity']))
-                    .toString(),
+                'total': total.toString(),
               });
             }
           }
+          vatAmount = totalAmount * 0.2;
+          grandTotal = totalAmount + vatAmount;
           isLoading = false;
         });
         final tableDataNotifier =
@@ -75,12 +85,13 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
           for (var inventory in order['inventoryDetails']) {
             tableDataNotifier.addNewRow({
               'id': inventory['id'].toString(),
+              'orderedId': inventory['orderedId'].toString(),
               'name': inventory['name'].toString(),
               'description': inventory['description'].toString(),
               'quantity': inventory['quantity'].toString(),
               'price': inventory['buyingPrice'].toString(),
-              'total': (int.parse(inventory['buyingPrice']) *
-                      int.parse(inventory['quantity']))
+              'total': (double.parse(inventory['buyingPrice']) *
+                      double.parse(inventory['quantity']))
                   .toString(),
             });
           }
@@ -148,6 +159,7 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
                   fetchData: fetchData,
                   fetchData1: fetchData,
                   orderId: orderId,
+                  purchaseOrderId: purchaseOrderId,
                   onSupplierChanged: (value) {
                     setState(() {
                       supplierId = value;
@@ -157,7 +169,7 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
                   purchaseData: purchaseData,
                 ),
                 Container(
-                  height: 300,
+                  height: 250,
                   width: MediaQuery.of(context).size.width,
                   child: ReusableTable2(
                     deleteModalHeight: 300,
@@ -174,6 +186,39 @@ class _purchaseOrderManagementState extends State<purchaseOrderManagement> {
                     onClose: fetchData,
                     url: 'deleteOrder',
                     data: purchaseData,
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: AppText(
+                      txt: 'Total: Tsh.${totalAmount.toStringAsFixed(2)}',
+                      size: 15,
+                      weight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: AppText(
+                      txt: 'VAT (20%): Tsh.${vatAmount.toStringAsFixed(2)}',
+                      size: 15,
+                      weight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: AppText(
+                      txt: 'Grand Total: Tsh.${grandTotal.toStringAsFixed(2)}',
+                      size: 15,
+                      weight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],

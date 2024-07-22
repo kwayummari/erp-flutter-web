@@ -12,6 +12,7 @@ class TopOfOrder extends StatefulWidget {
   final String todayDate;
   final String? supplierId;
   final String? orderId;
+  final String? purchaseOrderId;
   final bool fetchSupplier;
   final List<Map<String, dynamic>> purchaseData;
   final void Function()? refreshSuppliers;
@@ -31,6 +32,7 @@ class TopOfOrder extends StatefulWidget {
     required this.fetchData1,
     required this.onSupplierChanged,
     required this.orderId,
+    required this.purchaseOrderId,
   }) : super(key: key);
 
   @override
@@ -195,7 +197,7 @@ class _TopOfOrderState extends State<TopOfOrder> {
             Padding(
               padding: const EdgeInsets.only(left: 20, top: 20, bottom: 20),
               child: AppText(
-                txt: 'Purchase Order #${widget.randomNumber}',
+                txt: 'Purchase Order #${widget.purchaseOrderId ?? widget.randomNumber}',
                 size: 20,
                 color: AppConst.black,
                 weight: FontWeight.bold,

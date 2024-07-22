@@ -135,7 +135,7 @@ class _DataSource extends DataTableSource {
     final newRow = <String, dynamic>{};
     for (var title in widget.titles) {
       final key = title.toLowerCase().replaceAll(' ', '');
-      newRow[key] = ''; // Initialize new row with empty values
+      newRow[key] = '';
     }
     widget.data.add(newRow);
     notifyListeners();
@@ -188,9 +188,10 @@ class _DataSource extends DataTableSource {
                 title: 'Delete',
                 icon: Icons.delete,
                 onTap: () async {
+                  final orderedId = row['orderedId'].toString();
                   deleteServices deleteService = deleteServices();
                   await deleteService.delete(
-                      context, widget.url, row['id'].toString());
+                      context, widget.url, orderedId.toString());
                   await widget.fetchData();
                   if (widget.onClose != null) {
                     await widget.onClose!();
