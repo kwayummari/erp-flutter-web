@@ -53,7 +53,7 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: RouteNames.purchaseOrder,
-      builder: (context, state) => purchaseOrderManagement(),
+      builder: (context, state) => PurchaseOrderManagement(),
     ),
     GoRoute(
       path: RouteNames.permissions,
