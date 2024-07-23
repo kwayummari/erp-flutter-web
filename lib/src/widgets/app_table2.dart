@@ -1,6 +1,8 @@
 import 'package:erp/src/gateway/deleteService.dart';
+import 'package:erp/src/screens/purchaseOrder/addNewOrderForm.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_button.dart';
+import 'package:erp/src/widgets/app_modal.dart';
 import 'package:erp/src/widgets/app_popover.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,7 @@ class ReusableTable2 extends StatefulWidget {
   final double editModalWidth;
   final double editModalHeight;
   final String? supplierId;
+  final String? orderId;
   final List<Map<String, dynamic>> data;
   final Function fetchData;
   final double columnSpacing;
@@ -33,6 +36,7 @@ class ReusableTable2 extends StatefulWidget {
     required this.columnSpacing,
     required this.onClose,
     required this.supplierId,
+    required this.orderId,
   }) : super(key: key);
 
   @override
@@ -154,20 +158,43 @@ class _DataSource extends DataTableSource {
           (i) => DataCell(
             i == 2
                 ? Container(
-                  alignment: Alignment.center,
+                    alignment: Alignment.center,
                     child: Column(
                       children: [
                         AppText(
                           txt: widget.supplierId != null
                               ? 'No data at the moment'
                               : 'Please select Supplier',
-                              size: 20,
-                              fontStyle: FontStyle.italic,
-                              color: AppConst.black,
+                          size: 20,
+                          fontStyle: FontStyle.italic,
+                          color: AppConst.black,
                         ),
                         if (widget.supplierId != null)
                           AppButton(
-                            onPress: () {},
+                            onPress: () {
+                              ReusableModal.show(
+                                width: 500,
+                                height: 600,
+                                context,
+                                AppText(
+                                  txt: 'Add Order List',
+                                  size: 22,
+                                  weight: FontWeight.bold,
+                                ),
+                                onClose: widget.fetchData,
+                                Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    AddNewOrderForm(
+                                      supplierId: widget.supplierId,
+                                      fetchData: widget.fetchData,
+                                      orderId: widget.orderId,
+                                      buttonWidth: 500,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
                             label: 'Create new order',
                             borderRadius: 5,
                             textColor: AppConst.white,
