@@ -265,7 +265,7 @@ class _PurchaseOrderManagementState extends State<PurchaseOrderManagement> {
                       fetchData: fetchData,
                       columnSpacing: 100,
                       titles: titles,
-                      randomNumber: randomNumber,
+                      randomNumber: randomNumber.toString(),
                       cellBuilder: (context, row, title) {
                         return Text(
                             row[title.toLowerCase().replaceAll(' ', '')] ?? '');

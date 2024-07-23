@@ -192,7 +192,7 @@ class _DataSource extends DataTableSource {
                                     AddNewOrderForm(
                                       supplierId: widget.supplierId,
                                       fetchData: widget.fetchData,
-                                      randomNumber: widget.randomNumber,
+                                      randomNumber: widget.randomNumber.toString(),
                                       buttonWidth: 500,
                                     ),
                                   ],
