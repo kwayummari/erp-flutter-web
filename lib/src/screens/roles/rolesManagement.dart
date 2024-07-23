@@ -100,14 +100,6 @@ class _rolesManagementState extends State<rolesManagement> {
                                   addRolesForm(fetchData: fetchData)
                                 ],
                               ),
-                              footer: AppButton(
-                                  onPress: () {
-                                    Navigator.pop(context);
-                                  },
-                                  solidColor: AppConst.black,
-                                  label: 'Cancel',
-                                  borderRadius: 5,
-                                  textColor: AppConst.white),
                             );
                           },
                           child: Material(
