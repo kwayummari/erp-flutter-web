@@ -234,10 +234,9 @@ class _DataSource extends DataTableSource {
           TextField(
             controller: _controllers[index],
             onChanged: (value) async {
-              row['quantityreceived'] = value;
               GrnServices()
                   .editGrn(context, row['orderedId'].toString(), value);
-              await widget.fetchData();
+              // await widget.fetchData();
             },
           ),
         ),

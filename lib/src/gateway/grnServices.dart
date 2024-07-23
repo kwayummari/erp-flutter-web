@@ -24,23 +24,18 @@ class GrnServices {
 
   Future<void> editGrn(
       BuildContext context, String orderedId, String quantityReceived) async {
-    final myProvider = Provider.of<LoadingProvider>(context, listen: false);
-    myProvider.updateLoging(!myProvider.myLoging);
     Map<String, dynamic> data = {
       'orderedId': orderedId,
       'quantityReceived': quantityReceived,
     };
-    final response = await api.post(context, 'edit_branch', data);
+    final response = await api.post(context, 'edit_grn', data);
     final newResponse = jsonDecode(response.body);
-
     if (response.statusCode == 200) {
-      myProvider.updateLoging(!myProvider.myLoging);
-      AppSnackbar(
-        isError: false,
-        response: newResponse['message'],
-      ).show(context);
+      // AppSnackbar(
+      //   isError: false,
+      //   response: newResponse['message'],
+      // ).show(context);
     } else {
-      myProvider.updateLoging(!myProvider.myLoging);
       AppSnackbar(
         isError: true,
         response: newResponse['message'],
