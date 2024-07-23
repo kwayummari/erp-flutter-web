@@ -1,5 +1,6 @@
 import 'package:erp/src/gateway/deleteService.dart';
 import 'package:erp/src/utils/app_const.dart';
+import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_popover.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
@@ -153,12 +154,17 @@ class _DataSource extends DataTableSource {
                 ? Center(
                     child: Align(
                       alignment: Alignment.center,
-                      child: Text(
-                        'No data at the moment',
-                        style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                          color: AppConst.black,
-                        ),
+                      child: Column(
+                        children: [
+                          Text(
+                            'No data at the moment',
+                            style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              color: AppConst.black,
+                            ),
+                          ),
+                          AppButton(onPress: () {}, label: 'Create new order', borderRadius: 5, textColor: AppConst.white, solidColor: AppConst.primary,)
+                        ],
                       ),
                     ),
                   )
