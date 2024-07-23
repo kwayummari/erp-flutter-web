@@ -16,6 +16,7 @@ class ReusableTable2 extends StatefulWidget {
   final double editModalHeight;
   final String? supplierId;
   final String? orderId;
+  final String? randomNumber;
   final List<Map<String, dynamic>> data;
   final Function fetchData;
   final Future<void> Function()? fetchData1;
@@ -38,6 +39,7 @@ class ReusableTable2 extends StatefulWidget {
     required this.onClose,
     required this.supplierId,
     required this.orderId,
+    required this.randomNumber,
     required this.fetchData1,
   }) : super(key: key);
 
@@ -176,7 +178,7 @@ class _DataSource extends DataTableSource {
                             onPress: () {
                               ReusableModal.show(
                                 width: 500,
-                                height: 600,
+                                height: 250,
                                 context,
                                 AppText(
                                   txt: 'Add New Order',
@@ -190,8 +192,8 @@ class _DataSource extends DataTableSource {
                                     AddNewOrderForm(
                                       supplierId: widget.supplierId,
                                       fetchData: widget.fetchData,
-                                      orderId: widget.orderId,
-                                      buttonWidth: 200,
+                                      randomNumber: widget.randomNumber,
+                                      buttonWidth: 500,
                                     ),
                                   ],
                                 ),
@@ -200,7 +202,7 @@ class _DataSource extends DataTableSource {
                             label: 'Create new order',
                             borderRadius: 5,
                             textColor: AppConst.white,
-                            solidColor: AppConst.primary,
+                            solidColor: AppConst.black,
                           )
                       ],
                     ),

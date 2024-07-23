@@ -12,14 +12,15 @@ class AddNewOrderForm extends StatefulWidget {
   final void Function()? refreshSuppliers;
   final double buttonWidth;
   final String? supplierId;
-  final String? orderId;
+  final String? randomNumber;
   const AddNewOrderForm(
       {super.key,
       required this.fetchData,
       required this.buttonWidth,
       this.refreshSuppliers,
       this.supplierId,
-      required this.orderId});
+      required this.randomNumber
+      });
 
   @override
   State<AddNewOrderForm> createState() => _AddNewOrderFormState();
@@ -53,19 +54,21 @@ class _AddNewOrderFormState extends State<AddNewOrderForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           DropdownTextFormField(
-              labelText: 'Select Branch',
-              fillcolor: AppConst.white,
-              apiUrl: 'getBranch',
-              textsColor: AppConst.black,
-              dropdownColor: AppConst.white,
-              dataOrigin: 'branch',
-              onChanged: (value) {
-                setState(() {
-                  branch = value.toString();
-                });
-              },
-              valueField: 'id',
-              displayField: 'name', allData: allData,),
+            labelText: 'Select Branch',
+            fillcolor: AppConst.white,
+            apiUrl: 'getBranch',
+            textsColor: AppConst.black,
+            dropdownColor: AppConst.white,
+            dataOrigin: 'branch',
+            onChanged: (value) {
+              setState(() {
+                branch = value.toString();
+              });
+            },
+            valueField: 'id',
+            displayField: 'name',
+            allData: allData,
+          ),
           if (widget.supplierId != null)
             Padding(
               padding: const EdgeInsets.only(right: 20, top: 20),
@@ -85,8 +88,11 @@ class _AddNewOrderFormState extends State<AddNewOrderForm> {
                                 if (!_formKey.currentState!.validate()) {
                                   return;
                                 }
-                                purchaseOrderServices().addNewOrder(context, widget.supplierId.toString(),
-                              branch.toString(), widget.orderId.toString());
+                                purchaseOrderServices().addNewOrder(
+                                    context,
+                                    widget.supplierId.toString(),
+                                    branch.toString(),
+                                     widget.randomNumber.toString());
                                 await widget.fetchData();
                                 Navigator.pop(context);
                                 if (widget.refreshSuppliers != null) {
