@@ -124,6 +124,37 @@ class purchaseOrderServices {
     }
   }
 
+  Future<void> addNewOrder(BuildContext context, String supplierId,
+      String branchId, String orderId) async {
+    final myProvider = Provider.of<LoadingProvider>(context, listen: false);
+    myProvider.updateLoging(!myProvider.myLoging);
+    SplashFunction splashDetails = SplashFunction();
+    final companyId = await splashDetails.getCompanyId();
+    Map<String, dynamic> data = {
+      'supplierId': supplierId,
+      'branchId': branchId,
+      'companyId': companyId,
+      'orderId': orderId
+    };
+
+    final response = await api.post(context, 'add_new_order', data);
+    final newResponse = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      myProvider.updateLoging(!myProvider.myLoging);
+      AppSnackbar(
+        isError: false,
+        response: newResponse['message'],
+      ).show(context);
+    } else {
+      myProvider.updateLoging(!myProvider.myLoging);
+      AppSnackbar(
+        isError: true,
+        response: newResponse['message'],
+      ).show(context);
+    }
+  }
+
   Future<void> addNewPurchaseOrder(BuildContext context, String inventoryId,
       String quantity, String purchaseId, String orderId) async {
     final myProvider = Provider.of<LoadingProvider>(context, listen: false);
