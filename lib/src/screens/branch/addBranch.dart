@@ -53,20 +53,27 @@ class _addBranchFormState extends State<addBranchForm> {
                     ? SpinKitCircle(
                         color: AppConst.primary,
                       )
-                    : AppButton(
-                        onPress: () async {
-                          if (!_formKey.currentState!.validate()) {
-                            return;
-                          }
-                          branchServices().addBranch(context, name.text);
-                          await widget.fetchData();
-                          Navigator.pop(context);
-                        },
-                        label: 'Add Branch',
-                        borderRadius: 5,
-                        textColor: AppConst.white,
-                        gradient: AppConst.primaryGradient,
+                    : Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Container(
+                        width: 420,
+                        height: 50,
+                        child: AppButton(
+                            onPress: () async {
+                              if (!_formKey.currentState!.validate()) {
+                                return;
+                              }
+                              branchServices().addBranch(context, name.text);
+                              await widget.fetchData();
+                              Navigator.pop(context);
+                            },
+                            label: 'Add Branch',
+                            borderRadius: 5,
+                            textColor: AppConst.white,
+                            gradient: AppConst.primaryGradient,
+                          ),
                       ),
+                    ),
                 Spacer(),
               ],
             ),
