@@ -119,6 +119,10 @@ class _sideBarState extends State<sideBar> {
                                                 'purchase') {
                                               context
                                                   .go(RouteNames.purchaseOrder);
+                                            } else if (subMenu[index]['url'] ==
+                                                'grn') {
+                                              context
+                                                  .go(RouteNames.grn);
                                             }
                                           },
                                           child: ListTile(
