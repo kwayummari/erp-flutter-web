@@ -18,6 +18,7 @@ class ReusableTable2 extends StatefulWidget {
   final String? orderId;
   final List<Map<String, dynamic>> data;
   final Function fetchData;
+  final Future<void> Function()? fetchData1;
   final double columnSpacing;
   final Widget Function(BuildContext, Map<String, dynamic>, String) cellBuilder;
   final Future<void> Function()? onClose;
@@ -37,6 +38,7 @@ class ReusableTable2 extends StatefulWidget {
     required this.onClose,
     required this.supplierId,
     required this.orderId,
+    required this.fetchData1,
   }) : super(key: key);
 
   @override
@@ -181,7 +183,7 @@ class _DataSource extends DataTableSource {
                                   size: 22,
                                   weight: FontWeight.bold,
                                 ),
-                                onClose: widget.fetchData,
+                                onClose: widget.fetchData1,
                                 Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[

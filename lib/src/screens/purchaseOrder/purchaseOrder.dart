@@ -255,6 +255,7 @@ class _PurchaseOrderManagementState extends State<PurchaseOrderManagement> {
                     height: 250,
                     width: MediaQuery.of(context).size.width,
                     child: ReusableTable2(
+                      fetchData1: fetchData,
                       orderId: orderId,
                       supplierId: supplierId,
                       deleteModalHeight: 300,
