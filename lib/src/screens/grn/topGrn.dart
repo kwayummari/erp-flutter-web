@@ -7,7 +7,7 @@ import 'package:erp/src/widgets/app_modal.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 
-class TopOfOrder extends StatefulWidget {
+class TopGrn extends StatefulWidget {
   final int randomNumber;
   final String todayDate;
   final String? supplierId;
@@ -20,7 +20,7 @@ class TopOfOrder extends StatefulWidget {
   final Function fetchData1;
   final Function(String) onSupplierChanged;
 
-  TopOfOrder({
+  TopGrn({
     Key? key,
     required this.randomNumber,
     required this.todayDate,
@@ -36,10 +36,10 @@ class TopOfOrder extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<TopOfOrder> createState() => _TopOfOrderState();
+  State<TopGrn> createState() => _TopGrnState();
 }
 
-class _TopOfOrderState extends State<TopOfOrder> {
+class _TopGrnState extends State<TopGrn> {
   List allData = [];
   bool addOrder = false;
   var supplierId;

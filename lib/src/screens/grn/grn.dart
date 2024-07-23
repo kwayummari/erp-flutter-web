@@ -1,10 +1,10 @@
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:erp/src/screens/grn/topGrn.dart';
 import 'package:flutter/rendering.dart';
 import 'package:erp/src/gateway/purchaseOrderService.dart';
 import 'package:erp/src/provider/table2_notifier.dart';
-import 'package:erp/src/screens/purchaseOrder/topOfOrder.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_table2.dart';
@@ -233,7 +233,7 @@ class _GrnManagementState extends State<GrnManagement> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  TopOfOrder(
+                  TopGrn(
                     randomNumber: randomNumber,
                     todayDate: todayDate,
                     refreshSuppliers: refreshSuppliers,
