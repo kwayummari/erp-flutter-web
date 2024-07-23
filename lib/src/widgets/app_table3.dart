@@ -268,27 +268,6 @@ class _DataSource extends DataTableSource {
             },
           ),
         ),
-        DataCell(
-          CustomPopover(
-            icon: Icons.more_vert,
-            items: [
-              CustomPopoverItem(
-                title: 'Delete',
-                icon: Icons.delete,
-                onTap: () async {
-                  final orderedId = row['orderedId'].toString();
-                  deleteServices deleteService = deleteServices();
-                  await deleteService.delete(
-                      context, widget.url, orderedId.toString());
-                  await widget.fetchData();
-                  if (widget.onClose != null) {
-                    await widget.onClose!();
-                  }
-                },
-              ),
-            ],
-          ),
-        ),
       ],
     );
   }
