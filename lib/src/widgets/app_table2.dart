@@ -179,7 +179,7 @@ class _DataSource extends DataTableSource {
                                 height: 600,
                                 context,
                                 AppText(
-                                  txt: 'Add Order List',
+                                  txt: 'Add New Order',
                                   size: 22,
                                   weight: FontWeight.bold,
                                 ),
