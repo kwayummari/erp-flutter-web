@@ -1,9 +1,7 @@
-import 'package:erp/src/gateway/deleteService.dart';
 import 'package:erp/src/screens/purchaseOrder/addNewOrderForm.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_modal.dart';
-import 'package:erp/src/widgets/app_popover.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -115,14 +113,6 @@ class _ReusableTable3State extends State<ReusableTable3> {
               weight: FontWeight.bold,
             ),
           ),
-          DataColumn(
-            label: AppText(
-              txt: 'Actions',
-              size: 20,
-              color: AppConst.black,
-              weight: FontWeight.bold,
-            ),
-          ),
         ],
         source: dataSource,
         rowsPerPage: _rowsPerPage,
@@ -188,7 +178,7 @@ class _DataSource extends DataTableSource {
     if (widget.data.isEmpty) {
       return DataRow(
         cells: List<DataCell>.generate(
-          widget.titles.length + 2,
+          widget.titles.length + 1,
           (i) => DataCell(
             i == 2
                 ? Container(
