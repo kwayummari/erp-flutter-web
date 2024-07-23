@@ -126,11 +126,11 @@ class _GrnManagementState extends State<GrnManagement> {
     }
   }
 
-  Future<void> saveData(purchaseId) async {
+  Future<void> saveData(purchaseId, supplierId) async {
     try {
       purchaseOrderServices purchaseOrderService = purchaseOrderServices();
       final grnResponse =
-          await purchaseOrderService.savePurchaseOrder(context, purchaseId);
+          await purchaseOrderService.savePurchaseOrder(context, purchaseId, supplierId);
     } catch (e) {
       setState(() {
         hasError = true;
@@ -292,7 +292,7 @@ class _GrnManagementState extends State<GrnManagement> {
                         child: AppButton(
                             solidColor: AppConst.red,
                             onPress: () async {
-                              await saveData(purchaseId.toString());
+                              await saveData(purchaseId.toString(), supplierId.toString());
                               setState(() {
                                 supplierId = null;
                               });

@@ -125,11 +125,11 @@ class _PurchaseOrderManagementState extends State<PurchaseOrderManagement> {
     }
   }
 
-  Future<void> saveData(purchaseId) async {
+  Future<void> saveData(purchaseId, supplierId) async {
     try {
       purchaseOrderServices purchaseOrderService = purchaseOrderServices();
       final purchaseOrderResponse =
-          await purchaseOrderService.savePurchaseOrder(context, purchaseId);
+          await purchaseOrderService.savePurchaseOrder(context, purchaseId, supplierId);
     } catch (e) {
       setState(() {
         hasError = true;
@@ -291,7 +291,7 @@ class _PurchaseOrderManagementState extends State<PurchaseOrderManagement> {
                         child: AppButton(
                             solidColor: AppConst.red,
                             onPress: () async {
-                              await saveData(purchaseId.toString());
+                              await saveData(purchaseId.toString(), supplierId.toString());
                               setState(() {
                                 supplierId = null;
                               });

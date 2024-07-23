@@ -49,9 +49,10 @@ class purchaseOrderServices {
   }
 
   Future<void> savePurchaseOrder(
-      BuildContext context, String purchaseId) async {
+      BuildContext context, String purchaseId, String supplierId) async {
     Map<String, dynamic> data = {
       'purchaseId': purchaseId,
+      'supplierId': supplierId
     };
     final response = await api.post(context, 'save_purchase', data);
     final newResponse = jsonDecode(response.body);
