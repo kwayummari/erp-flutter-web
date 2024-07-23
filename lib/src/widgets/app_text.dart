@@ -11,6 +11,7 @@ class AppText extends StatelessWidget {
   double size;
   TextDecoration? textdecoration;
   final bool? softWrap;
+  FontStyle? fontStyle;
   AppText(
       {Key? key,
       required this.txt,
@@ -19,8 +20,8 @@ class AppText extends StatelessWidget {
       this.weight,
       this.textdecoration,
       required this.size,
-      this.softWrap
-      })
+      this.fontStyle,
+      this.softWrap})
       : super(key: key);
 
   @override
@@ -31,6 +32,7 @@ class AppText extends StatelessWidget {
       softWrap: softWrap,
       style: TextStyle(
         decoration: textdecoration,
+        fontStyle: fontStyle,
         color: color,
         fontSize: size,
         fontFamily: 'OpenSans',

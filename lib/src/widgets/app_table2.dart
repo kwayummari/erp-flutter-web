@@ -12,6 +12,7 @@ class ReusableTable2 extends StatefulWidget {
   final double deleteModalHeight;
   final double editModalWidth;
   final double editModalHeight;
+  final String? supplierId;
   final List<Map<String, dynamic>> data;
   final Function fetchData;
   final double columnSpacing;
@@ -31,6 +32,7 @@ class ReusableTable2 extends StatefulWidget {
     required this.url,
     required this.columnSpacing,
     required this.onClose,
+    required this.supplierId,
   }) : super(key: key);
 
   @override
@@ -150,22 +152,28 @@ class _DataSource extends DataTableSource {
         cells: List<DataCell>.generate(
           widget.titles.length + 1,
           (i) => DataCell(
-            i == 0
-                ? Center(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Column(
-                        children: [
-                          Text(
-                            'No data at the moment',
-                            style: TextStyle(
+            i == 2
+                ? Container(
+                  alignment: Alignment.center,
+                    child: Column(
+                      children: [
+                        AppText(
+                          txt: widget.supplierId != null
+                              ? 'No data at the moment'
+                              : 'Please select Supplier',
+                              size: 20,
                               fontStyle: FontStyle.italic,
                               color: AppConst.black,
-                            ),
-                          ),
-                          AppButton(onPress: () {}, label: 'Create new order', borderRadius: 5, textColor: AppConst.white, solidColor: AppConst.primary,)
-                        ],
-                      ),
+                        ),
+                        if (widget.supplierId != null)
+                          AppButton(
+                            onPress: () {},
+                            label: 'Create new order',
+                            borderRadius: 5,
+                            textColor: AppConst.white,
+                            solidColor: AppConst.primary,
+                          )
+                      ],
                     ),
                   )
                 : SizedBox.shrink(),
