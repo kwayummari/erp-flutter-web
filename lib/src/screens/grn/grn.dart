@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:erp/src/gateway/grnServices.dart';
 import 'package:erp/src/screens/grn/topGrn.dart';
 import 'package:flutter/rendering.dart';
 import 'package:erp/src/gateway/purchaseOrderService.dart';
@@ -56,21 +57,21 @@ class _GrnManagementState extends State<GrnManagement> {
 
   Future<void> fetchData() async {
     try {
-      purchaseOrderServices purchaseOrderService = purchaseOrderServices();
-      final purchaseOrderResponse =
-          await purchaseOrderService.getPurchaseOrder(context, supplierId);
+      GrnServices grnService = GrnServices();
+      final grnResponse =
+          await grnService.getGrn(context, supplierId);
       setState(() {
-        purchaseId = purchaseOrderResponse['orders'][0]['id'];
+        purchaseId = grnResponse['orders'][0]['id'];
       });
-      if (purchaseOrderResponse != null &&
-          purchaseOrderResponse['orders'] != null) {
+      if (grnResponse != null &&
+          grnResponse['orders'] != null) {
         purchaseData = [];
         totalAmount = 0.0;
         setState(() {
-          orderId = purchaseOrderResponse['orders'][0]['id'].toString();
-          purchaseOrderId = purchaseOrderResponse['orders'][0]['orderId'];
+          orderId = grnResponse['orders'][0]['id'].toString();
+          purchaseOrderId = grnResponse['orders'][0]['orderId'];
           purchaseData = [];
-          for (var order in purchaseOrderResponse['orders']) {
+          for (var order in grnResponse['orders']) {
             for (var inventory in order['inventoryDetails']) {
               double total = double.parse(inventory['buyingPrice']) *
                   double.parse(inventory['quantity']);
@@ -93,7 +94,7 @@ class _GrnManagementState extends State<GrnManagement> {
         final tableDataNotifier =
             Provider.of<TableDataNotifier>(context, listen: false);
         tableDataNotifier.data.clear();
-        for (var order in purchaseOrderResponse['orders']) {
+        for (var order in grnResponse['orders']) {
           for (var inventory in order['inventoryDetails']) {
             tableDataNotifier.addNewRow({
               'id': inventory['id'].toString(),
@@ -128,7 +129,7 @@ class _GrnManagementState extends State<GrnManagement> {
   Future<void> saveData(purchaseId) async {
     try {
       purchaseOrderServices purchaseOrderService = purchaseOrderServices();
-      final purchaseOrderResponse =
+      final grnResponse =
           await purchaseOrderService.savePurchaseOrder(context, purchaseId);
     } catch (e) {
       setState(() {
