@@ -1,11 +1,10 @@
+import 'package:erp/src/gateway/grnServices.dart';
 import 'package:erp/src/screens/purchaseOrder/addNewOrderForm.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_modal.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class ReusableTable3 extends StatefulWidget {
   final List<String> titles;
@@ -84,7 +83,7 @@ class _ReusableTable3State extends State<ReusableTable3> {
     return SingleChildScrollView(
       child: PaginatedDataTable(
         dataRowMaxHeight: 70,
-        headingRowColor: MaterialStateProperty.all(AppConst.grey200),
+        headingRowColor: WidgetStateProperty.all(AppConst.grey200),
         columnSpacing: widget.columnSpacing,
         columns: [
           for (int i = 0; i < widget.titles.length; i++)
@@ -154,25 +153,6 @@ class _DataSource extends DataTableSource {
     updateParentState();
   }
 
-  Future<void> updateQuantityReceived(String orderedId, String quantityReceived) async {
-    final url = '${widget.url}/$orderedId';
-    final response = await http.put(
-      Uri.parse(url),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'quantityReceived': quantityReceived,
-      }),
-    );
-
-    if (response.statusCode == 200) {
-      print('Update successful');
-    } else {
-      print('Failed to update');
-    }
-  }
-
   @override
   DataRow getRow(int index) {
     if (widget.data.isEmpty) {
@@ -212,7 +192,8 @@ class _DataSource extends DataTableSource {
                                     AddNewOrderForm(
                                       supplierId: widget.supplierId,
                                       fetchData: widget.fetchData,
-                                      randomNumber: widget.randomNumber.toString(),
+                                      randomNumber:
+                                          widget.randomNumber.toString(),
                                       buttonWidth: 500,
                                     ),
                                   ],
@@ -254,7 +235,9 @@ class _DataSource extends DataTableSource {
             controller: _controllers[index],
             onChanged: (value) async {
               row['quantityreceived'] = value;
-              await updateQuantityReceived(row['orderedId'].toString(), value);
+              GrnServices()
+                  .editGrn(context, row['orderedId'].toString(), value);
+              await widget.fetchData();
             },
           ),
         ),
