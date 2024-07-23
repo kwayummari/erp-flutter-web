@@ -1,9 +1,5 @@
-import 'package:erp/src/screens/purchaseOrder/addOrderForm.dart';
-import 'package:erp/src/screens/supplier/addSupplier.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app-dropdown.dart';
-import 'package:erp/src/widgets/app_button.dart';
-import 'package:erp/src/widgets/app_modal.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 
@@ -116,80 +112,7 @@ class _TopGrnState extends State<TopGrn> {
                 allData: allData,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 15),
-              child: Container(
-                height: 50,
-                child: AppButton(
-                  onPress: () {
-                    ReusableModal.show(
-                      width: 500,
-                      height: 550,
-                      context,
-                      AppText(
-                        txt: 'Add Supplier',
-                        size: 22,
-                        weight: FontWeight.bold,
-                      ),
-                      onClose: widget.fetchData,
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          addSupplierForm(
-                            fetchData: widget.fetchData1,
-                            refreshSuppliers: widget.refreshSuppliers,
-                            buttonWidth: 500,
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  label: 'Add Supplier',
-                  borderRadius: 8,
-                  textColor: AppConst.white,
-                  solidColor: AppConst.black,
-                ),
-              ),
-            ),
             Spacer(),
-            if (addOrder == true)
-              Padding(
-                padding: const EdgeInsets.only(top: 15, right: 20),
-                child: Container(
-                  height: 50,
-                  child: AppButton(
-                    onPress: () {
-                      ReusableModal.show(
-                        width: 500,
-                        height: 600,
-                        context,
-                        AppText(
-                          txt: 'Add Order List',
-                          size: 22,
-                          weight: FontWeight.bold,
-                        ),
-                        onClose: widget.fetchData,
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            AddOrderForm(
-                              supplierId: supplierId,
-                              fetchData: widget.fetchData1,
-                              refreshSuppliers: widget.refreshSuppliers,
-                              orderId: widget.orderId,
-                              buttonWidth: 500,
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    label: 'Add Order List',
-                    borderRadius: 8,
-                    textColor: AppConst.white,
-                    solidColor: AppConst.black,
-                  ),
-                ),
-              ),
           ],
         ),
         Row(
