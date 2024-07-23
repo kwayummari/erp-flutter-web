@@ -3,12 +3,12 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:erp/src/gateway/grnServices.dart';
 import 'package:erp/src/screens/grn/topGrn.dart';
+import 'package:erp/src/widgets/app_table3.dart';
 import 'package:flutter/rendering.dart';
 import 'package:erp/src/gateway/purchaseOrderService.dart';
 import 'package:erp/src/provider/table2_notifier.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_button.dart';
-import 'package:erp/src/widgets/app_table2.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
@@ -255,7 +255,7 @@ class _GrnManagementState extends State<GrnManagement> {
                   Container(
                     height: 250,
                     width: MediaQuery.of(context).size.width,
-                    child: ReusableTable2(
+                    child: ReusableTable3(
                       fetchData1: fetchData,
                       orderId: orderId,
                       supplierId: supplierId,

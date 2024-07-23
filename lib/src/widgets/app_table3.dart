@@ -6,6 +6,8 @@ import 'package:erp/src/widgets/app_modal.dart';
 import 'package:erp/src/widgets/app_popover.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class ReusableTable3 extends StatefulWidget {
   final List<String> titles;
@@ -84,7 +86,7 @@ class _ReusableTable3State extends State<ReusableTable3> {
     return SingleChildScrollView(
       child: PaginatedDataTable(
         dataRowMaxHeight: 70,
-        headingRowColor: WidgetStateProperty.all(AppConst.grey200),
+        headingRowColor: MaterialStateProperty.all(AppConst.grey200),
         columnSpacing: widget.columnSpacing,
         columns: [
           for (int i = 0; i < widget.titles.length; i++)
@@ -105,6 +107,14 @@ class _ReusableTable3State extends State<ReusableTable3> {
                     ascending);
               },
             ),
+          DataColumn(
+            label: AppText(
+              txt: 'Quantity Received',
+              size: 20,
+              color: AppConst.black,
+              weight: FontWeight.bold,
+            ),
+          ),
           DataColumn(
             label: AppText(
               txt: 'Actions',
@@ -139,6 +149,7 @@ class _DataSource extends DataTableSource {
   final BuildContext context;
   final ReusableTable3 widget;
   final VoidCallback updateParentState;
+  final Map<int, TextEditingController> _controllers = {};
 
   _DataSource(this.context, this.widget, this.updateParentState);
 
@@ -153,12 +164,31 @@ class _DataSource extends DataTableSource {
     updateParentState();
   }
 
+  Future<void> updateQuantityReceived(String orderedId, String quantityReceived) async {
+    final url = '${widget.url}/$orderedId';
+    final response = await http.put(
+      Uri.parse(url),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'quantityReceived': quantityReceived,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      print('Update successful');
+    } else {
+      print('Failed to update');
+    }
+  }
+
   @override
   DataRow getRow(int index) {
     if (widget.data.isEmpty) {
       return DataRow(
         cells: List<DataCell>.generate(
-          widget.titles.length + 1,
+          widget.titles.length + 2,
           (i) => DataCell(
             i == 2
                 ? Container(
@@ -218,6 +248,10 @@ class _DataSource extends DataTableSource {
     }
 
     final row = widget.data[index];
+
+    // Initialize the TextEditingController if it doesn't exist
+    _controllers.putIfAbsent(index, () => TextEditingController());
+
     return DataRow.byIndex(
       index: index,
       cells: [
@@ -225,6 +259,15 @@ class _DataSource extends DataTableSource {
           DataCell(
             widget.cellBuilder(context, row, title),
           ),
+        DataCell(
+          TextField(
+            controller: _controllers[index],
+            onChanged: (value) async {
+              row['quantityreceived'] = value;
+              await updateQuantityReceived(row['orderedId'].toString(), value);
+            },
+          ),
+        ),
         DataCell(
           CustomPopover(
             icon: Icons.more_vert,
