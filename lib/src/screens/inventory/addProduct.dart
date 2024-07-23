@@ -10,7 +10,8 @@ import 'package:provider/provider.dart';
 
 class addProductForm extends StatefulWidget {
   final Function fetchData;
-  const addProductForm({super.key, required this.fetchData});
+  final double buttonWidth;
+  const addProductForm({super.key, required this.fetchData, required this.buttonWidth});
 
   @override
   State<addProductForm> createState() => _addProductFormState();
@@ -158,31 +159,35 @@ class _addProductFormState extends State<addProductForm> {
                     ? SpinKitCircle(
                         color: AppConst.primary,
                       )
-                    : Container(
-                      width: 500,
-                      child: AppButton(
-                          onPress: () async {
-                            if (!_formKey.currentState!.validate()) {
-                              return;
-                            }
-                            inventoryServices().addProduct(
-                                context,
-                                name.text,
-                                description.text,
-                                quantity.text,
-                                buyingPrice.text,
-                                sellingPrice.text,
-                                productNumber.text,
-                                branch,
-                                tax);
-                            await widget.fetchData();
-                            Navigator.pop(context);
-                          },
-                          label: 'Add Product',
-                          borderRadius: 5,
-                          textColor: AppConst.white,
-                          gradient: AppConst.primaryGradient,
-                        ),
+                    : Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Container(
+                        width: widget.buttonWidth - 70,
+                        height: 50,
+                        child: AppButton(
+                            onPress: () async {
+                              if (!_formKey.currentState!.validate()) {
+                                return;
+                              }
+                              inventoryServices().addProduct(
+                                  context,
+                                  name.text,
+                                  description.text,
+                                  quantity.text,
+                                  buyingPrice.text,
+                                  sellingPrice.text,
+                                  productNumber.text,
+                                  branch,
+                                  tax);
+                              await widget.fetchData();
+                              Navigator.pop(context);
+                            },
+                            label: 'Add Product',
+                            borderRadius: 5,
+                            textColor: AppConst.white,
+                            gradient: AppConst.primaryGradient,
+                          ),
+                      ),
                     ),
                 Spacer(),
               ],

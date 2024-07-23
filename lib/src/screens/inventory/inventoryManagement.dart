@@ -101,7 +101,7 @@ class _inventoryManagementState extends State<inventoryManagement> {
                     onClose: fetchData,
                     Column(
                       mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[addProductForm(fetchData: fetchData)],
+                      children: <Widget>[addProductForm(fetchData: fetchData, buttonWidth: 500,)],
                     ),
                   )
                 },
