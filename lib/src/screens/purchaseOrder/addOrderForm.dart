@@ -186,7 +186,7 @@ class _AddOrderFormState extends State<AddOrderForm> {
                                   widget.refreshSuppliers!();
                                 }
                               },
-                              label: 'Add Order',
+                              label: 'Add Order List',
                               borderRadius: 5,
                               textColor: AppConst.white,
                               gradient: AppConst.primaryGradient,

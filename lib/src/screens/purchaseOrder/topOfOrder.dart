@@ -164,7 +164,7 @@ class _TopOfOrderState extends State<TopOfOrder> {
                         height: 600,
                         context,
                         AppText(
-                          txt: 'Add Orders',
+                          txt: 'Add Order List',
                           size: 22,
                           weight: FontWeight.bold,
                         ),
@@ -183,7 +183,7 @@ class _TopOfOrderState extends State<TopOfOrder> {
                         ),
                       );
                     },
-                    label: 'Add Order',
+                    label: 'Add Order List',
                     borderRadius: 8,
                     textColor: AppConst.white,
                     solidColor: AppConst.black,
