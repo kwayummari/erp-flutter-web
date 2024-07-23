@@ -158,29 +158,32 @@ class _addProductFormState extends State<addProductForm> {
                     ? SpinKitCircle(
                         color: AppConst.primary,
                       )
-                    : AppButton(
-                        onPress: () async {
-                          if (!_formKey.currentState!.validate()) {
-                            return;
-                          }
-                          inventoryServices().addProduct(
-                              context,
-                              name.text,
-                              description.text,
-                              quantity.text,
-                              buyingPrice.text,
-                              sellingPrice.text,
-                              productNumber.text,
-                              branch,
-                              tax);
-                          await widget.fetchData();
-                          Navigator.pop(context);
-                        },
-                        label: 'Add Product',
-                        borderRadius: 5,
-                        textColor: AppConst.white,
-                        gradient: AppConst.primaryGradient,
-                      ),
+                    : Container(
+                      width: 500,
+                      child: AppButton(
+                          onPress: () async {
+                            if (!_formKey.currentState!.validate()) {
+                              return;
+                            }
+                            inventoryServices().addProduct(
+                                context,
+                                name.text,
+                                description.text,
+                                quantity.text,
+                                buyingPrice.text,
+                                sellingPrice.text,
+                                productNumber.text,
+                                branch,
+                                tax);
+                            await widget.fetchData();
+                            Navigator.pop(context);
+                          },
+                          label: 'Add Product',
+                          borderRadius: 5,
+                          textColor: AppConst.white,
+                          gradient: AppConst.primaryGradient,
+                        ),
+                    ),
                 Spacer(),
               ],
             ),

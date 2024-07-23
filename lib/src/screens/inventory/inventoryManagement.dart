@@ -103,14 +103,6 @@ class _inventoryManagementState extends State<inventoryManagement> {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[addProductForm(fetchData: fetchData)],
                     ),
-                    footer: AppButton(
-                        onPress: () {
-                          Navigator.pop(context);
-                        },
-                        solidColor: AppConst.black,
-                        label: 'Cancel',
-                        borderRadius: 5,
-                        textColor: AppConst.white),
                   )
                 },
                 label: 'Add products',
