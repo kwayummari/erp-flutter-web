@@ -191,7 +191,7 @@ class _DataSource extends DataTableSource {
                                       supplierId: widget.supplierId,
                                       fetchData: widget.fetchData,
                                       orderId: widget.orderId,
-                                      buttonWidth: 500,
+                                      buttonWidth: 200,
                                     ),
                                   ],
                                 ),
