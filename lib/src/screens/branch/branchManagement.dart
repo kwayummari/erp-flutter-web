@@ -62,8 +62,7 @@ class _branchManagementState extends State<branchManagement> {
             if (isLoading)
               Center(child: CircularProgressIndicator())
             else if (hasError)
-              Center(child: Text('Error loading data'))
-            else if (rolesData.isNotEmpty)
+              Center(child: Text('Error loading data')),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: GridView.builder(

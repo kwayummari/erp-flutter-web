@@ -83,8 +83,7 @@ class _userManagementState extends State<userManagement> {
           if (isLoading)
             Center(child: CircularProgressIndicator())
           else if (hasError)
-            Center(child: Text('Error loading data'))
-          else if (userData.isNotEmpty)
+            Center(child: Text('Error loading data')),
             appTabular(
               title: 'User Management',
               button: AppButton(
@@ -122,6 +121,7 @@ class _userManagementState extends State<userManagement> {
               ),
               child: Column(
                 children: [
+                  if (userData.isNotEmpty)
                   ReusableTable(
                     deleteModalHeight: 300,
                     deleteModalWidth: 500,

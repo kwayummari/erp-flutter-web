@@ -86,8 +86,7 @@ class _inventoryManagementState extends State<inventoryManagement> {
           if (isLoading)
             Center(child: CircularProgressIndicator())
           else if (hasError)
-            Center(child: Text('Error loading data'))
-          else if (productData.isNotEmpty)
+            Center(child: Text('Error loading data')),
             appTabular(
               title: 'Product Management',
               button: AppButton(
@@ -112,6 +111,7 @@ class _inventoryManagementState extends State<inventoryManagement> {
               ),
               child: Column(
                 children: [
+                  if (productData.isNotEmpty)
                   ReusableTable(
                     deleteModalHeight: 300,
                     deleteModalWidth: 500,
