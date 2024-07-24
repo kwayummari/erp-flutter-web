@@ -129,7 +129,7 @@ class _PurchaseOrderManagementState extends State<PurchaseOrderManagement> {
     try {
       purchaseOrderServices purchaseOrderService = purchaseOrderServices();
       final purchaseOrderResponse =
-          await purchaseOrderService.savePurchaseOrder(context, purchaseId, supplierId);
+          await purchaseOrderService.savePurchaseOrder(context, purchaseId, supplierId, '1');
     } catch (e) {
       setState(() {
         hasError = true;

@@ -130,7 +130,7 @@ class _GrnManagementState extends State<GrnManagement> {
     try {
       purchaseOrderServices purchaseOrderService = purchaseOrderServices();
       final grnResponse = await purchaseOrderService.savePurchaseOrder(
-          context, purchaseId, supplierId);
+          context, purchaseId, supplierId, '2');
     } catch (e) {
       setState(() {
         hasError = true;
@@ -299,7 +299,7 @@ class _GrnManagementState extends State<GrnManagement> {
                               });
                               await fetchData();
                             },
-                            label: 'Submit Order',
+                            label: 'Save',
                             borderRadius: 5,
                             textColor: AppConst.white),
                       ),
