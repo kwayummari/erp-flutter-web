@@ -81,7 +81,7 @@ class _PermissionsManagementState extends State<PermissionsManagement> {
             if (isLoading)
               Center(child: CircularProgressIndicator())
             else if (hasError)
-              Center(child: Text('Error loading data'))
+              Center(child: Text(''))
             else if (permissionData.isNotEmpty)
               SizedBox(
                 width: MediaQuery.of(context).size.width,

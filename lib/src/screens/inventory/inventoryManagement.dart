@@ -86,32 +86,37 @@ class _inventoryManagementState extends State<inventoryManagement> {
           if (isLoading)
             Center(child: CircularProgressIndicator())
           else if (hasError)
-            Center(child: Text('Error loading data')),
-            appTabular(
-              title: 'Product Management',
-              button: AppButton(
-                onPress: () => {
-                  ReusableModal.show(
-                    width: 500,
-                    height: 800,
-                    context,
-                    AppText(
-                        txt: 'Add Product', size: 22, weight: FontWeight.bold),
-                    onClose: fetchData,
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[addProductForm(fetchData: fetchData, buttonWidth: 500,)],
-                    ),
-                  )
-                },
-                label: 'Add products',
-                borderRadius: 5,
-                textColor: AppConst.white,
-                gradient: AppConst.primaryGradient,
-              ),
-              child: Column(
-                children: [
-                  if (productData.isNotEmpty)
+            Center(child: Text('')),
+          appTabular(
+            title: 'Product Management',
+            button: AppButton(
+              onPress: () => {
+                ReusableModal.show(
+                  width: 500,
+                  height: 800,
+                  context,
+                  AppText(
+                      txt: 'Add Product', size: 22, weight: FontWeight.bold),
+                  onClose: fetchData,
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      addProductForm(
+                        fetchData: fetchData,
+                        buttonWidth: 500,
+                      )
+                    ],
+                  ),
+                )
+              },
+              label: 'Add products',
+              borderRadius: 5,
+              textColor: AppConst.white,
+              gradient: AppConst.primaryGradient,
+            ),
+            child: Column(
+              children: [
+                if (productData.isNotEmpty)
                   ReusableTable(
                     deleteModalHeight: 300,
                     deleteModalWidth: 500,
@@ -136,9 +141,9 @@ class _inventoryManagementState extends State<inventoryManagement> {
                     editForm: editProductForm(
                         fetchData: fetchData, data: rowData ?? {}),
                   ),
-                ],
-              ),
+              ],
             ),
+          ),
         ],
       ),
     );

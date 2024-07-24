@@ -75,37 +75,37 @@ class _supplierManagementState extends State<supplierManagement> {
           if (isLoading)
             Center(child: CircularProgressIndicator())
           else if (hasError)
-            Center(child: Text('Error loading data')),
-            appTabular(
-              title: 'Supplier Management',
-              button: AppButton(
-                onPress: () => {
-                  ReusableModal.show(
-                    width: 500,
-                    height: 550,
-                    context,
-                    AppText(
-                        txt: 'Add Supplier', size: 22, weight: FontWeight.bold),
-                    onClose: fetchData,
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        addSupplierForm(
-                          fetchData: fetchData,
-                          buttonWidth: 500,
-                        )
-                      ],
-                    ),
-                  )
-                },
-                label: 'Add supplier',
-                borderRadius: 5,
-                textColor: AppConst.white,
-                gradient: AppConst.primaryGradient,
-              ),
-              child: Column(
-                children: [
-                  if (productData.isNotEmpty)
+            Center(child: Text('')),
+          appTabular(
+            title: 'Supplier Management',
+            button: AppButton(
+              onPress: () => {
+                ReusableModal.show(
+                  width: 500,
+                  height: 550,
+                  context,
+                  AppText(
+                      txt: 'Add Supplier', size: 22, weight: FontWeight.bold),
+                  onClose: fetchData,
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      addSupplierForm(
+                        fetchData: fetchData,
+                        buttonWidth: 500,
+                      )
+                    ],
+                  ),
+                )
+              },
+              label: 'Add supplier',
+              borderRadius: 5,
+              textColor: AppConst.white,
+              gradient: AppConst.primaryGradient,
+            ),
+            child: Column(
+              children: [
+                if (productData.isNotEmpty)
                   ReusableTable(
                     deleteModalHeight: 300,
                     deleteModalWidth: 500,
@@ -132,9 +132,9 @@ class _supplierManagementState extends State<supplierManagement> {
                     editForm: editSupplierForm(
                         fetchData: fetchData, data: rowData ?? {}),
                   ),
-                ],
-              ),
+              ],
             ),
+          ),
         ],
       ),
     );

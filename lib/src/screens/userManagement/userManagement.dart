@@ -83,45 +83,45 @@ class _userManagementState extends State<userManagement> {
           if (isLoading)
             Center(child: CircularProgressIndicator())
           else if (hasError)
-            Center(child: Text('Error loading data')),
-            appTabular(
-              title: 'User Management',
-              button: AppButton(
-                onPress: () => {
-                  ReusableModal.show(
-                    width: 500,
-                    height: 600,
-                    context,
-                    AppText(txt: 'Add User', size: 22, weight: FontWeight.bold),
-                    onClose: fetchData,
-                    // addUserForm()
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[addUserForm(fetchData: fetchData)],
-                    ),
-                    footer: Row(
-                      children: [
-                        Spacer(),
-                        AppButton(
-                            onPress: () {
-                              Navigator.pop(context);
-                            },
-                            solidColor: AppConst.black,
-                            label: 'Cancel',
-                            borderRadius: 5,
-                            textColor: AppConst.white),
-                      ],
-                    ),
-                  )
-                },
-                label: 'Add user',
-                borderRadius: 5,
-                textColor: AppConst.white,
-                gradient: AppConst.primaryGradient,
-              ),
-              child: Column(
-                children: [
-                  if (userData.isNotEmpty)
+            Center(child: Text('')),
+          appTabular(
+            title: 'User Management',
+            button: AppButton(
+              onPress: () => {
+                ReusableModal.show(
+                  width: 500,
+                  height: 600,
+                  context,
+                  AppText(txt: 'Add User', size: 22, weight: FontWeight.bold),
+                  onClose: fetchData,
+                  // addUserForm()
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[addUserForm(fetchData: fetchData)],
+                  ),
+                  footer: Row(
+                    children: [
+                      Spacer(),
+                      AppButton(
+                          onPress: () {
+                            Navigator.pop(context);
+                          },
+                          solidColor: AppConst.black,
+                          label: 'Cancel',
+                          borderRadius: 5,
+                          textColor: AppConst.white),
+                    ],
+                  ),
+                )
+              },
+              label: 'Add user',
+              borderRadius: 5,
+              textColor: AppConst.white,
+              gradient: AppConst.primaryGradient,
+            ),
+            child: Column(
+              children: [
+                if (userData.isNotEmpty)
                   ReusableTable(
                     deleteModalHeight: 300,
                     deleteModalWidth: 500,
@@ -145,9 +145,9 @@ class _userManagementState extends State<userManagement> {
                         weight: FontWeight.bold),
                     url: 'deleteUserById',
                   ),
-                ],
-              ),
+              ],
             ),
+          ),
         ],
       ),
     );
