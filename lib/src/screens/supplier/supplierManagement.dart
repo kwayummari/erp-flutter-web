@@ -75,8 +75,7 @@ class _supplierManagementState extends State<supplierManagement> {
           if (isLoading)
             Center(child: CircularProgressIndicator())
           else if (hasError)
-            Center(child: Text('Error loading data'))
-          else if (productData.isNotEmpty)
+            Center(child: Text('Error loading data')),
             appTabular(
               title: 'Supplier Management',
               button: AppButton(
@@ -106,6 +105,7 @@ class _supplierManagementState extends State<supplierManagement> {
               ),
               child: Column(
                 children: [
+                  if (productData.isNotEmpty)
                   ReusableTable(
                     deleteModalHeight: 300,
                     deleteModalWidth: 500,
