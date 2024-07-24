@@ -48,12 +48,7 @@ class _addBranchFormState extends State<addBranchForm> {
           Padding(
             padding: const EdgeInsets.only(right: 20, top: 20),
             child: Row(
-              children: [
-                myProvider.myLoging == true
-                    ? SpinKitCircle(
-                        color: AppConst.primary,
-                      )
-                    : Padding(
+              children: [ Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Container(
                         width: 420,

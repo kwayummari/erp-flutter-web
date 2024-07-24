@@ -57,12 +57,7 @@ class _editRoleState extends State<editRole> {
           Padding(
             padding: const EdgeInsets.only(right: 20, top: 20),
             child: Row(
-              children: [
-                myProvider.myLoging == true
-                    ? SpinKitCircle(
-                        color: AppConst.primary,
-                      )
-                    : Align(
+              children: [ Align(
                         alignment: Alignment.center,
                         child: Container(
                           width: 240,
