@@ -22,8 +22,7 @@ class GrnManagement extends StatefulWidget {
   const GrnManagement({super.key});
 
   @override
-  State<GrnManagement> createState() =>
-      _GrnManagementState();
+  State<GrnManagement> createState() => _GrnManagementState();
 }
 
 class _GrnManagementState extends State<GrnManagement> {
@@ -58,15 +57,14 @@ class _GrnManagementState extends State<GrnManagement> {
   Future<void> fetchData() async {
     try {
       GrnServices grnService = GrnServices();
-      final grnResponse =
-          await grnService.getGrn(context, supplierId);
+      final grnResponse = await grnService.getGrn(context, supplierId);
       setState(() {
         purchaseId = grnResponse['orders'][0]['id'];
       });
-      if (grnResponse != null &&
-          grnResponse['orders'] != null) {
+      if (grnResponse != null && grnResponse['orders'] != null) {
         purchaseData = [];
         totalAmount = 0.0;
+        print(grnResponse);
         setState(() {
           orderId = grnResponse['orders'][0]['id'].toString();
           purchaseOrderId = grnResponse['orders'][0]['orderId'];
@@ -84,6 +82,7 @@ class _GrnManagementState extends State<GrnManagement> {
                 'quantity': inventory['quantity'].toString(),
                 'price': inventory['buyingPrice'].toString(),
                 'total': total.toString(),
+                'quantity_received': inventory['quantity_received'].toString(),
               });
             }
           }
@@ -106,6 +105,7 @@ class _GrnManagementState extends State<GrnManagement> {
               'total': (double.parse(inventory['buyingPrice']) *
                       double.parse(inventory['quantity']))
                   .toString(),
+              'quantity_received': inventory['quantity_received'].toString(),
             });
           }
         }
@@ -129,8 +129,8 @@ class _GrnManagementState extends State<GrnManagement> {
   Future<void> saveData(purchaseId, supplierId) async {
     try {
       purchaseOrderServices purchaseOrderService = purchaseOrderServices();
-      final grnResponse =
-          await purchaseOrderService.savePurchaseOrder(context, purchaseId, supplierId);
+      final grnResponse = await purchaseOrderService.savePurchaseOrder(
+          context, purchaseId, supplierId);
     } catch (e) {
       setState(() {
         hasError = true;
@@ -292,7 +292,8 @@ class _GrnManagementState extends State<GrnManagement> {
                         child: AppButton(
                             solidColor: AppConst.red,
                             onPress: () async {
-                              await saveData(purchaseId.toString(), supplierId.toString());
+                              await saveData(
+                                  purchaseId.toString(), supplierId.toString());
                               setState(() {
                                 supplierId = null;
                               });

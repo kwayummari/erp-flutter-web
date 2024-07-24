@@ -221,7 +221,11 @@ class _DataSource extends DataTableSource {
     final row = widget.data[index];
 
     // Initialize the TextEditingController if it doesn't exist
-    _controllers.putIfAbsent(index, () => TextEditingController());
+    // _controllers.putIfAbsent(index, () => TextEditingController());
+    _controllers.putIfAbsent(index, () {
+      final controller = TextEditingController(text: row['quantity_received'].toString());
+      return controller;
+    });
 
     return DataRow.byIndex(
       index: index,
