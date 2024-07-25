@@ -2,7 +2,7 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:erp/src/gateway/grnServices.dart';
-import 'package:erp/src/screens/grn/topGrn.dart';
+import 'package:erp/src/screens/grn/topCompletedGrn.dart';
 import 'package:erp/src/widgets/app_table3.dart';
 import 'package:flutter/rendering.dart';
 import 'package:erp/src/gateway/purchaseOrderService.dart';
@@ -233,7 +233,7 @@ class _CompletedGrnManagementState extends State<CompletedGrnManagement> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  TopGrn(
+                  TopCompletedGrn(
                     randomNumber: randomNumber,
                     todayDate: todayDate,
                     refreshSuppliers: refreshSuppliers,
