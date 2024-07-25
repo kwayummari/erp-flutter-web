@@ -92,10 +92,20 @@ class _CompletedGrnListsManagementState
                     onSupplierChanged: (value) {},
                   ),
                   ListTile(
-                              tileColor: AppConst.whiteOpacity,
-                              title: AppText(txt: 'Supplier Name', size: 20, color: AppConst.black, weight: FontWeight.bold,),
-                              trailing: AppText(txt: 'Number of orders'.length.toString(), size: 20, color: AppConst.black, weight: FontWeight.bold,),
-                            ),
+                    tileColor: AppConst.whiteOpacity,
+                    title: AppText(
+                      txt: 'Supplier Name',
+                      size: 20,
+                      color: AppConst.black,
+                      weight: FontWeight.bold,
+                    ),
+                    trailing: AppText(
+                      txt: 'Number of orders',
+                      size: 20,
+                      color: AppConst.black,
+                      weight: FontWeight.bold,
+                    ),
+                  ),
                   Container(
                     height: 250,
                     width: MediaQuery.of(context).size.width,
@@ -108,8 +118,26 @@ class _CompletedGrnListsManagementState
                             elevation: 10,
                             child: ListTile(
                               tileColor: AppConst.whiteOpacity,
-                              title: AppText(txt: grn[index]['supplierName'], size: 20, color: AppConst.black, weight: FontWeight.bold,),
-                              trailing: AppText(txt: grn[index]['inventoryDetails'].length.toString(), size: 20, color: AppConst.black, weight: FontWeight.normal,),
+                              title: AppText(
+                                txt: grn[index]['supplierName'],
+                                size: 20,
+                                color: AppConst.black,
+                                weight: FontWeight.bold,
+                              ),
+                              subtitle: AppText(
+                                txt: grn[index]['date'],
+                                size: 15,
+                                color: AppConst.black,
+                                weight: FontWeight.normal,
+                              ),
+                              trailing: AppText(
+                                txt: grn[index]['inventoryDetails']
+                                    .length
+                                    .toString(),
+                                size: 20,
+                                color: AppConst.black,
+                                weight: FontWeight.normal,
+                              ),
                             ),
                           ),
                         );
