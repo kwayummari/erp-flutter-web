@@ -7,14 +7,12 @@ class TopCompletedGrnList extends StatefulWidget {
   final String todayDate;
   final bool fetchSupplier;
   final List<Map<String, dynamic>> purchaseData;
-  final void Function()? refreshSuppliers;
   final Function(String) onSupplierChanged;
 
   TopCompletedGrnList({
     Key? key,
     required this.randomNumber,
     required this.todayDate,
-    required this.refreshSuppliers,
     required this.fetchSupplier,
     required this.purchaseData,
     required this.onSupplierChanged,

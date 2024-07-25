@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:erp/src/screens/grn/topCompletedGrnList.dart';
 import 'package:erp/src/widgets/app_listview_builder.dart';
-import 'package:erp/src/gateway/purchaseOrderService.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
@@ -28,33 +27,9 @@ class _CompletedGrnListsManagementState
   double totalAmount = 0.0;
   double vatAmount = 0.0;
   double grandTotal = 0.0;
-  final List<String> titles = [
-    'Name',
-    'Description',
-    'Quantity',
-    'Price',
-    'Total',
-  ];
   GlobalKey _printKey = GlobalKey();
 
-  void refreshSuppliers() {
-    setState(() {
-      fetchSupplier = !fetchSupplier;
-    });
-  }
 
-  Future<void> saveData(purchaseId, supplierId) async {
-    try {
-      purchaseOrderServices purchaseOrderService = purchaseOrderServices();
-      final grnResponse = await purchaseOrderService.savePurchaseOrder(
-          context, purchaseId, supplierId, '2');
-    } catch (e) {
-      setState(() {
-        hasError = true;
-        isLoading = false;
-      });
-    }
-  }
 
   @override
   void initState() {
@@ -97,7 +72,6 @@ class _CompletedGrnListsManagementState
                   TopCompletedGrnList(
                     randomNumber: randomNumber,
                     todayDate: todayDate,
-                    refreshSuppliers: refreshSuppliers,
                     fetchSupplier: fetchSupplier,
                     onSupplierChanged: (value) {
                     },
