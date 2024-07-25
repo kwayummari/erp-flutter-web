@@ -20,7 +20,6 @@ class addProductForm extends StatefulWidget {
 class _addProductFormState extends State<addProductForm> {
   TextEditingController name = TextEditingController();
   TextEditingController description = TextEditingController();
-  TextEditingController quantity = TextEditingController();
   TextEditingController buyingPrice = TextEditingController();
   TextEditingController sellingPrice = TextEditingController();
   TextEditingController productNumber = TextEditingController();
@@ -62,20 +61,6 @@ class _addProductFormState extends State<addProductForm> {
             obscure: false,
             icon: Icon(
               Icons.description,
-              color: AppConst.black,
-            ),
-            isemail: false,
-            isPhone: false,
-          ),
-          AppInputText(
-            textsColor: AppConst.black,
-            textfieldcontroller: quantity,
-            ispassword: false,
-            fillcolor: AppConst.white,
-            label: 'Quantity',
-            obscure: false,
-            icon: Icon(
-              Icons.numbers,
               color: AppConst.black,
             ),
             isemail: false,
