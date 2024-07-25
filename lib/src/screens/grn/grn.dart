@@ -273,7 +273,7 @@ class _GrnManagementState extends State<GrnManagement> {
                       },
                       onClose: fetchData,
                       url: 'deleteOrder',
-                      data: purchaseData,
+                      data: purchaseData, enabled: true,
                     ),
                   ),
                   Row(

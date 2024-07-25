@@ -16,6 +16,7 @@ class ReusableTable3 extends StatefulWidget {
   final String? supplierId;
   final String? orderId;
   final String? randomNumber;
+  final bool enabled;
   final List<Map<String, dynamic>> data;
   final Function fetchData;
   final Future<void> Function()? fetchData1;
@@ -40,6 +41,7 @@ class ReusableTable3 extends StatefulWidget {
     required this.orderId,
     required this.randomNumber,
     required this.fetchData1,
+    required this.enabled,
   }) : super(key: key);
 
   @override
@@ -223,7 +225,8 @@ class _DataSource extends DataTableSource {
     // Initialize the TextEditingController if it doesn't exist
     // _controllers.putIfAbsent(index, () => TextEditingController());
     _controllers.putIfAbsent(index, () {
-      final controller = TextEditingController(text: row['quantity_received'].toString());
+      final controller =
+          TextEditingController(text: row['quantity_received'].toString());
       return controller;
     });
 
@@ -236,6 +239,7 @@ class _DataSource extends DataTableSource {
           ),
         DataCell(
           TextField(
+            enabled: widget.enabled,
             controller: _controllers[index],
             onChanged: (value) async {
               GrnServices()

@@ -261,7 +261,7 @@ class _CompletedGrnManagementState extends State<CompletedGrnManagement> {
                       deleteModalHeight: 300,
                       deleteModalWidth: 500,
                       editModalHeight: 550,
-                      editModalWidth: 500,
+                      editModalWidth: 500, 
                       fetchData: fetchData,
                       columnSpacing: 100,
                       titles: titles,
@@ -272,7 +272,7 @@ class _CompletedGrnManagementState extends State<CompletedGrnManagement> {
                       },
                       onClose: fetchData,
                       url: 'deleteOrder',
-                      data: purchaseData,
+                      data: purchaseData, enabled: false,
                     ),
                   ),
                   Row(

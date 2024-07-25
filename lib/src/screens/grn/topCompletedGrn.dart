@@ -79,7 +79,7 @@ class _TopCompletedGrnState extends State<TopCompletedGrn> {
         Padding(
           padding: const EdgeInsets.only(left: 20, top: 40, bottom: 20),
           child: AppText(
-            txt: 'Goods Received Notes',
+            txt: 'Completed Goods Received Notes',
             size: 25,
             color: AppConst.black,
             weight: FontWeight.bold,
