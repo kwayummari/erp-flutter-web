@@ -5,14 +5,12 @@ import 'package:flutter/material.dart';
 class TopCompletedGrnList extends StatefulWidget {
   final int randomNumber;
   final String todayDate;
-  final List<Map<String, dynamic>> purchaseData;
   final Function(String) onSupplierChanged;
 
   TopCompletedGrnList({
     Key? key,
     required this.randomNumber,
     required this.todayDate,
-    required this.purchaseData,
     required this.onSupplierChanged,
   }) : super(key: key);
 

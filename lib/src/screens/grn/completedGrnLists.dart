@@ -16,10 +16,8 @@ class CompletedGrnListsManagement extends StatefulWidget {
 
 class _CompletedGrnListsManagementState
     extends State<CompletedGrnListsManagement> {
-  List<Map<String, dynamic>> purchaseData = [];
   bool isLoading = true;
   bool hasError = false;
-  var purchaseId;
   var todayDate;
   var randomNumber;
   var purchaseOrderId;
@@ -74,7 +72,6 @@ class _CompletedGrnListsManagementState
                     todayDate: todayDate,
                     onSupplierChanged: (value) {
                     },
-                    purchaseData: purchaseData,
                   ),
                   Container(
                     height: 250,
