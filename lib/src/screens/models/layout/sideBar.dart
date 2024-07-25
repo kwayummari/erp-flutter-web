@@ -123,6 +123,10 @@ class _sideBarState extends State<sideBar> {
                                                 'grn') {
                                               context
                                                   .go(RouteNames.grn);
+                                            } else if (subMenu[index]['url'] ==
+                                                'completedGrn') {
+                                              context
+                                                  .go(RouteNames.grn);
                                             }
                                           },
                                           child: ListTile(

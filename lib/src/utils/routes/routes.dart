@@ -61,6 +61,10 @@ final GoRouter router = GoRouter(
       builder: (context, state) => GrnManagement(),
     ),
     GoRoute(
+      path: RouteNames.completedGrn,
+      builder: (context, state) => GrnManagement(),
+    ),
+    GoRoute(
       path: RouteNames.permissions,
       builder: (context, state) {
         final data = state.extra as Map<String, dynamic>;

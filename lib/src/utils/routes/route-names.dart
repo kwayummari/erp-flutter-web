@@ -12,4 +12,5 @@ class RouteNames {
   static const String branch = '/branch';
   static const String purchaseOrder = '/purchaseOrder';
   static const String grn = '/grn';
+  static const String completedGrn = '/completeGrn';
 }
