@@ -24,7 +24,6 @@ class inventoryServices {
       BuildContext context,
       String name,
       String description,
-      String quantity,
       String buyingPrice,
       String sellingPrice,
       String productNumber,
@@ -39,7 +38,6 @@ class inventoryServices {
     Map<String, dynamic> data = {
       'name': name,
       'description': description,
-      'quantity': quantity,
       'buyingPrice': buyingPrice,
       'sellingPrice': sellingPrice,
       'productNumber': productNumber,

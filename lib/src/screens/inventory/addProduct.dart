@@ -173,7 +173,6 @@ class _addProductFormState extends State<addProductForm> {
                                   context,
                                   name.text,
                                   description.text,
-                                  quantity.text,
                                   buyingPrice.text,
                                   sellingPrice.text,
                                   productNumber.text,
