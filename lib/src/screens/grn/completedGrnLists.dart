@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:erp/src/gateway/grnServices.dart';
 import 'package:erp/src/screens/grn/topCompletedGrnList.dart';
 import 'package:erp/src/widgets/app_listview_builder.dart';
 import 'package:erp/src/utils/app_const.dart';
@@ -27,7 +28,21 @@ class _CompletedGrnListsManagementState
   double grandTotal = 0.0;
   GlobalKey _printKey = GlobalKey();
 
-
+  Future<void> fetchData() async {
+    try {
+      GrnServices grnService = GrnServices();
+      final grnResponse = await grnService.getCompletedGrnList(context);
+      print(grnResponse);
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        hasError = true;
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   void initState() {
@@ -70,8 +85,7 @@ class _CompletedGrnListsManagementState
                   TopCompletedGrnList(
                     randomNumber: randomNumber,
                     todayDate: todayDate,
-                    onSupplierChanged: (value) {
-                    },
+                    onSupplierChanged: (value) {},
                   ),
                   Container(
                     height: 250,
