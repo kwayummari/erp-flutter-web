@@ -1,21 +1,13 @@
 import 'dart:math';
-import 'dart:typed_data';
-import 'dart:ui' as ui;
 import 'package:erp/src/gateway/grnServices.dart';
 import 'package:erp/src/screens/grn/topCompletedGrn.dart';
 import 'package:erp/src/widgets/app_table3.dart';
-import 'package:flutter/rendering.dart';
 import 'package:erp/src/gateway/purchaseOrderService.dart';
 import 'package:erp/src/provider/table2_notifier.dart';
 import 'package:erp/src/utils/app_const.dart';
-import 'package:erp/src/widgets/app_button.dart';
-import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
 import 'package:intl/intl.dart';
-import 'package:printing/printing.dart';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
 import 'package:provider/provider.dart';
 
 class CompletedGrnListsManagement extends StatefulWidget {
@@ -149,61 +141,6 @@ class _CompletedGrnListsManagementState extends State<CompletedGrnListsManagemen
     randomNumber = random.nextInt(1000000);
   }
 
-  Future<void> _showComingSoonPopup() async {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: AppConst.black,
-          title: AppText(
-            txt: 'Coming Soon',
-            size: 15,
-            color: AppConst.white,
-          ),
-          content: AppText(
-            txt: 'This feature is coming soon.',
-            size: 15,
-            color: AppConst.white,
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: AppText(
-                txt: 'OK',
-                size: 15,
-                color: AppConst.white,
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Future<void> _printPage() async {
-    try {
-      RenderRepaintBoundary boundary =
-          _printKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
-      ui.Image image = await boundary.toImage(pixelRatio: 3.0);
-      ByteData? byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
-      if (byteData != null) {
-        final pdf = pw.Document();
-        final imageBytes = byteData.buffer.asUint8List();
-        final pdfImage = pw.MemoryImage(imageBytes);
-        pdf.addPage(pw.Page(
-            build: (pw.Context context) => pw.Center(
-                  child: pw.Image(pdfImage),
-                )));
-        await Printing.layoutPdf(
-            onLayout: (PdfPageFormat format) async => pdf.save());
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -275,85 +212,6 @@ class _CompletedGrnListsManagementState extends State<CompletedGrnListsManagemen
                       data: purchaseData, enabled: false,
                     ),
                   ),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: AppButton(
-                            solidColor: AppConst.primary,
-                            onPress: _showComingSoonPopup,
-                            label: 'Send Email',
-                            borderRadius: 5,
-                            textColor: AppConst.white),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: AppButton(
-                            solidColor: AppConst.red,
-                            onPress: () async {
-                              await saveData(
-                                  purchaseId.toString(), supplierId.toString());
-                              setState(() {
-                                supplierId = null;
-                              });
-                              await fetchData();
-                            },
-                            label: 'Save',
-                            borderRadius: 5,
-                            textColor: AppConst.white),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: AppButton(
-                            solidColor: AppConst.black,
-                            onPress: _printPage,
-                            label: 'Print',
-                            borderRadius: 5,
-                            textColor: AppConst.white),
-                      ),
-                      Spacer(),
-                      Column(
-                        children: [
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: AppText(
-                                txt:
-                                    'Total: Tsh.${totalAmount.toStringAsFixed(2)}',
-                                size: 15,
-                                weight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: AppText(
-                                txt:
-                                    'VAT (20%): Tsh.${vatAmount.toStringAsFixed(2)}',
-                                size: 15,
-                                weight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: AppText(
-                                txt:
-                                    'Grand Total: Tsh.${grandTotal.toStringAsFixed(2)}',
-                                size: 15,
-                                weight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  )
                 ],
               ),
             ),
