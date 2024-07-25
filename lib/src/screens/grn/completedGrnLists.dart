@@ -1,29 +1,27 @@
 import 'dart:math';
-import 'package:erp/src/gateway/grnServices.dart';
 import 'package:erp/src/screens/grn/topCompletedGrn.dart';
-import 'package:erp/src/widgets/app_table3.dart';
+import 'package:erp/src/screens/grn/topCompletedGrnList.dart';
+import 'package:erp/src/widgets/app_listview_builder.dart';
 import 'package:erp/src/gateway/purchaseOrderService.dart';
-import 'package:erp/src/provider/table2_notifier.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 class CompletedGrnListsManagement extends StatefulWidget {
   const CompletedGrnListsManagement({super.key});
 
   @override
-  State<CompletedGrnListsManagement> createState() => _CompletedGrnListsManagementState();
+  State<CompletedGrnListsManagement> createState() =>
+      _CompletedGrnListsManagementState();
 }
 
-class _CompletedGrnListsManagementState extends State<CompletedGrnListsManagement> {
+class _CompletedGrnListsManagementState
+    extends State<CompletedGrnListsManagement> {
   List<Map<String, dynamic>> purchaseData = [];
   bool isLoading = true;
   bool hasError = false;
   var purchaseId;
-  var orderId;
-  var supplierId;
   var todayDate;
   var randomNumber;
   var purchaseOrderId;
@@ -46,77 +44,6 @@ class _CompletedGrnListsManagementState extends State<CompletedGrnListsManagemen
     });
   }
 
-  Future<void> fetchData() async {
-    try {
-      GrnServices grnService = GrnServices();
-      final grnResponse = await grnService.getCompletedGrn(context, supplierId);
-      setState(() {
-        purchaseId = grnResponse['orders'][0]['id'];
-      });
-      if (grnResponse != null && grnResponse['orders'] != null) {
-        purchaseData = [];
-        totalAmount = 0.0;
-        setState(() {
-          orderId = grnResponse['orders'][0]['id'].toString();
-          purchaseOrderId = grnResponse['orders'][0]['orderId'];
-          purchaseData = [];
-          for (var order in grnResponse['orders']) {
-            for (var inventory in order['inventoryDetails']) {
-              double total = double.parse(inventory['buyingPrice']) *
-                  double.parse(inventory['quantity']);
-              totalAmount += total;
-              purchaseData.add({
-                'id': inventory['id'].toString(),
-                'orderedId': inventory['orderedId'].toString(),
-                'name': inventory['name'].toString(),
-                'description': inventory['description'].toString(),
-                'quantity': inventory['quantity'].toString(),
-                'price': inventory['buyingPrice'].toString(),
-                'total': total.toString(),
-                'quantity_received': inventory['quantity_received'].toString(),
-              });
-            }
-          }
-          vatAmount = totalAmount * 0.2;
-          grandTotal = totalAmount + vatAmount;
-          isLoading = false;
-        });
-        final tableDataNotifier =
-            Provider.of<TableDataNotifier>(context, listen: false);
-        tableDataNotifier.data.clear();
-        for (var order in grnResponse['orders']) {
-          for (var inventory in order['inventoryDetails']) {
-            tableDataNotifier.addNewRow({
-              'id': inventory['id'].toString(),
-              'orderedId': inventory['orderedId'].toString(),
-              'name': inventory['name'].toString(),
-              'description': inventory['description'].toString(),
-              'quantity': inventory['quantity'].toString(),
-              'price': inventory['buyingPrice'].toString(),
-              'total': (double.parse(inventory['buyingPrice']) *
-                      double.parse(inventory['quantity']))
-                  .toString(),
-              'quantity_received': inventory['quantity_received'].toString(),
-            });
-          }
-        }
-        setState(() {
-          isLoading = false;
-        });
-      } else {
-        setState(() {
-          hasError = true;
-          isLoading = false;
-        });
-      }
-    } catch (e) {
-      setState(() {
-        hasError = true;
-        isLoading = false;
-      });
-    }
-  }
-
   Future<void> saveData(purchaseId, supplierId) async {
     try {
       purchaseOrderServices purchaseOrderService = purchaseOrderServices();
@@ -133,14 +60,12 @@ class _CompletedGrnListsManagementState extends State<CompletedGrnListsManagemen
   @override
   void initState() {
     super.initState();
-    if (supplierId != null) fetchData();
     var now = DateTime.now();
     var formatter = DateFormat('yyyy-MM-dd');
     todayDate = formatter.format(now);
     Random random = Random();
     randomNumber = random.nextInt(1000000);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -170,15 +95,11 @@ class _CompletedGrnListsManagementState extends State<CompletedGrnListsManagemen
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  TopCompletedGrn(
+                  TopCompletedGrnList(
                     randomNumber: randomNumber,
                     todayDate: todayDate,
                     refreshSuppliers: refreshSuppliers,
                     fetchSupplier: fetchSupplier,
-                    supplierId: supplierId,
-                    fetchData: fetchData,
-                    fetchData1: fetchData,
-                    orderId: orderId,
                     purchaseOrderId: purchaseOrderId,
                     onSupplierChanged: (value) {
                       setState(() {
@@ -191,25 +112,13 @@ class _CompletedGrnListsManagementState extends State<CompletedGrnListsManagemen
                   Container(
                     height: 250,
                     width: MediaQuery.of(context).size.width,
-                    child: ReusableTable3(
-                      fetchData1: fetchData,
-                      orderId: orderId,
-                      supplierId: supplierId,
-                      deleteModalHeight: 300,
-                      deleteModalWidth: 500,
-                      editModalHeight: 550,
-                      editModalWidth: 500, 
-                      fetchData: fetchData,
-                      columnSpacing: 100,
-                      titles: titles,
-                      randomNumber: randomNumber.toString(),
-                      cellBuilder: (context, row, title) {
-                        return Text(
-                            row[title.toLowerCase().replaceAll(' ', '')] ?? '');
+                    child: AppListviewBuilder(
+                      itemnumber: 10,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text('Item $index'),
+                        );
                       },
-                      onClose: fetchData,
-                      url: 'deleteOrder',
-                      data: purchaseData, enabled: false,
                     ),
                   ),
                 ],
