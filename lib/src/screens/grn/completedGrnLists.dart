@@ -91,15 +91,27 @@ class _CompletedGrnListsManagementState
                     todayDate: todayDate,
                     onSupplierChanged: (value) {},
                   ),
+                  ListTile(
+                              tileColor: AppConst.whiteOpacity,
+                              title: AppText(txt: 'Supplier Name', size: 20, color: AppConst.black, weight: FontWeight.bold,),
+                              trailing: AppText(txt: 'Number of orders'.length.toString(), size: 20, color: AppConst.black, weight: FontWeight.bold,),
+                            ),
                   Container(
                     height: 250,
                     width: MediaQuery.of(context).size.width,
                     child: AppListviewBuilder(
                       itemnumber: grn.length,
                       itemBuilder: (context, index) {
-                        return ListTile(
-                          title: AppText(txt: grn[index]['supplierName'], size: 20, color: AppConst.black, weight: FontWeight.bold,),
-                          trailing: AppText(txt: grn[index]['inventoryDetails'].length.toString(), size: 20, color: AppConst.black, weight: FontWeight.normal,),
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Material(
+                            elevation: 10,
+                            child: ListTile(
+                              tileColor: AppConst.whiteOpacity,
+                              title: AppText(txt: grn[index]['supplierName'], size: 20, color: AppConst.black, weight: FontWeight.bold,),
+                              trailing: AppText(txt: grn[index]['inventoryDetails'].length.toString(), size: 20, color: AppConst.black, weight: FontWeight.normal,),
+                            ),
+                          ),
                         );
                       },
                     ),
