@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 class TopCompletedGrnList extends StatefulWidget {
   final int randomNumber;
   final String todayDate;
-  final bool fetchSupplier;
   final List<Map<String, dynamic>> purchaseData;
   final Function(String) onSupplierChanged;
 
@@ -13,7 +12,6 @@ class TopCompletedGrnList extends StatefulWidget {
     Key? key,
     required this.randomNumber,
     required this.todayDate,
-    required this.fetchSupplier,
     required this.purchaseData,
     required this.onSupplierChanged,
   }) : super(key: key);

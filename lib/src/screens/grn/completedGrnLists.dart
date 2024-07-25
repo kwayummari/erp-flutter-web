@@ -72,7 +72,6 @@ class _CompletedGrnListsManagementState
                   TopCompletedGrnList(
                     randomNumber: randomNumber,
                     todayDate: todayDate,
-                    fetchSupplier: fetchSupplier,
                     onSupplierChanged: (value) {
                     },
                     purchaseData: purchaseData,
