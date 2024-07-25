@@ -58,7 +58,8 @@ class _ReusableTableState extends State<ReusableTable> {
     PaginatedDataTable.defaultRowsPerPage * 10
   ];
 
-  void _sort<T>(Comparable<T> Function(Map<String, dynamic> d) getField, int columnIndex, bool ascending) {
+  void _sort<T>(Comparable<T> Function(Map<String, dynamic> d) getField,
+      int columnIndex, bool ascending) {
     widget.data.sort((a, b) {
       if (!ascending) {
         final Map<String, dynamic> c = a;
@@ -85,12 +86,25 @@ class _ReusableTableState extends State<ReusableTable> {
         columns: [
           for (int i = 0; i < widget.titles.length; i++)
             DataColumn(
-              label: AppText(txt: widget.titles[i], size: 20, color: AppConst.black, weight: FontWeight.bold,),
+              label: AppText(
+                txt: widget.titles[i],
+                size: 20,
+                color: AppConst.black,
+                weight: FontWeight.bold,
+              ),
               onSort: (int columnIndex, bool ascending) {
-                _sort<String>((d) => d[widget.titles[columnIndex]].toString(), columnIndex, ascending);
+                _sort<String>((d) => d[widget.titles[columnIndex]].toString(),
+                    columnIndex, ascending);
               },
             ),
-          DataColumn(label: AppText(txt: 'Actions', size: 20, color: AppConst.black, weight: FontWeight.bold,),),
+          DataColumn(
+            label: AppText(
+              txt: 'Actions',
+              size: 20,
+              color: AppConst.black,
+              weight: FontWeight.bold,
+            ),
+          ),
         ],
         source: _DataSource(context, widget),
         rowsPerPage: _rowsPerPage,
@@ -125,8 +139,14 @@ class _DataSource extends DataTableSource {
           CustomPopoverItem(
             title: 'Edit',
             icon: Icons.edit,
-            onTap: () {
-              Provider.of<RowDataProvider>(context, listen: false).setRowData(row);
+            onTap: () async {
+              final provider =
+                  Provider.of<RowDataProvider>(context, listen: false);
+              if (provider.isUpdating) return;
+              provider.setRowData(row);
+              while (provider.isUpdating) {
+                await Future.delayed(Duration(seconds: 5));
+              }
               ReusableModal.show(
                 width: widget.editModalWidth,
                 height: widget.editModalHeight,
@@ -167,7 +187,8 @@ class _DataSource extends DataTableSource {
                       child: AppButton(
                           onPress: () async {
                             deleteServices deleteService = deleteServices();
-                            await deleteService.delete(context, widget.url, row['id'].toString());
+                            await deleteService.delete(
+                                context, widget.url, row['id'].toString());
                             widget.fetchData();
                             Navigator.pop(context);
                           },

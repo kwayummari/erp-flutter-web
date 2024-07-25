@@ -135,7 +135,6 @@ class _addSupplierFormState extends State<addSupplierForm> {
                               supplierServices().addSupplier(context, name.text,
                                   phone.text, tin.text, vrn.text, branch);
                               await widget.fetchData();
-                              Navigator.pop(context);
                               if (widget.refreshSuppliers != null) {
                                 widget.refreshSuppliers!();
                               }

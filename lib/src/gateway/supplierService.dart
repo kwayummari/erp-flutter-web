@@ -43,6 +43,7 @@ class supplierServices {
         isError: false,
         response: newResponse['message'],
       ).show(context);
+      Navigator.pop(context);
     } else {
       myProvider.updateLoging(!myProvider.myLoging);
       AppSnackbar(
