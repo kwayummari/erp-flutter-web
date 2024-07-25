@@ -57,14 +57,13 @@ class _CompletedGrnManagementState extends State<CompletedGrnManagement> {
   Future<void> fetchData() async {
     try {
       GrnServices grnService = GrnServices();
-      final grnResponse = await grnService.getGrn(context, supplierId);
+      final grnResponse = await grnService.getCompletedGrn(context, supplierId);
       setState(() {
         purchaseId = grnResponse['orders'][0]['id'];
       });
       if (grnResponse != null && grnResponse['orders'] != null) {
         purchaseData = [];
         totalAmount = 0.0;
-        print(grnResponse);
         setState(() {
           orderId = grnResponse['orders'][0]['id'].toString();
           purchaseOrderId = grnResponse['orders'][0]['orderId'];

@@ -22,6 +22,18 @@ class GrnServices {
     return decodedResponse;
   }
 
+  Future getCompletedGrn(BuildContext context, String supplierId) async {
+    SplashFunction splashDetails = SplashFunction();
+    final companyId = await splashDetails.getCompanyId();
+    Map<String, dynamic> data = {
+      'companyId': companyId,
+      'supplierId': supplierId,
+    };
+    final response = await api.post(context, 'get_completed_grn', data);
+    final decodedResponse = jsonDecode(response.body);
+    return decodedResponse;
+  }
+
   Future<void> editGrn(
       BuildContext context, String orderedId, String quantityReceived) async {
     Map<String, dynamic> data = {
