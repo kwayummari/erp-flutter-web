@@ -36,7 +36,6 @@ class _inventoryManagementState extends State<inventoryManagement> {
               'productno.': product['productNumber'].toString(),
               'name': product['name'],
               'description': product['description'],
-              'quantity': product['quantity'],
               'buyingprice': product['buyingPrice'].toString(),
               'sellingprice': product['sellingPrice'].toString(),
               'branch': product['branchId'][0]['name'].toString(),
@@ -71,7 +70,6 @@ class _inventoryManagementState extends State<inventoryManagement> {
     'Product No.',
     'Name',
     'Description',
-    'Quantity',
     'Buying Price',
     'Selling Price',
     'Branch'
