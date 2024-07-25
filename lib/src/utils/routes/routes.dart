@@ -1,5 +1,6 @@
 import 'package:erp/src/screens/branch/branchManagement.dart';
 import 'package:erp/src/screens/dashboard/dashboard.dart';
+import 'package:erp/src/screens/grn/completedGrn.dart';
 import 'package:erp/src/screens/grn/grn.dart';
 import 'package:erp/src/screens/inventory/inventoryManagement.dart';
 import 'package:erp/src/screens/purchaseOrder/purchaseOrder.dart';
@@ -62,7 +63,7 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: RouteNames.completedGrn,
-      builder: (context, state) => GrnManagement(),
+      builder: (context, state) => CompletedGrnManagement(),
     ),
     GoRoute(
       path: RouteNames.permissions,
