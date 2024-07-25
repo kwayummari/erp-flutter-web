@@ -100,12 +100,7 @@ class _CompletedGrnListsManagementState
                     todayDate: todayDate,
                     refreshSuppliers: refreshSuppliers,
                     fetchSupplier: fetchSupplier,
-                    purchaseOrderId: purchaseOrderId,
                     onSupplierChanged: (value) {
-                      setState(() {
-                        supplierId = value;
-                        fetchData();
-                      });
                     },
                     purchaseData: purchaseData,
                   ),
