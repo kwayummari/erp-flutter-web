@@ -3,6 +3,7 @@ import 'package:erp/src/gateway/grnServices.dart';
 import 'package:erp/src/screens/grn/topCompletedGrnList.dart';
 import 'package:erp/src/widgets/app_listview_builder.dart';
 import 'package:erp/src/utils/app_const.dart';
+import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
 import 'package:intl/intl.dart';
@@ -27,14 +28,16 @@ class _CompletedGrnListsManagementState
   double vatAmount = 0.0;
   double grandTotal = 0.0;
   GlobalKey _printKey = GlobalKey();
+  List grn = [];
 
   Future<void> fetchData() async {
     try {
       GrnServices grnService = GrnServices();
       final grnResponse = await grnService.getCompletedGrnList(context);
-      print(grnResponse);
+      print(grnResponse['orders']);
       setState(() {
         isLoading = false;
+        grn = grnResponse['orders'];
       });
     } catch (e) {
       setState(() {
@@ -92,10 +95,11 @@ class _CompletedGrnListsManagementState
                     height: 250,
                     width: MediaQuery.of(context).size.width,
                     child: AppListviewBuilder(
-                      itemnumber: 10,
+                      itemnumber: grn.length,
                       itemBuilder: (context, index) {
                         return ListTile(
-                          title: Text('Item $index'),
+                          title: AppText(txt: grn[index]['supplierName'], size: 20, color: AppConst.black, weight: FontWeight.bold,),
+                          trailing: AppText(txt: grn[index]['inventoryDetails'].length.toString(), size: 20, color: AppConst.black, weight: FontWeight.normal,),
                         );
                       },
                     ),
