@@ -47,6 +47,7 @@ class _CompletedGrnListsManagementState
   @override
   void initState() {
     super.initState();
+    fetchData();
     var now = DateTime.now();
     var formatter = DateFormat('yyyy-MM-dd');
     todayDate = formatter.format(now);
