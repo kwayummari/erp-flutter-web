@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:erp/src/gateway/grnServices.dart';
 import 'package:erp/src/screens/grn/topCompletedGrnList.dart';
+import 'package:erp/src/utils/animations/shimmers/dropdown.dart';
 import 'package:erp/src/widgets/app_listview_builder.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_text.dart';
@@ -106,7 +107,7 @@ class _CompletedGrnListsManagementState
                       weight: FontWeight.bold,
                     ),
                   ),
-                  Container(
+                  grn.isEmpty ? dropdownShimmer(width: MediaQuery.of(context).size.width, height: 50, borderRadius: 5.0) : Container(
                     height: 250,
                     width: MediaQuery.of(context).size.width,
                     child: AppListviewBuilder(
