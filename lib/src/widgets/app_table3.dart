@@ -239,6 +239,31 @@ class _DataSource extends DataTableSource {
           ),
         DataCell(
           TextField(
+            style: TextStyle(color: AppConst.black),
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              label: Container(
+                color: AppConst.white,
+                child: AppText(
+                  txt: 'Quantity received',
+                  size: 15,
+                  weight: FontWeight.w700,
+                  color: AppConst.black,
+                ),
+              ),
+              filled: true,
+              fillColor: AppConst.white,
+              disabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5.0),
+                borderSide: BorderSide(color: AppConst.black),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5.0),
+                borderSide: BorderSide(color: AppConst.black),
+              ),
+            ),
             enabled: widget.enabled,
             controller: _controllers[index],
             onChanged: (value) async {

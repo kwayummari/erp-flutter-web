@@ -278,6 +278,7 @@ class _GrnManagementState extends State<GrnManagement> {
                                   purchaseId.toString(), supplierId.toString());
                               setState(() {
                                 supplierId = null;
+                                rowData = [];
                               });
                               await fetchData();
                             },

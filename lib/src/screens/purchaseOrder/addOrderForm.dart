@@ -102,6 +102,7 @@ class _AddOrderFormState extends State<AddOrderForm> {
             ),
             isemail: false,
             isPhone: false,
+            enabled: false,
           ),
           AppInputText(
             textsColor: AppConst.black,
@@ -130,6 +131,7 @@ class _AddOrderFormState extends State<AddOrderForm> {
             ispassword: false,
             fillcolor: AppConst.white,
             label: 'Price',
+            enabled: false,
             obscure: false,
             icon: Icon(
               Icons.numbers,
