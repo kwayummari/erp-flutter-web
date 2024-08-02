@@ -134,12 +134,14 @@ class salesProductServices {
     myProvider.updateLoging(!myProvider.myLoging);
     SplashFunction splashDetails = SplashFunction();
     final branchId = await splashDetails.getBranchId();
+    final companyId = await splashDetails.getCompanyId();
     Map<String, dynamic> data = {
       'inventoryId': inventoryId,
       'customerId': customerId,
       'receiptNo': receiptNo,
       'branchId': branchId,
-      'quantity': quantity
+      'quantity': quantity,
+      'companyId': companyId
     };
     final response = await api.post(context, 'add_new_sales', data);
     final newResponse = jsonDecode(response.body);
