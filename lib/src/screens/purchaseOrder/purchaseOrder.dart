@@ -293,10 +293,11 @@ class _PurchaseOrderManagementState extends State<PurchaseOrderManagement> {
                         child: AppButton(
                             solidColor: AppConst.red,
                             onPress: () async {
-                              await saveData(
-                                  purchaseId.toString(), supplierId.toString(), branchId.toString());
+                              await saveData(purchaseId.toString(),
+                                  supplierId.toString(), branchId.toString());
                               setState(() {
                                 supplierId = null;
+                                purchaseData = [];
                               });
                               await fetchData();
                             },
