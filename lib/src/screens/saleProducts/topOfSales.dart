@@ -180,7 +180,7 @@ class _TopOfSalesState extends State<TopOfSales> {
                         ),
                       );
                     },
-                    label: 'Add Order List',
+                    label: 'Add Product',
                     borderRadius: 8,
                     textColor: AppConst.white,
                     solidColor: AppConst.black,
