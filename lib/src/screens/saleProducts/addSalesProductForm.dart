@@ -1,4 +1,4 @@
-import 'package:erp/src/gateway/purchaseOrderService.dart';
+import 'package:erp/src/gateway/salesProductServices.dart';
 import 'package:erp/src/provider/loadingProvider.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app-dropdownV2.dart';
@@ -14,13 +14,18 @@ class AddSalesProductForm extends StatefulWidget {
   final double buttonWidth;
   final String? supplierId;
   final String? orderId;
+  final String receiptNumber;
+  final String customerId;
   const AddSalesProductForm(
       {super.key,
       required this.fetchData,
       required this.buttonWidth,
       this.refreshSuppliers,
       this.supplierId,
-      required this.orderId});
+      required this.receiptNumber,
+      required this.orderId,
+      required this.customerId
+      });
 
   @override
   State<AddSalesProductForm> createState() => _AddSalesProductFormState();
@@ -163,44 +168,48 @@ class _AddSalesProductFormState extends State<AddSalesProductForm> {
             keyboardType: TextInputType.number,
             enabled: false,
           ),
-          if (widget.supplierId != null)
-            Padding(
-              padding: const EdgeInsets.only(right: 20, top: 20),
-              child: Row(
-                children: [
-                  myProvider.myLoging == true
-                      ? SpinKitCircle(
-                          color: AppConst.primary,
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Container(
-                            width: widget.buttonWidth - 70,
-                            height: 50,
-                            child: AppButton(
-                              onPress: () async {
-                                if (!_formKey.currentState!.validate()) {
-                                  return;
-                                }
-                                purchaseOrderServices().addPurchaseOrder(context, inventoryId,
-                              quantity.text.toString(), widget.orderId.toString(), widget.orderId.toString());
-                                await widget.fetchData();
-                                Navigator.pop(context);
-                                if (widget.refreshSuppliers != null) {
-                                  widget.refreshSuppliers!();
-                                }
-                              },
-                              label: 'Add Order List',
-                              borderRadius: 5,
-                              textColor: AppConst.white,
-                              gradient: AppConst.primaryGradient,
-                            ),
+          Padding(
+            padding: const EdgeInsets.only(right: 20, top: 20),
+            child: Row(
+              children: [
+                myProvider.myLoging == true
+                    ? SpinKitCircle(
+                        color: AppConst.primary,
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Container(
+                          width: widget.buttonWidth - 70,
+                          height: 50,
+                          child: AppButton(
+                            onPress: () async {
+                              if (!_formKey.currentState!.validate()) {
+                                return;
+                              }
+                              salesProductServices().addNewSalesServices(
+                                context,
+                                inventoryId,
+                                widget.customerId.toString(),
+                                widget.receiptNumber.toString(),
+                                quantity.text.toString(),
+                              );
+                              await widget.fetchData();
+                              Navigator.pop(context);
+                              if (widget.refreshSuppliers != null) {
+                                widget.refreshSuppliers!();
+                              }
+                            },
+                            label: 'Add Product List',
+                            borderRadius: 5,
+                            textColor: AppConst.white,
+                            gradient: AppConst.primaryGradient,
                           ),
                         ),
-                  Spacer(),
-                ],
-              ),
+                      ),
+                Spacer(),
+              ],
             ),
+          ),
         ],
       ),
     );

@@ -224,7 +224,6 @@ class _SaleManagementState extends State<SaleManagement> {
                     fetchData: fetchData,
                     fetchData1: fetchData,
                     orderId: orderId,
-                    purchaseOrderId: purchaseOrderId,
                     onSupplierChanged: (value) {
                       setState(() {
                         supplierId = value;

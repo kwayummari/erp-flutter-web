@@ -12,7 +12,6 @@ class TopOfSales extends StatefulWidget {
   final String todayDate;
   final String? supplierId;
   final String? orderId;
-  final String? purchaseOrderId;
   final bool fetchSupplier;
   final List<Map<String, dynamic>> purchaseData;
   final void Function()? refreshSuppliers;
@@ -32,7 +31,6 @@ class TopOfSales extends StatefulWidget {
     required this.fetchData1,
     required this.onSupplierChanged,
     required this.orderId,
-    required this.purchaseOrderId,
   }) : super(key: key);
 
   @override
@@ -170,11 +168,12 @@ class _TopOfSalesState extends State<TopOfSales> {
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             AddSalesProductForm(
+                              receiptNumber: widget.randomNumber.toString(),
                               supplierId: supplierId,
                               fetchData: widget.fetchData1,
                               refreshSuppliers: widget.refreshSuppliers,
                               orderId: widget.orderId,
-                              buttonWidth: 500,
+                              buttonWidth: 500, customerId: supplierId ?? '',
                             ),
                           ],
                         ),
@@ -195,7 +194,7 @@ class _TopOfSalesState extends State<TopOfSales> {
               padding: const EdgeInsets.only(left: 20, top: 20, bottom: 20),
               child: AppText(
                 txt:
-                    'Sales Receipt no. #${widget.purchaseOrderId ?? widget.randomNumber}',
+                    'Sales Receipt no. #${ widget.randomNumber}',
                 size: 20,
                 color: AppConst.black,
                 weight: FontWeight.bold,
