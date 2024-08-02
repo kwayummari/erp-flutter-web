@@ -83,7 +83,7 @@ class _TopOfSalesState extends State<TopOfSales> {
         Padding(
           padding: const EdgeInsets.only(left: 20, top: 40, bottom: 20),
           child: AppText(
-            txt: 'Sales Management',
+            txt: 'Sales',
             size: 25,
             color: AppConst.black,
             weight: FontWeight.bold,
@@ -138,13 +138,13 @@ class _TopOfSalesState extends State<TopOfSales> {
                           addUserForm(
                             fetchData: widget.fetchData1,
                             refreshSuppliers: widget.refreshSuppliers,
-                            buttonWidth: 450,
+                            buttonWidth: 420,
                           ),
                         ],
                       ),
                     );
                   },
-                  label: 'Add Supplier',
+                  label: 'Add Customer',
                   borderRadius: 8,
                   textColor: AppConst.white,
                   solidColor: AppConst.black,
@@ -198,7 +198,7 @@ class _TopOfSalesState extends State<TopOfSales> {
               padding: const EdgeInsets.only(left: 20, top: 20, bottom: 20),
               child: AppText(
                 txt:
-                    'Purchase Order #${widget.purchaseOrderId ?? widget.randomNumber}',
+                    'Sales Receipt no. #${widget.purchaseOrderId ?? widget.randomNumber}',
                 size: 20,
                 color: AppConst.black,
                 weight: FontWeight.bold,
