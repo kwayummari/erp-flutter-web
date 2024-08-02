@@ -4,6 +4,7 @@ import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app-dropdown.dart';
 import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_input_text.dart';
+import 'package:erp/src/widgets/app_input_text2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
@@ -78,7 +79,7 @@ class _editSupplierFormState extends State<editSupplierForm> {
             isemail: false,
             isPhone: false,
           ),
-          AppInputText(
+          AppInputText2(
             textsColor: AppConst.black,
             textfieldcontroller: tin,
             ispassword: false,
@@ -91,8 +92,9 @@ class _editSupplierFormState extends State<editSupplierForm> {
             ),
             isemail: false,
             isPhone: false,
+            isOcas: true,
           ),
-          AppInputText(
+          AppInputText2(
             textsColor: AppConst.black,
             textfieldcontroller: vrn,
             ispassword: false,
@@ -105,6 +107,7 @@ class _editSupplierFormState extends State<editSupplierForm> {
             ),
             isemail: false,
             isPhone: false,
+            isOcas: true,
           ),
           DropdownTextFormField(
             initialValue: branch.toString(),
