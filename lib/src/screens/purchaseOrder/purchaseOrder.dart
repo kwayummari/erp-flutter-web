@@ -54,6 +54,7 @@ class _PurchaseOrderManagementState extends State<PurchaseOrderManagement> {
     });
   }
 
+  var branchId;
   Future<void> fetchData() async {
     try {
       purchaseOrderServices purchaseOrderService = purchaseOrderServices();
@@ -61,6 +62,7 @@ class _PurchaseOrderManagementState extends State<PurchaseOrderManagement> {
           await purchaseOrderService.getPurchaseOrder(context, supplierId);
       setState(() {
         purchaseId = purchaseOrderResponse['orders'][0]['id'];
+        branchId = purchaseOrderResponse['orders'][0]['branchDetails']['id'];
       });
       if (purchaseOrderResponse != null &&
           purchaseOrderResponse['orders'] != null) {
@@ -125,11 +127,11 @@ class _PurchaseOrderManagementState extends State<PurchaseOrderManagement> {
     }
   }
 
-  Future<void> saveData(purchaseId, supplierId) async {
+  Future<void> saveData(purchaseId, supplierId, branchId) async {
     try {
       purchaseOrderServices purchaseOrderService = purchaseOrderServices();
-      final purchaseOrderResponse =
-          await purchaseOrderService.savePurchaseOrder(context, purchaseId, supplierId, '1');
+      final purchaseOrderResponse = await purchaseOrderService
+          .savePurchaseOrder(context, purchaseId, supplierId, branchId, '1');
     } catch (e) {
       setState(() {
         hasError = true;
@@ -291,7 +293,8 @@ class _PurchaseOrderManagementState extends State<PurchaseOrderManagement> {
                         child: AppButton(
                             solidColor: AppConst.red,
                             onPress: () async {
-                              await saveData(purchaseId.toString(), supplierId.toString());
+                              await saveData(
+                                  purchaseId.toString(), supplierId.toString(), branchId.toString());
                               setState(() {
                                 supplierId = null;
                               });

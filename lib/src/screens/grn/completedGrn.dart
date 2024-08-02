@@ -54,12 +54,14 @@ class _CompletedGrnManagementState extends State<CompletedGrnManagement> {
     });
   }
 
+  var branchId;
   Future<void> fetchData() async {
     try {
       GrnServices grnService = GrnServices();
       final grnResponse = await grnService.getCompletedGrn(context, supplierId);
       setState(() {
         purchaseId = grnResponse['orders'][0]['id'];
+        branchId = grnResponse['orders'][0]['branchDetails']['id'];
       });
       if (grnResponse != null && grnResponse['orders'] != null) {
         purchaseData = [];
@@ -129,7 +131,7 @@ class _CompletedGrnManagementState extends State<CompletedGrnManagement> {
     try {
       purchaseOrderServices purchaseOrderService = purchaseOrderServices();
       final grnResponse = await purchaseOrderService.savePurchaseOrder(
-          context, purchaseId, supplierId, '2');
+          context, purchaseId, supplierId, branchId, '2');
     } catch (e) {
       setState(() {
         hasError = true;
@@ -261,7 +263,7 @@ class _CompletedGrnManagementState extends State<CompletedGrnManagement> {
                       deleteModalHeight: 300,
                       deleteModalWidth: 500,
                       editModalHeight: 550,
-                      editModalWidth: 500, 
+                      editModalWidth: 500,
                       fetchData: fetchData,
                       columnSpacing: 100,
                       titles: titles,
@@ -272,7 +274,8 @@ class _CompletedGrnManagementState extends State<CompletedGrnManagement> {
                       },
                       onClose: fetchData,
                       url: 'deleteOrder',
-                      data: purchaseData, enabled: false,
+                      data: purchaseData,
+                      enabled: false,
                     ),
                   ),
                   Row(

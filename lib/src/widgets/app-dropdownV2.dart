@@ -13,6 +13,7 @@ class DropdownTextFormFieldV2 extends StatefulWidget {
   final String apiUrl;
   final String valueField;
   final String displayField;
+  final String? displayField2;
   final String dataOrigin;
   final void Function(String?, List?)? onChanged;
   final void Function()? refreshSuppliers;
@@ -25,29 +26,31 @@ class DropdownTextFormFieldV2 extends StatefulWidget {
   final String? initialValue;
   String? valueHolder;
   List allData;
+  bool? doubleDisplay;
 
-  DropdownTextFormFieldV2({
-    required this.labelText,
-    this.icon,
-    this.suffixicon,
-    required this.fillcolor,
-    required this.dropdownColor,
-    required this.apiUrl,
-    required this.valueField,
-    required this.displayField,
-    required this.dataOrigin,
-    this.onChanged,
-    this.refreshSuppliers,
-    this.fetchSupplier,
-    this.textsColor,
-    this.enabled,
-    this.circle,
-    this.labelWeight,
-    this.initialValue,
-    required this.allData,
-    this.valueHolder,
-    this.onDataChanged,
-  });
+  DropdownTextFormFieldV2(
+      {required this.labelText,
+      this.icon,
+      this.suffixicon,
+      required this.fillcolor,
+      required this.dropdownColor,
+      required this.apiUrl,
+      required this.valueField,
+      required this.displayField,
+      required this.dataOrigin,
+      this.displayField2,
+      this.onChanged,
+      this.refreshSuppliers,
+      this.fetchSupplier,
+      this.textsColor,
+      this.enabled,
+      this.circle,
+      this.labelWeight,
+      this.initialValue,
+      required this.allData,
+      this.valueHolder,
+      this.onDataChanged,
+      this.doubleDisplay});
 
   @override
   State<DropdownTextFormFieldV2> createState() =>
@@ -94,8 +97,13 @@ class _DropdownTextFormFieldV2State extends State<DropdownTextFormFieldV2> {
         .map<DropdownMenuItem<String>>((item) => DropdownMenuItem<String>(
               value: item[widget.valueField].toString(),
               child: AppText(
-                txt: item[widget.displayField],
-                size: 15,
+                txt: widget.doubleDisplay == true
+                    ? item[widget.displayField] +
+                        '(' +
+                        item[widget.displayField2] +
+                        ')'
+                    : item[widget.displayField],
+                size: 12,
                 color: AppConst.black,
               ),
             ))

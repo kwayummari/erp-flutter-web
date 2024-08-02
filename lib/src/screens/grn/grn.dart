@@ -54,17 +54,18 @@ class _GrnManagementState extends State<GrnManagement> {
     });
   }
 
+  var branchId;
   Future<void> fetchData() async {
     try {
       GrnServices grnService = GrnServices();
       final grnResponse = await grnService.getGrn(context, supplierId);
       setState(() {
         purchaseId = grnResponse['orders'][0]['id'];
+        branchId = grnResponse['orders'][0]['branchDetails']['id'];
       });
       if (grnResponse != null && grnResponse['orders'] != null) {
         purchaseData = [];
         totalAmount = 0.0;
-        print(grnResponse);
         setState(() {
           orderId = grnResponse['orders'][0]['id'].toString();
           purchaseOrderId = grnResponse['orders'][0]['orderId'];
@@ -130,7 +131,7 @@ class _GrnManagementState extends State<GrnManagement> {
     try {
       purchaseOrderServices purchaseOrderService = purchaseOrderServices();
       final grnResponse = await purchaseOrderService.savePurchaseOrder(
-          context, purchaseId, supplierId, '2');
+          context, purchaseId, supplierId, branchId, '2');
     } catch (e) {
       setState(() {
         hasError = true;
@@ -273,7 +274,8 @@ class _GrnManagementState extends State<GrnManagement> {
                       },
                       onClose: fetchData,
                       url: 'deleteOrder',
-                      data: purchaseData, enabled: true,
+                      data: purchaseData,
+                      enabled: true,
                     ),
                   ),
                   Row(

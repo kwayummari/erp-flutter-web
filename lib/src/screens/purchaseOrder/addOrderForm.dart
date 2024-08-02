@@ -84,7 +84,9 @@ class _AddOrderFormState extends State<AddOrderForm> {
               _updateFields(data, value);
             },
             valueField: 'id',
+            doubleDisplay: true,
             displayField: 'name',
+            displayField2: 'description',
             allData: allData,
           ),
           AppInputText(
