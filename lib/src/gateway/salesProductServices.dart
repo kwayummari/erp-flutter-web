@@ -141,8 +141,7 @@ class salesProductServices {
       'branchId': branchId,
       'quantity': quantity
     };
-
-    final response = await api.post(context, 'add_new_order', data);
+    final response = await api.post(context, 'add_new_sales', data);
     final newResponse = jsonDecode(response.body);
 
     if (response.statusCode == 200) {

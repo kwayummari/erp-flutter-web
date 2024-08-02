@@ -179,7 +179,7 @@ class _TopOfSalesState extends State<TopOfSales> {
                         ),
                       );
                     },
-                    label: 'Add Product',
+                    label: 'Select Product',
                     borderRadius: 8,
                     textColor: AppConst.white,
                     solidColor: AppConst.black,

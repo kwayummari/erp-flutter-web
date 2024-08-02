@@ -199,7 +199,7 @@ class _AddSalesProductFormState extends State<AddSalesProductForm> {
                                 widget.refreshSuppliers!();
                               }
                             },
-                            label: 'Add Product List',
+                            label: 'Select Product',
                             borderRadius: 5,
                             textColor: AppConst.white,
                             gradient: AppConst.primaryGradient,
