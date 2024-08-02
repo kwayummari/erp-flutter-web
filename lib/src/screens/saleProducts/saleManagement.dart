@@ -4,7 +4,6 @@ import 'dart:ui' as ui;
 import 'package:erp/src/screens/saleProducts/topOfSales.dart';
 import 'package:flutter/rendering.dart';
 import 'package:erp/src/gateway/purchaseOrderService.dart';
-import 'package:erp/src/screens/purchaseOrder/topOfOrder.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_table2.dart';
