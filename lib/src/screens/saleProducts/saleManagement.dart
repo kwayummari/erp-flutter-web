@@ -1,35 +1,97 @@
-import 'package:erp/src/screens/roles/addRoles.dart';
-import 'package:erp/src/screens/roles/editRolesForm.dart';
+import 'dart:math';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
+import 'package:erp/src/screens/saleProducts/topOfSales.dart';
+import 'package:flutter/rendering.dart';
+import 'package:erp/src/gateway/purchaseOrderService.dart';
+import 'package:erp/src/screens/purchaseOrder/topOfOrder.dart';
 import 'package:erp/src/utils/app_const.dart';
-import 'package:erp/src/utils/routes/route-names.dart';
 import 'package:erp/src/widgets/app_button.dart';
-import 'package:erp/src/widgets/app_modal.dart';
-import 'package:erp/src/widgets/app_popover.dart';
-import 'package:flutter/material.dart';
-import 'package:erp/src/gateway/rolesService.dart';
+import 'package:erp/src/widgets/app_table2.dart';
 import 'package:erp/src/widgets/app_text.dart';
+import 'package:flutter/material.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
-import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+import 'package:printing/printing.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
 
 class SaleManagement extends StatefulWidget {
   const SaleManagement({super.key});
 
   @override
-  State<SaleManagement> createState() => _SaleManagementState();
+  State<SaleManagement> createState() =>
+      _SaleManagementState();
 }
 
 class _SaleManagementState extends State<SaleManagement> {
-  List rolesData = [];
+  List<Map<String, dynamic>> purchaseData = [];
   bool isLoading = true;
   bool hasError = false;
+  var purchaseId;
+  var orderId;
+  var supplierId;
+  var todayDate;
+  var randomNumber;
+  var purchaseOrderId;
+  bool fetchSupplier = false;
+  double totalAmount = 0.0;
+  double vatAmount = 0.0;
+  double grandTotal = 0.0;
+  final List<String> titles = [
+    'Name',
+    'Description',
+    'Quantity',
+    'Price',
+    'Total',
+  ];
+  GlobalKey _printKey = GlobalKey();
 
+  void refreshSuppliers() {
+    setState(() {
+      fetchSupplier = !fetchSupplier;
+    });
+  }
+
+  var branchId;
   Future<void> fetchData() async {
     try {
-      rolesServices rolesService = rolesServices();
-      final rolesResponse = await rolesService.getRoles(context);
-      if (rolesResponse != null && rolesResponse['roles'] != null) {
+      purchaseOrderServices purchaseOrderService = purchaseOrderServices();
+      final purchaseOrderResponse =
+          await purchaseOrderService.getPurchaseOrder(context, supplierId);
+      setState(() {
+        purchaseId = purchaseOrderResponse['orders'][0]['id'];
+        branchId = purchaseOrderResponse['orders'][0]['branchDetails']['id'];
+      });
+      if (purchaseOrderResponse != null &&
+          purchaseOrderResponse['orders'] != null) {
+        purchaseData = [];
+        totalAmount = 0.0;
         setState(() {
-          rolesData = rolesResponse['roles'];
+          orderId = purchaseOrderResponse['orders'][0]['id'].toString();
+          purchaseOrderId = purchaseOrderResponse['orders'][0]['orderId'];
+          purchaseData = [];
+          for (var order in purchaseOrderResponse['orders']) {
+            for (var inventory in order['inventoryDetails']) {
+              double total = double.parse(inventory['buyingPrice']) *
+                  double.parse(inventory['quantity']);
+              totalAmount += total;
+              purchaseData.add({
+                'id': inventory['id'].toString(),
+                'orderedId': inventory['orderedId'].toString(),
+                'name': inventory['name'].toString(),
+                'description': inventory['description'].toString(),
+                'quantity': inventory['quantity'].toString(),
+                'price': inventory['buyingPrice'].toString(),
+                'total': total.toString(),
+              });
+            }
+          }
+          vatAmount = totalAmount * 0.2;
+          grandTotal = totalAmount + vatAmount;
+          isLoading = false;
+        });
+        setState(() {
           isLoading = false;
         });
       } else {
@@ -39,7 +101,19 @@ class _SaleManagementState extends State<SaleManagement> {
         });
       }
     } catch (e) {
-      print('Error fetching data: $e');
+      setState(() {
+        hasError = true;
+        isLoading = false;
+      });
+    }
+  }
+
+  Future<void> saveData(purchaseId, supplierId, branchId) async {
+    try {
+      purchaseOrderServices purchaseOrderService = purchaseOrderServices();
+      final purchaseOrderResponse = await purchaseOrderService
+          .savePurchaseOrder(context, purchaseId, supplierId, branchId, '1');
+    } catch (e) {
       setState(() {
         hasError = true;
         isLoading = false;
@@ -50,215 +124,224 @@ class _SaleManagementState extends State<SaleManagement> {
   @override
   void initState() {
     super.initState();
-    fetchData();
+    if (supplierId != null) fetchData();
+    var now = DateTime.now();
+    var formatter = DateFormat('yyyy-MM-dd');
+    todayDate = formatter.format(now);
+    Random random = Random();
+    randomNumber = random.nextInt(1000000);
+  }
+
+  Future<void> _showComingSoonPopup() async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: AppConst.black,
+          title: AppText(
+            txt: 'Coming Soon',
+            size: 15,
+            color: AppConst.white,
+          ),
+          content: AppText(
+            txt: 'This feature is coming soon.',
+            size: 15,
+            color: AppConst.white,
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: AppText(
+                txt: 'OK',
+                size: 15,
+                color: AppConst.white,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _printPage() async {
+    try {
+      RenderRepaintBoundary boundary =
+          _printKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+      ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+      ByteData? byteData =
+          await image.toByteData(format: ui.ImageByteFormat.png);
+      if (byteData != null) {
+        final pdf = pw.Document();
+        final imageBytes = byteData.buffer.asUint8List();
+        final pdfImage = pw.MemoryImage(imageBytes);
+        pdf.addPage(pw.Page(
+            build: (pw.Context context) => pw.Center(
+                  child: pw.Image(pdfImage),
+                )));
+        await Printing.layoutPdf(
+            onLayout: (PdfPageFormat format) async => pdf.save());
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return layout(
       child: SingleChildScrollView(
-        child: Column(
-          children: [
-            if (isLoading)
-              Center(child: CircularProgressIndicator())
-            else if (hasError)
-              Center(child: Text('')),
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount:
-                      5, // Adjust based on available space and design
-                  mainAxisSpacing: 8.0,
-                  crossAxisSpacing: 8.0,
-                  mainAxisExtent: 70,
-                ),
-                padding: EdgeInsets.all(10.0),
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount:
-                    rolesData.length + 1, // Add one for the Add Role button
-                itemBuilder: (context, index) {
-                  if (index == rolesData.length) {
-                    return MouseRegion(
-                      cursor: SystemMouseCursors.click,
-                      child: GestureDetector(
-                        onTap: () {
-                          ReusableModal.show(
-                            width: 500,
-                            height: 300,
-                            context,
-                            AppText(
-                                txt: 'Add Role',
-                                size: 22,
-                                weight: FontWeight.bold),
-                            onClose: fetchData,
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                addRolesForm(fetchData: fetchData)
-                              ],
-                            ),
-                          );
-                        },
-                        child: Material(
-                          elevation: 10,
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.circular(10.0),
-                          child: Container(
-                            width: 200, // Fixed width for each grid item
+        child: Align(
+          alignment: Alignment.center,
+          child: RepaintBoundary(
+            key: _printKey,
+            child: Container(
+              width: MediaQuery.of(context).size.width - 400,
+              height: MediaQuery.of(context).size.height - 200,
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: AppConst.grey100,
+                borderRadius: BorderRadius.circular(10.0),
+                border: Border.all(color: Colors.black),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black,
+                    offset: Offset(4, 4),
+                    blurRadius: 10,
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  TopOfSales(
+                    randomNumber: randomNumber,
+                    todayDate: todayDate,
+                    refreshSuppliers: refreshSuppliers,
+                    fetchSupplier: fetchSupplier,
+                    supplierId: supplierId,
+                    fetchData: fetchData,
+                    fetchData1: fetchData,
+                    orderId: orderId,
+                    purchaseOrderId: purchaseOrderId,
+                    onSupplierChanged: (value) {
+                      setState(() {
+                        supplierId = value;
+                        fetchData();
+                      });
+                    },
+                    purchaseData: purchaseData,
+                  ),
+                  Container(
+                    height: 250,
+                    width: MediaQuery.of(context).size.width,
+                    child: ReusableTable2(
+                      fetchData1: fetchData,
+                      orderId: orderId,
+                      supplierId: supplierId,
+                      deleteModalHeight: 300,
+                      deleteModalWidth: 500,
+                      editModalHeight: 550,
+                      editModalWidth: 500,
+                      fetchData: fetchData,
+                      columnSpacing: 100,
+                      titles: titles,
+                      randomNumber: randomNumber.toString(),
+                      cellBuilder: (context, row, title) {
+                        return Text(
+                            row[title.toLowerCase().replaceAll(' ', '')] ?? '');
+                      },
+                      onClose: fetchData,
+                      url: 'deleteOrder',
+                      data: purchaseData,
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: AppButton(
+                            solidColor: AppConst.primary,
+                            onPress: _showComingSoonPopup,
+                            label: 'Send Email',
+                            borderRadius: 5,
+                            textColor: AppConst.white),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: AppButton(
+                            solidColor: AppConst.red,
+                            onPress: () async {
+                              await saveData(purchaseId.toString(),
+                                  supplierId.toString(), branchId.toString());
+                              setState(() {
+                                supplierId = null;
+                                purchaseData = [];
+                              });
+                              await fetchData();
+                            },
+                            label: 'Submit Order',
+                            borderRadius: 5,
+                            textColor: AppConst.white),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: AppButton(
+                            solidColor: AppConst.black,
+                            onPress: _printPage,
+                            label: 'Print',
+                            borderRadius: 5,
+                            textColor: AppConst.white),
+                      ),
+                      Spacer(),
+                      Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerRight,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.add,
-                                    color: AppConst.white,
-                                  ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  AppText(
-                                    txt: ' Add Role',
-                                    size: 20,
-                                    color: Colors.white,
-                                    weight: FontWeight.bold,
-                                  ),
-                                ],
+                              child: AppText(
+                                txt:
+                                    'Total: Tsh.${totalAmount.toStringAsFixed(2)}',
+                                size: 15,
+                                weight: FontWeight.bold,
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                    );
-                  } else {
-                    // Normal grid item
-                    return GestureDetector(
-                      onTap: () {
-                        final data = {
-                          'id': rolesData[index]['id'].toString(),
-                        };
-                        context.go(
-                          RouteNames.permissions,
-                          extra: data,
-                        );
-                      },
-                      child: Material(
-                        elevation: 10,
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10.0),
-                        child: Container(
-                          width: 200, // Fixed width for each grid item
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                AppText(
-                                  txt: rolesData[index]['name'],
-                                  size: 20,
-                                  color: Colors.black,
-                                  weight: FontWeight.bold,
-                                ),
-                                Spacer(),
-                                CustomPopover(
-                                  icon: Icons.more_vert,
-                                  items: [
-                                    CustomPopoverItem(
-                                      title: 'Edit',
-                                      icon: Icons.edit,
-                                      onTap: () {
-                                        Map<String, dynamic> data = {
-                                          'name': rolesData[index]['name'],
-                                          'id': rolesData[index]['id']
-                                        };
-                                        ReusableModal.show(
-                                          width: 300,
-                                          height: 300,
-                                          context,
-                                          AppText(
-                                              txt: 'Edit Role',
-                                              size: 18,
-                                              weight: FontWeight.bold),
-                                          onClose: fetchData,
-                                          Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: <Widget>[
-                                              editRole(
-                                                  fetchData: fetchData,
-                                                  data: data)
-                                            ],
-                                          ),
-                                          footer: Row(
-                                            children: [],
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                    CustomPopoverItem(
-                                      title: 'Delete',
-                                      icon: Icons.delete,
-                                      onTap: () {
-                                        ReusableModal.show(
-                                          width: 300,
-                                          height: 300,
-                                          context,
-                                          AppText(
-                                              txt: 'Delete Role',
-                                              size: 18,
-                                              weight: FontWeight.bold),
-                                          onClose: fetchData,
-                                          Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: <Widget>[
-                                              Icon(
-                                                Icons.error,
-                                                color: AppConst.red,
-                                                size: 100,
-                                              ),
-                                              Container(
-                                                width: 240,
-                                                height: 50,
-                                                child: AppButton(
-                                                    onPress: () async {
-                                                      rolesServices
-                                                          roleService =
-                                                          rolesServices();
-                                                      await roleService
-                                                          .deleteRole(
-                                                              context,
-                                                              rolesData[index]
-                                                                      ['id']
-                                                                  .toString());
-                                                      fetchData();
-                                                      Navigator.pop(context);
-                                                    },
-                                                    gradient: AppConst
-                                                        .primaryGradient,
-                                                    label: 'Delete',
-                                                    borderRadius: 5,
-                                                    textColor: AppConst.white),
-                                              ),
-                                            ],
-                                          ),
-                                          footer: Row(
-                                            children: [],
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                )
-                              ],
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: AppText(
+                                txt:
+                                    'VAT (20%): Tsh.${vatAmount.toStringAsFixed(2)}',
+                                size: 15,
+                                weight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    );
-                  }
-                },
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: AppText(
+                                txt:
+                                    'Grand Total: Tsh.${grandTotal.toStringAsFixed(2)}',
+                                size: 15,
+                                weight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  )
+                ],
               ),
             ),
-          ],
+          ),
         ),
       ),
     );
