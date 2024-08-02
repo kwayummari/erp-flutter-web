@@ -138,7 +138,7 @@ class _TopOfSalesState extends State<TopOfSales> {
                           addUserForm(
                             fetchData: widget.fetchData1,
                             refreshSuppliers: widget.refreshSuppliers,
-                            buttonWidth: 500,
+                            buttonWidth: 450,
                           ),
                         ],
                       ),
@@ -197,7 +197,8 @@ class _TopOfSalesState extends State<TopOfSales> {
             Padding(
               padding: const EdgeInsets.only(left: 20, top: 20, bottom: 20),
               child: AppText(
-                txt: 'Purchase Order #${widget.purchaseOrderId ?? widget.randomNumber}',
+                txt:
+                    'Purchase Order #${widget.purchaseOrderId ?? widget.randomNumber}',
                 size: 20,
                 color: AppConst.black,
                 weight: FontWeight.bold,
