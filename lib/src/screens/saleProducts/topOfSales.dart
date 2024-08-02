@@ -41,7 +41,6 @@ class TopOfSales extends StatefulWidget {
 
 class _TopOfSalesState extends State<TopOfSales> {
   List allData = [];
-  bool addOrder = false;
   var supplierId;
   @override
   Widget build(BuildContext context) {
@@ -105,7 +104,6 @@ class _TopOfSalesState extends State<TopOfSales> {
                 onChanged: (value) {
                   setState(() {
                     supplierId = value.toString();
-                    addOrder = true;
                     widget.purchaseData.clear();
                     widget.onSupplierChanged(value.toString());
                   });
@@ -152,7 +150,6 @@ class _TopOfSalesState extends State<TopOfSales> {
               ),
             ),
             Spacer(),
-            if (addOrder == true)
               Padding(
                 padding: const EdgeInsets.only(top: 15, right: 20),
                 child: Container(
@@ -164,7 +161,7 @@ class _TopOfSalesState extends State<TopOfSales> {
                         height: 600,
                         context,
                         AppText(
-                          txt: 'Add Order List',
+                          txt: 'Add Product',
                           size: 22,
                           weight: FontWeight.bold,
                         ),
