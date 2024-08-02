@@ -56,7 +56,7 @@ class purchaseOrderServices {
       'status': status,
       'branchId': branchId
     };
-    final response = await api.post(context, 'save_purchase', data);
+    final response = await api.post(context, status == '2' ? 'save_grn' :'save_purchase', data);
     final newResponse = jsonDecode(response.body);
     if (response.statusCode == 200) {
       AppSnackbar(

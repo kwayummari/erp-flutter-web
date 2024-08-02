@@ -107,7 +107,7 @@ class _GrnManagementState extends State<GrnManagement> {
     }
   }
 
-  Future<void> saveData(purchaseId, supplierId) async {
+  Future<void> saveData(purchaseId, supplierId, branchId) async {
     try {
       purchaseOrderServices purchaseOrderService = purchaseOrderServices();
       final grnResponse = await purchaseOrderService.savePurchaseOrder(
@@ -275,7 +275,7 @@ class _GrnManagementState extends State<GrnManagement> {
                             solidColor: AppConst.red,
                             onPress: () async {
                               await saveData(
-                                  purchaseId.toString(), supplierId.toString());
+                                  purchaseId.toString(), supplierId.toString(), branchId.toString());
                               setState(() {
                                 supplierId = null;
                                 rowData = [];
