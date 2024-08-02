@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:erp/src/gateway/salesProductServices.dart';
 import 'package:erp/src/screens/saleProducts/topOfSales.dart';
 import 'package:flutter/rendering.dart';
 import 'package:erp/src/gateway/purchaseOrderService.dart';
@@ -19,8 +20,7 @@ class SaleManagement extends StatefulWidget {
   const SaleManagement({super.key});
 
   @override
-  State<SaleManagement> createState() =>
-      _SaleManagementState();
+  State<SaleManagement> createState() => _SaleManagementState();
 }
 
 class _SaleManagementState extends State<SaleManagement> {
@@ -32,7 +32,6 @@ class _SaleManagementState extends State<SaleManagement> {
   var supplierId;
   var todayDate;
   var randomNumber;
-  var purchaseOrderId;
   bool fetchSupplier = false;
   double totalAmount = 0.0;
   double vatAmount = 0.0;
@@ -55,23 +54,17 @@ class _SaleManagementState extends State<SaleManagement> {
   var branchId;
   Future<void> fetchData() async {
     try {
-      purchaseOrderServices purchaseOrderService = purchaseOrderServices();
-      final purchaseOrderResponse =
-          await purchaseOrderService.getPurchaseOrder(context, supplierId);
-      setState(() {
-        purchaseId = purchaseOrderResponse['orders'][0]['id'];
-        branchId = purchaseOrderResponse['orders'][0]['branchDetails']['id'];
-      });
-      if (purchaseOrderResponse != null &&
-          purchaseOrderResponse['orders'] != null) {
+      salesProductServices productList = salesProductServices();
+      final orderListResponse =
+          await productList.getSalesServices(context, '969936');
+      print(orderListResponse);
+      if (orderListResponse != null &&
+          orderListResponse['products'] != null) {
         purchaseData = [];
         totalAmount = 0.0;
         setState(() {
-          orderId = purchaseOrderResponse['orders'][0]['id'].toString();
-          purchaseOrderId = purchaseOrderResponse['orders'][0]['orderId'];
           purchaseData = [];
-          for (var order in purchaseOrderResponse['orders']) {
-            for (var inventory in order['inventoryDetails']) {
+            for (var inventory in orderListResponse['products']) {
               double total = double.parse(inventory['buyingPrice']) *
                   double.parse(inventory['quantity']);
               totalAmount += total;
@@ -85,7 +78,6 @@ class _SaleManagementState extends State<SaleManagement> {
                 'total': total.toString(),
               });
             }
-          }
           vatAmount = totalAmount * 0.2;
           grandTotal = totalAmount + vatAmount;
           isLoading = false;
@@ -123,7 +115,7 @@ class _SaleManagementState extends State<SaleManagement> {
   @override
   void initState() {
     super.initState();
-    if (supplierId != null) fetchData();
+    fetchData();
     var now = DateTime.now();
     var formatter = DateFormat('yyyy-MM-dd');
     todayDate = formatter.format(now);
