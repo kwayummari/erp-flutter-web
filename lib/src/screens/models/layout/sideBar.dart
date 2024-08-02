@@ -125,6 +125,9 @@ class _sideBarState extends State<sideBar> {
                                             } else if (subMenu[index]['url'] ==
                                                 'completedGrn') {
                                               context.go(RouteNames.completedGrn);
+                                            } else if (subMenu[index]['url'] ==
+                                                'sellProducts') {
+                                              context.go(RouteNames.saleManagement);
                                             }
                                           },
                                           child: ListTile(
