@@ -10,7 +10,8 @@ import 'package:provider/provider.dart';
 
 class addUserForm extends StatefulWidget {
   final Function fetchData;
-  const addUserForm({super.key, required this.fetchData});
+  final void Function()? refreshSuppliers;
+  const addUserForm({super.key, required this.fetchData, this.refreshSuppliers,});
 
   @override
   State<addUserForm> createState() => _addUserFormState();
@@ -127,6 +128,9 @@ class _addUserFormState extends State<addUserForm> {
                                   fullname.text, phone.text, branch, role);
                               await widget.fetchData();
                               Navigator.pop(context);
+                              if (widget.refreshSuppliers != null) {
+                                  widget.refreshSuppliers!();
+                                }
                             },
                             label: 'Create user',
                             borderRadius: 5,

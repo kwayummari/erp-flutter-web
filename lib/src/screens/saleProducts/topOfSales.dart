@@ -1,5 +1,5 @@
 import 'package:erp/src/screens/purchaseOrder/addOrderForm.dart';
-import 'package:erp/src/screens/supplier/addSupplier.dart';
+import 'package:erp/src/screens/userManagement/addUserForm.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app-dropdown.dart';
 import 'package:erp/src/widgets/app_button.dart';
@@ -127,7 +127,7 @@ class _TopOfSalesState extends State<TopOfSales> {
                       height: 550,
                       context,
                       AppText(
-                        txt: 'Add Supplier',
+                        txt: 'Add Customer',
                         size: 22,
                         weight: FontWeight.bold,
                       ),
@@ -135,7 +135,7 @@ class _TopOfSalesState extends State<TopOfSales> {
                       Column(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          addSupplierForm(
+                          addUserForm(
                             fetchData: widget.fetchData1,
                             refreshSuppliers: widget.refreshSuppliers,
                             buttonWidth: 500,
