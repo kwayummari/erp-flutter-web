@@ -11,7 +11,8 @@ import 'package:provider/provider.dart';
 class addUserForm extends StatefulWidget {
   final Function fetchData;
   final void Function()? refreshSuppliers;
-  const addUserForm({super.key, required this.fetchData, this.refreshSuppliers,});
+  final double? buttonWidth;
+  const addUserForm({super.key, required this.fetchData, this.refreshSuppliers, this.buttonWidth,});
 
   @override
   State<addUserForm> createState() => _addUserFormState();
@@ -117,7 +118,7 @@ class _addUserFormState extends State<addUserForm> {
                     : Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Container(
-                        width: 440,
+                        width: widget.buttonWidth ?? 440,
                         height: 50,
                         child: AppButton(
                             onPress: () async {
