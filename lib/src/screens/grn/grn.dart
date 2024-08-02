@@ -6,7 +6,6 @@ import 'package:erp/src/screens/grn/topGrn.dart';
 import 'package:erp/src/widgets/app_table3.dart';
 import 'package:flutter/rendering.dart';
 import 'package:erp/src/gateway/purchaseOrderService.dart';
-import 'package:erp/src/provider/table2_notifier.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_text.dart';
@@ -16,7 +15,6 @@ import 'package:intl/intl.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:provider/provider.dart';
 
 class GrnManagement extends StatefulWidget {
   const GrnManagement({super.key});
@@ -26,7 +24,7 @@ class GrnManagement extends StatefulWidget {
 }
 
 class _GrnManagementState extends State<GrnManagement> {
-  List<Map<String, dynamic>> purchaseData = [];
+  List<Map<String, dynamic>> rowData = [];
   bool isLoading = true;
   bool hasError = false;
   var purchaseId;
@@ -64,18 +62,18 @@ class _GrnManagementState extends State<GrnManagement> {
         branchId = grnResponse['orders'][0]['branchDetails']['id'];
       });
       if (grnResponse != null && grnResponse['orders'] != null) {
-        purchaseData = [];
+        rowData = [];
         totalAmount = 0.0;
         setState(() {
           orderId = grnResponse['orders'][0]['id'].toString();
           purchaseOrderId = grnResponse['orders'][0]['orderId'];
-          purchaseData = [];
+          rowData = [];
           for (var order in grnResponse['orders']) {
             for (var inventory in order['inventoryDetails']) {
               double total = double.parse(inventory['buyingPrice']) *
                   double.parse(inventory['quantity']);
               totalAmount += total;
-              purchaseData.add({
+              rowData.add({
                 'id': inventory['id'].toString(),
                 'orderedId': inventory['orderedId'].toString(),
                 'name': inventory['name'].toString(),
@@ -87,29 +85,11 @@ class _GrnManagementState extends State<GrnManagement> {
               });
             }
           }
+          print('rowData: $rowData');
           vatAmount = totalAmount * 0.2;
           grandTotal = totalAmount + vatAmount;
           isLoading = false;
         });
-        final tableDataNotifier =
-            Provider.of<TableDataNotifier>(context, listen: false);
-        tableDataNotifier.data.clear();
-        for (var order in grnResponse['orders']) {
-          for (var inventory in order['inventoryDetails']) {
-            tableDataNotifier.addNewRow({
-              'id': inventory['id'].toString(),
-              'orderedId': inventory['orderedId'].toString(),
-              'name': inventory['name'].toString(),
-              'description': inventory['description'].toString(),
-              'quantity': inventory['quantity'].toString(),
-              'price': inventory['buyingPrice'].toString(),
-              'total': (double.parse(inventory['buyingPrice']) *
-                      double.parse(inventory['quantity']))
-                  .toString(),
-              'quantity_received': inventory['quantity_received'].toString(),
-            });
-          }
-        }
         setState(() {
           isLoading = false;
         });
@@ -251,7 +231,7 @@ class _GrnManagementState extends State<GrnManagement> {
                         fetchData();
                       });
                     },
-                    purchaseData: purchaseData,
+                    purchaseData: rowData,
                   ),
                   Container(
                     height: 250,
@@ -274,7 +254,7 @@ class _GrnManagementState extends State<GrnManagement> {
                       },
                       onClose: fetchData,
                       url: 'deleteOrder',
-                      data: purchaseData,
+                      data: rowData,
                       enabled: true,
                     ),
                   ),

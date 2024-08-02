@@ -3,7 +3,6 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:flutter/rendering.dart';
 import 'package:erp/src/gateway/purchaseOrderService.dart';
-import 'package:erp/src/provider/table2_notifier.dart';
 import 'package:erp/src/screens/purchaseOrder/topOfOrder.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_button.dart';
@@ -15,7 +14,6 @@ import 'package:intl/intl.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:provider/provider.dart';
 
 class PurchaseOrderManagement extends StatefulWidget {
   const PurchaseOrderManagement({super.key});
@@ -92,24 +90,6 @@ class _PurchaseOrderManagementState extends State<PurchaseOrderManagement> {
           grandTotal = totalAmount + vatAmount;
           isLoading = false;
         });
-        final tableDataNotifier =
-            Provider.of<TableDataNotifier>(context, listen: false);
-        tableDataNotifier.data.clear();
-        for (var order in purchaseOrderResponse['orders']) {
-          for (var inventory in order['inventoryDetails']) {
-            tableDataNotifier.addNewRow({
-              'id': inventory['id'].toString(),
-              'orderedId': inventory['orderedId'].toString(),
-              'name': inventory['name'].toString(),
-              'description': inventory['description'].toString(),
-              'quantity': inventory['quantity'].toString(),
-              'price': inventory['buyingPrice'].toString(),
-              'total': (double.parse(inventory['buyingPrice']) *
-                      double.parse(inventory['quantity']))
-                  .toString(),
-            });
-          }
-        }
         setState(() {
           isLoading = false;
         });
