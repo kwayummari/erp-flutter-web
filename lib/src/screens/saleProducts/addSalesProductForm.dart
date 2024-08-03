@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 
 class AddSalesProductForm extends StatefulWidget {
   final Function fetchData;
-  final void Function()? refreshSuppliers;
   final double buttonWidth;
   final String? supplierId;
   final String? orderId;
@@ -20,12 +19,10 @@ class AddSalesProductForm extends StatefulWidget {
       {super.key,
       required this.fetchData,
       required this.buttonWidth,
-      this.refreshSuppliers,
       this.supplierId,
       required this.receiptNumber,
       required this.orderId,
-      required this.customerId
-      });
+      required this.customerId});
 
   @override
   State<AddSalesProductForm> createState() => _AddSalesProductFormState();
@@ -195,9 +192,6 @@ class _AddSalesProductFormState extends State<AddSalesProductForm> {
                               );
                               await widget.fetchData();
                               Navigator.pop(context);
-                              if (widget.refreshSuppliers != null) {
-                                widget.refreshSuppliers!();
-                              }
                             },
                             label: 'Select Product',
                             borderRadius: 5,

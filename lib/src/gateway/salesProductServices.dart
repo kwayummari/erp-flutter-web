@@ -13,10 +13,7 @@ class salesProductServices {
   Future getSalesServices(BuildContext context, String receiptNo) async {
     SplashFunction splashDetails = SplashFunction();
     final branchId = await splashDetails.getBranchId();
-    Map<String, dynamic> data = {
-      'receiptNo': receiptNo,
-      'branchId': branchId
-    };
+    Map<String, dynamic> data = {'receiptNo': receiptNo, 'branchId': branchId};
     final response = await api.post(context, 'get_sales', data);
     final decodedResponse = jsonDecode(response.body);
     return decodedResponse;

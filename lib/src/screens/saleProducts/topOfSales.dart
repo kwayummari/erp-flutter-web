@@ -171,7 +171,6 @@ class _TopOfSalesState extends State<TopOfSales> {
                               receiptNumber: widget.randomNumber.toString(),
                               supplierId: supplierId,
                               fetchData: widget.fetchData1,
-                              refreshSuppliers: widget.refreshSuppliers,
                               orderId: widget.orderId,
                               buttonWidth: 500, customerId: supplierId ?? '',
                             ),

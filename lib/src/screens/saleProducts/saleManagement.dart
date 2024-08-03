@@ -3,11 +3,11 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:erp/src/gateway/salesProductServices.dart';
 import 'package:erp/src/screens/saleProducts/topOfSales.dart';
+import 'package:erp/src/widgets/app_table4.dart';
 import 'package:flutter/rendering.dart';
 import 'package:erp/src/gateway/purchaseOrderService.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_button.dart';
-import 'package:erp/src/widgets/app_table2.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
@@ -51,33 +51,30 @@ class _SaleManagementState extends State<SaleManagement> {
     });
   }
 
-  var branchId;
   Future<void> fetchData() async {
     try {
-      salesProductServices productList = salesProductServices();
-      final orderListResponse =
-          await productList.getSalesServices(context, '969936');
-      print(orderListResponse);
-      if (orderListResponse != null &&
-          orderListResponse['products'] != null) {
+      salesProductServices productListServices = salesProductServices();
+      final orderListResponse = await productListServices.getSalesServices(
+          context, randomNumber.toString());
+      if (orderListResponse != null && orderListResponse['products'] != null) {
         purchaseData = [];
         totalAmount = 0.0;
         setState(() {
           purchaseData = [];
-            for (var inventory in orderListResponse['products']) {
-              double total = double.parse(inventory['buyingPrice']) *
-                  double.parse(inventory['quantity']);
-              totalAmount += total;
-              purchaseData.add({
-                'id': inventory['id'].toString(),
-                'orderedId': inventory['orderedId'].toString(),
-                'name': inventory['name'].toString(),
-                'description': inventory['description'].toString(),
-                'quantity': inventory['quantity'].toString(),
-                'price': inventory['buyingPrice'].toString(),
-                'total': total.toString(),
-              });
-            }
+          for (var inventory in orderListResponse['products']) {
+            double total = double.parse(inventory['buyingPrice']) *
+                double.parse(inventory['quantity']);
+            totalAmount += total;
+            purchaseData.add({
+              'id': inventory['id'].toString(),
+              'orderedId': inventory['orderedId'].toString(),
+              'name': inventory['name'].toString(),
+              'description': inventory['description'].toString(),
+              'quantity': inventory['quantity'].toString(),
+              'price': inventory['buyingPrice'].toString(),
+              'total': total.toString(),
+            });
+          }
           vatAmount = totalAmount * 0.2;
           grandTotal = totalAmount + vatAmount;
           isLoading = false;
@@ -227,7 +224,7 @@ class _SaleManagementState extends State<SaleManagement> {
                   Container(
                     height: 250,
                     width: MediaQuery.of(context).size.width,
-                    child: ReusableTable2(
+                    child: ReusableTable4(
                       fetchData1: fetchData,
                       orderId: orderId,
                       supplierId: supplierId,
@@ -264,13 +261,13 @@ class _SaleManagementState extends State<SaleManagement> {
                         child: AppButton(
                             solidColor: AppConst.red,
                             onPress: () async {
-                              await saveData(purchaseId.toString(),
-                                  supplierId.toString(), branchId.toString());
-                              setState(() {
-                                supplierId = null;
-                                purchaseData = [];
-                              });
-                              await fetchData();
+                              // await saveData(purchaseId.toString(),
+                              //     supplierId.toString(), branchId.toString());
+                              // setState(() {
+                              //   supplierId = null;
+                              //   purchaseData = [];
+                              // });
+                              // await fetchData();
                             },
                             label: 'Submit Order',
                             borderRadius: 5,
