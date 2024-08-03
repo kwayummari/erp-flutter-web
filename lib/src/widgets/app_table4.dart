@@ -1,6 +1,5 @@
 import 'package:erp/src/gateway/deleteService.dart';
 import 'package:erp/src/utils/app_const.dart';
-import 'package:erp/src/widgets/app_popover.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 
@@ -182,34 +181,66 @@ class _DataSource extends DataTableSource {
     }
 
     final row = widget.data[index];
+    final quantityController =
+        TextEditingController(text: row['quantity'].toString());
+
     return DataRow.byIndex(
       index: index,
       cells: [
         for (String title in widget.titles)
           DataCell(
-            widget.cellBuilder(context, row, title),
+            title == 'Quantity'
+                ? TextField(
+                    style: TextStyle(color: AppConst.black),
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      label: Container(
+                        color: AppConst.white,
+                        child: AppText(
+                          txt: 'Quantity received',
+                          size: 15,
+                          weight: FontWeight.w700,
+                          color: AppConst.black,
+                        ),
+                      ),
+                      filled: true,
+                      fillColor: AppConst.white,
+                      disabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                        borderSide: BorderSide(color: AppConst.black),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                        borderSide: BorderSide(color: AppConst.black),
+                      ),
+                    ),
+                    controller: quantityController,
+                    keyboardType: TextInputType.number,
+                    onChanged: (value) {
+                      // Update the row data
+                      row['quantity'] = int.tryParse(value) ?? row['quantity'];
+
+                      // Call the API to update the quantity
+                      // You can use your API function here
+                      // Example: await updateQuantity(row['id'], row['quantity']);
+                    },
+                  )
+                : widget.cellBuilder(context, row, title),
           ),
-        DataCell(
-          CustomPopover(
-            icon: Icons.more_vert,
-            items: [
-              CustomPopoverItem(
-                title: 'Delete',
-                icon: Icons.delete,
-                onTap: () async {
-                  final orderedId = row['orderedId'].toString();
-                  deleteServices deleteService = deleteServices();
-                  await deleteService.delete(
-                      context, widget.url, orderedId.toString());
-                  await widget.fetchData();
-                  if (widget.onClose != null) {
-                    await widget.onClose!();
-                  }
-                },
-              ),
-            ],
-          ),
-        ),
+        DataCell(IconButton(
+            onPressed: () async {
+              final orderedId = row['orderedId'].toString();
+              deleteServices deleteService = deleteServices();
+              await deleteService.delete(
+                  context, widget.url, orderedId.toString());
+              await widget.fetchData();
+              if (widget.onClose != null) {
+                await widget.onClose!();
+              }
+            },
+            icon: Icon(Icons.delete))),
       ],
     );
   }

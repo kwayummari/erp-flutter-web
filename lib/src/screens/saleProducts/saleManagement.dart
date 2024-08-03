@@ -112,7 +112,6 @@ class _SaleManagementState extends State<SaleManagement> {
   @override
   void initState() {
     super.initState();
-    fetchData();
     var now = DateTime.now();
     var formatter = DateFormat('yyyy-MM-dd');
     todayDate = formatter.format(now);
@@ -241,7 +240,7 @@ class _SaleManagementState extends State<SaleManagement> {
                             row[title.toLowerCase().replaceAll(' ', '')] ?? '');
                       },
                       onClose: fetchData,
-                      url: 'deleteOrder',
+                      url: 'delete_product_sale',
                       data: purchaseData,
                     ),
                   ),
