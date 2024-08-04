@@ -218,27 +218,24 @@ class _DataSource extends DataTableSource {
                     ),
                     controller: quantityController,
                     keyboardType: TextInputType.number,
-                    onChanged: (value) {
-                      // Update the row data
-                      row['quantity'] = int.tryParse(value) ?? row['quantity'];
-
-                      // Call the API to update the quantity
-                      // You can use your API function here
-                      // Example: await updateQuantity(row['id'], row['quantity']);
+                    onChanged: (value) async {
+                      deleteServices deleteService = deleteServices();
+                      await deleteService.editSalesProduct(
+                          context,
+                          'edit_sales_product_amount',
+                          value.isEmpty ? row['quantity'] : value.toString(),
+                          row['mainId'].toString());
+                      await widget.fetchData();
                     },
                   )
                 : widget.cellBuilder(context, row, title),
           ),
         DataCell(IconButton(
             onPressed: () async {
-              final orderedId = row['orderedId'].toString();
               deleteServices deleteService = deleteServices();
-              await deleteService.delete(
-                  context, widget.url, orderedId.toString());
+              await deleteService.deleteSalesProduct(context, widget.url,
+                  row['mainId'].toString(), widget.randomNumber.toString());
               await widget.fetchData();
-              if (widget.onClose != null) {
-                await widget.onClose!();
-              }
             },
             icon: Icon(Icons.delete))),
       ],

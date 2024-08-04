@@ -105,7 +105,6 @@ class _TopOfSalesState extends State<TopOfSales> {
                     widget.purchaseData.clear();
                     widget.onSupplierChanged(value.toString());
                   });
-                  widget.fetchData!();
                 },
                 valueField: 'id',
                 displayField: 'fullname',
@@ -127,7 +126,6 @@ class _TopOfSalesState extends State<TopOfSales> {
                         size: 22,
                         weight: FontWeight.bold,
                       ),
-                      onClose: widget.fetchData,
                       Column(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[

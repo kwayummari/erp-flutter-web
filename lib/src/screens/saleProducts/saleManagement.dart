@@ -56,6 +56,7 @@ class _SaleManagementState extends State<SaleManagement> {
       salesProductServices productListServices = salesProductServices();
       final orderListResponse = await productListServices.getSalesServices(
           context, randomNumber.toString());
+      print(orderListResponse);
       if (orderListResponse != null && orderListResponse['products'] != null) {
         purchaseData = [];
         totalAmount = 0.0;
@@ -67,6 +68,7 @@ class _SaleManagementState extends State<SaleManagement> {
             totalAmount += total;
             purchaseData.add({
               'id': inventory['id'].toString(),
+              'mainId': inventory['mainId'].toString(),
               'orderedId': inventory['orderedId'].toString(),
               'name': inventory['name'].toString(),
               'description': inventory['description'].toString(),
