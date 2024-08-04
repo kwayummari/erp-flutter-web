@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:erp/src/gateway/salesProductServices.dart';
 import 'package:erp/src/screens/saleProducts/topOfSales.dart';
+import 'package:erp/src/widgets/app-offlineDropdownFormField.dart';
 import 'package:erp/src/widgets/app_table4.dart';
 import 'package:flutter/rendering.dart';
 import 'package:erp/src/gateway/purchaseOrderService.dart';
@@ -24,7 +25,7 @@ class SaleManagement extends StatefulWidget {
 }
 
 class _SaleManagementState extends State<SaleManagement> {
-  List<Map<String, dynamic>> purchaseData = [];
+  List<Map<String, dynamic>> salesData = [];
   bool isLoading = true;
   bool hasError = false;
   var purchaseId;
@@ -56,17 +57,16 @@ class _SaleManagementState extends State<SaleManagement> {
       salesProductServices productListServices = salesProductServices();
       final orderListResponse = await productListServices.getSalesServices(
           context, randomNumber.toString());
-      print(orderListResponse);
       if (orderListResponse != null && orderListResponse['products'] != null) {
-        purchaseData = [];
+        salesData = [];
         totalAmount = 0.0;
         setState(() {
-          purchaseData = [];
+          salesData = [];
           for (var inventory in orderListResponse['products']) {
             double total = double.parse(inventory['buyingPrice']) *
                 double.parse(inventory['quantity']);
             totalAmount += total;
-            purchaseData.add({
+            salesData.add({
               'id': inventory['id'].toString(),
               'mainId': inventory['mainId'].toString(),
               'orderedId': inventory['orderedId'].toString(),
@@ -98,11 +98,11 @@ class _SaleManagementState extends State<SaleManagement> {
     }
   }
 
-  Future<void> saveData(purchaseId, supplierId, branchId) async {
+  Future<void> saveData(randomNumber) async {
     try {
       purchaseOrderServices purchaseOrderService = purchaseOrderServices();
-      final purchaseOrderResponse = await purchaseOrderService
-          .savePurchaseOrder(context, purchaseId, supplierId, branchId, '1');
+      final purchaseOrderResponse =
+          await purchaseOrderService.saveSalesOrder(context, randomNumber);
     } catch (e) {
       setState(() {
         hasError = true;
@@ -110,6 +110,13 @@ class _SaleManagementState extends State<SaleManagement> {
       });
     }
   }
+
+  String selectedOption = 'Payment by cash';
+  List<String> options = [
+    'Payment by cash',
+    'Payment by invoice',
+    'Payment by card'
+  ];
 
   @override
   void initState() {
@@ -119,39 +126,6 @@ class _SaleManagementState extends State<SaleManagement> {
     todayDate = formatter.format(now);
     Random random = Random();
     randomNumber = random.nextInt(1000000);
-  }
-
-  Future<void> _showComingSoonPopup() async {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: AppConst.black,
-          title: AppText(
-            txt: 'Coming Soon',
-            size: 15,
-            color: AppConst.white,
-          ),
-          content: AppText(
-            txt: 'This feature is coming soon.',
-            size: 15,
-            color: AppConst.white,
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: AppText(
-                txt: 'OK',
-                size: 15,
-                color: AppConst.white,
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 
   Future<void> _printPage() async {
@@ -220,7 +194,7 @@ class _SaleManagementState extends State<SaleManagement> {
                         fetchData();
                       });
                     },
-                    purchaseData: purchaseData,
+                    purchaseData: salesData,
                   ),
                   Container(
                     height: 250,
@@ -243,45 +217,46 @@ class _SaleManagementState extends State<SaleManagement> {
                       },
                       onClose: fetchData,
                       url: 'delete_product_sale',
-                      data: purchaseData,
+                      data: salesData,
                     ),
                   ),
                   Row(
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: AppButton(
-                            solidColor: AppConst.primary,
-                            onPress: _showComingSoonPopup,
-                            label: 'Send Email',
-                            borderRadius: 5,
-                            textColor: AppConst.white),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: AppButton(
-                            solidColor: AppConst.red,
-                            onPress: () async {
-                              // await saveData(purchaseId.toString(),
-                              //     supplierId.toString(), branchId.toString());
-                              // setState(() {
-                              //   supplierId = null;
-                              //   purchaseData = [];
-                              // });
-                              // await fetchData();
+                        child: Container(
+                          width: 230,
+                          child: AppDropdownTextFormField(
+                            labelText: 'Select Payment Method',
+                            options: options,
+                            value: selectedOption,
+                            onChanged: (newValue) {
+                              setState(() {
+                                selectedOption = newValue!;
+                              });
                             },
-                            label: 'Submit Order',
-                            borderRadius: 5,
-                            textColor: AppConst.white),
+                          ),
+                        ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: AppButton(
-                            solidColor: AppConst.black,
-                            onPress: _printPage,
-                            label: 'Print',
-                            borderRadius: 5,
-                            textColor: AppConst.white),
+                        padding: const EdgeInsets.only(
+                            left: 8, right: 8, bottom: 20),
+                        child: Container(
+                          height: 50,
+                          child: AppButton(
+                              solidColor: AppConst.red,
+                              onPress: () async {
+                                await saveData(randomNumber.toString());
+                                setState(() {
+                                  supplierId = null;
+                                  salesData = [];
+                                });
+                                _printPage();
+                              },
+                              label: 'Submit and Print',
+                              borderRadius: 20,
+                              textColor: AppConst.white),
+                        ),
                       ),
                       Spacer(),
                       Column(

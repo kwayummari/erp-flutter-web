@@ -71,6 +71,26 @@ class purchaseOrderServices {
     }
   }
 
+  Future<void> saveSalesOrder(
+      BuildContext context, String randomNumber) async {
+    Map<String, dynamic> data = {
+      'randomNumber': randomNumber,
+    };
+    final response = await api.post(context, 'save_sales', data);
+    final newResponse = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      AppSnackbar(
+        isError: false,
+        response: newResponse['message'],
+      ).show(context);
+    } else {
+      AppSnackbar(
+        isError: true,
+        response: newResponse['message'],
+      ).show(context);
+    }
+  }
+
   Future<void> deletePurchaseOrder(
       BuildContext context, String deleteId) async {
     final myProvider = Provider.of<LoadingProvider>(context, listen: false);
