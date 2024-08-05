@@ -4,6 +4,7 @@ import 'package:erp/src/screens/grn/completedGrnLists.dart';
 import 'package:erp/src/screens/grn/grn.dart';
 import 'package:erp/src/screens/inventory/inventoryManagement.dart';
 import 'package:erp/src/screens/purchaseOrder/purchaseOrder.dart';
+import 'package:erp/src/screens/report/reportRange.dart';
 import 'package:erp/src/screens/report/todayReport.dart';
 import 'package:erp/src/screens/roles/permissions.dart';
 import 'package:erp/src/screens/roles/rolesManagement.dart';
@@ -74,6 +75,10 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: RouteNames.todayReport,
       builder: (context, state) => TodayReportManagement(),
+    ),
+    GoRoute(
+      path: RouteNames.reportRange,
+      builder: (context, state) => ReportRangeManagement(),
     ),
     GoRoute(
       path: RouteNames.permissions,

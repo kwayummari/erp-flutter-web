@@ -131,6 +131,9 @@ class _sideBarState extends State<sideBar> {
                                             } else if (subMenu[index]['url'] ==
                                                 'todayReport') {
                                               context.go(RouteNames.todayReport);
+                                            } else if (subMenu[index]['url'] ==
+                                                'reportRange') {
+                                              context.go(RouteNames.reportRange);
                                             }
                                           },
                                           child: ListTile(

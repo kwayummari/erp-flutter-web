@@ -30,6 +30,28 @@ class salesProductServices {
     return decodedResponse;
   }
 
+  Future<Map<String, dynamic>> getReportByDateRange(
+    BuildContext context, {
+    required DateTime startDate,
+    required DateTime endDate,
+  }) async {
+    SplashFunction splashDetails = SplashFunction();
+    final branchId = await splashDetails.getBranchId();
+    final companyId = await splashDetails.getCompanyId();
+    String formattedStartDate = startDate.toIso8601String().split('T').first;
+    String formattedEndDate = endDate.toIso8601String().split('T').first;
+
+    Map<String, dynamic> data = {
+      'branchId': branchId,
+      'companyId': companyId,
+      'startDate': formattedStartDate,
+      'endDate': formattedEndDate,
+    };
+    final response = await api.post(context, 'get_range_report', data);
+    final decodedResponse = jsonDecode(response.body);
+    return decodedResponse;
+  }
+
   Future<void> editSalesServices(
       BuildContext context, String name, String editId) async {
     final myProvider = Provider.of<LoadingProvider>(context, listen: false);
