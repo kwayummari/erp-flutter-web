@@ -14,4 +14,5 @@ class RouteNames {
   static const String grn = '/grn';
   static const String completedGrn = '/completeGrn';
   static const String saleManagement = '/sellProduct';
+  static const String todayReport = '/todayReport';
 }
