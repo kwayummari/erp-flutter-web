@@ -7,7 +7,7 @@ import 'package:erp/src/functions/createMaterialColor.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:provider/provider.dart';
 import 'package:erp/src/provider/providers.dart';
-import 'package:responsive_framework/responsive_framework.dart'; // Import the new providers file
+import 'package:responsive_framework/responsive_framework.dart';
 
 Future main() async {
   await dotenv.load(fileName: ".env");
