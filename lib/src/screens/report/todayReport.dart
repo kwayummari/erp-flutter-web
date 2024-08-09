@@ -2,6 +2,7 @@ import 'package:erp/src/gateway/salesProductServices.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
+import 'package:intl/intl.dart';
 
 class TodayReportManagement extends StatefulWidget {
   const TodayReportManagement({super.key});
@@ -85,6 +86,7 @@ class _TodayReportManagementState extends State<TodayReportManagement> {
       filteredSalesData = tempList;
     });
   }
+  var today = DateFormat('EEEE d/MM/yyyy').format(DateTime.now());
 
   @override
   Widget build(BuildContext context) {
@@ -137,12 +139,13 @@ class _TodayReportManagementState extends State<TodayReportManagement> {
                                 color: Colors.white,  // Change header text color here
                               ),
                               columns: const <DataColumn>[
-                                DataColumn(label: Text('Customer ID')),
                                 DataColumn(label: Text('Full Name')),
                                 DataColumn(label: Text('Branch Name')),
                                 DataColumn(label: Text('Inventory Name')),
-                                DataColumn(label: Text('Quantity Received')),
-                                DataColumn(label: Text('Quantity')),
+                                DataColumn(label: Text('Quantity Sold')),
+                                DataColumn(label: Text('Quantity Remained')),
+                                DataColumn(label: Text('Customer ID')),
+                                DataColumn(label: Text('Date')),
                               ],
                               rows: filteredSalesData
                                   .map<DataRow>((item) => DataRow(
@@ -151,8 +154,9 @@ class _TodayReportManagementState extends State<TodayReportManagement> {
                                           DataCell(Text(item['fullname'])),
                                           DataCell(Text(item['branchName'])),
                                           DataCell(Text(item['inventoryName'])),
-                                          DataCell(Text(item['quantity_received'].toString())),
                                           DataCell(Text(item['quantity'].toString())),
+                                          DataCell(Text(item['quantity_received'].toString())),
+                                           DataCell(Text(today.toString())),
                                         ],
                                       ))
                                   .toList(),

@@ -182,8 +182,8 @@ class _ReportRangeManagementState extends State<ReportRangeManagement> {
                                 DataColumn(label: Text('Full Name')),
                                 DataColumn(label: Text('Branch Name')),
                                 DataColumn(label: Text('Inventory Name')),
-                                DataColumn(label: Text('Quantity Received')),
-                                DataColumn(label: Text('Quantity')),
+                                DataColumn(label: Text('Quantity sold')),
+                                DataColumn(label: Text('Quantity Remained')),
                               ],
                               rows: filteredSalesData
                                   .map<DataRow>((item) => DataRow(
@@ -192,8 +192,8 @@ class _ReportRangeManagementState extends State<ReportRangeManagement> {
                                           DataCell(Text(item['fullname'])),
                                           DataCell(Text(item['branchName'])),
                                           DataCell(Text(item['inventoryName'])),
-                                          DataCell(Text(item['quantity_received'].toString())),
                                           DataCell(Text(item['quantity'].toString())),
+                                          DataCell(Text(item['quantity_received'].toString())),
                                         ],
                                       ))
                                   .toList(),
