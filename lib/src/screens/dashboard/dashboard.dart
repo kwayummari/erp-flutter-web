@@ -137,7 +137,7 @@ class _dashboardState extends State<dashboard> {
                                 weight: FontWeight.bold,
                               ),
                               AppText(
-                                txt: 'Tsh. 100',
+                                txt: '100',
                                 size: 20,
                                 color: AppConst.black,
                                 weight: FontWeight.bold,
