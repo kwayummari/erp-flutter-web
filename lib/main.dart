@@ -6,9 +6,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:erp/src/functions/createMaterialColor.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:provider/provider.dart';
-import 'package:responsive_framework/responsive_wrapper.dart';
-import 'package:responsive_framework/utils/scroll_behavior.dart';
-import 'package:erp/src/provider/providers.dart'; // Import the new providers file
+import 'package:erp/src/provider/providers.dart';
+import 'package:responsive_framework/responsive_framework.dart'; // Import the new providers file
 
 Future main() async {
   await dotenv.load(fileName: ".env");
@@ -27,15 +26,14 @@ class MyApp extends StatelessWidget {
       providers: MyProviderList.providers,
       child: MaterialApp.router(
         routerConfig: router,
-        builder: (context, widget) => ResponsiveWrapper.builder(
-          ClampingScrollWrapper.builder(context, widget!),
+        builder: (context, widget) => ResponsiveBreakpoints.builder(
           breakpoints: const [
-            ResponsiveBreakpoint.resize(480, name: MOBILE),
-            ResponsiveBreakpoint.autoScale(800, name: TABLET),
-            ResponsiveBreakpoint.resize(1000, name: DESKTOP),
-            ResponsiveBreakpoint.autoScale(1700, name: 'XL'),
-            ResponsiveBreakpoint.autoScale(2460, name: '4K'),
+            const Breakpoint(start: 0, end: 480, name: MOBILE),
+            const Breakpoint(start: 481, end: 800, name: TABLET),
+            const Breakpoint(start: 801, end: 1920, name: DESKTOP),
+            const Breakpoint(start: 1921, end: double.infinity, name: '4K'),
           ],
+          child: widget!
         ),
         debugShowCheckedModeBanner: false,
         title: 'JAMSOLUTIONS',
