@@ -15,6 +15,7 @@ class dashboard extends StatefulWidget {
 class _dashboardState extends State<dashboard> {
   List dashboard = [];
   List sellingProducts = [];
+  List bestSuppliers = [];
   bool isLoading = true;
   bool hasError = false;
 
@@ -23,10 +24,12 @@ class _dashboardState extends State<dashboard> {
       DashboardServices dashboardService = DashboardServices();
       final dashboardResponse = await dashboardService.getData(context);
       final products = await dashboardService.getHighSellingProducts(context);
+      final suppliers = await dashboardService.getBestSuppliers(context);
       if (dashboardResponse != null && dashboardResponse['dashboard'] != null) {
         setState(() {
           dashboard = dashboardResponse['dashboard'];
           sellingProducts = products['products'];
+          bestSuppliers = suppliers['suppliers'];
           isLoading = false;
         });
       } else {

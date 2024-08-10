@@ -27,4 +27,14 @@ class DashboardServices {
     final decodedResponse = jsonDecode(response.body);
     return decodedResponse;
   }
+  Future getBestSuppliers(BuildContext context) async {
+    SplashFunction splashDetails = SplashFunction();
+    final companyId = await splashDetails.getCompanyId();
+    Map<String, dynamic> data = {
+      'companyId': companyId,
+    };
+    final response = await api.post(context, 'getBestSuppliers', data);
+    final decodedResponse = jsonDecode(response.body);
+    return decodedResponse;
+  }
 }
