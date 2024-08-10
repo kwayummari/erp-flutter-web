@@ -1,4 +1,5 @@
 import 'package:erp/src/gateway/DashboardService.dart';
+import 'package:erp/src/screens/dashboard/bestSuppliers.dart';
 import 'package:erp/src/screens/dashboard/mostSoldProducts.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
 import 'package:erp/src/utils/app_const.dart';
@@ -280,7 +281,8 @@ class _dashboardState extends State<dashboard> {
                       SizedBox(
                         height: 100,
                       ),
-                      MostSoldProducts(sellingProducts: sellingProducts)
+                      MostSoldProducts(sellingProducts: sellingProducts),
+                      BestSuppliers(bestSuppliers: bestSuppliers)
                     ],
                   ));
   }
