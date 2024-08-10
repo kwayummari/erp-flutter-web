@@ -11,7 +11,7 @@ class BestSuppliers extends StatelessWidget {
     return Column(
       children: [
         AppText(
-          txt: 'Most Sold Products',
+          txt: 'Best Suppliers',
           size: 20,
           color: AppConst.grey,
           weight: FontWeight.bold,
