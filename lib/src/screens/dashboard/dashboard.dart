@@ -60,313 +60,324 @@ class _dashboardState extends State<dashboard> {
     final double netProfit = sales - purchases;
 
     return layout(
-        child: Column(
-      children: [
-        if (isLoading)
-          Center(child: CircularProgressIndicator())
-        else if (hasError)
-          Center(child: Text('')),
-        Padding(
-          padding: const EdgeInsets.only(left: 100, right: 100),
-          child: Row(
-            children: [
-              Material(
-                elevation: 10,
-                color: AppConst.white,
-                child: Container(
-                  width: 250.0,
-                  height: 100.0,
-                  decoration: BoxDecoration(
-                    color: AppConst.white,
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 60,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              AppText(
-                                txt: 'Total sales',
-                                size: 15,
-                                color: AppConst.grey,
-                                weight: FontWeight.bold,
+        child: isLoading
+            ? Center(child: CircularProgressIndicator())
+            : hasError
+                ? Center(child: Text('Something went wrong'))
+                : Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 100, right: 100),
+                        child: Row(
+                          children: [
+                            Material(
+                              elevation: 10,
+                              color: AppConst.white,
+                              child: Container(
+                                width: 250.0,
+                                height: 100.0,
+                                decoration: BoxDecoration(
+                                  color: AppConst.white,
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        height: 60,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            AppText(
+                                              txt: 'Total sales',
+                                              size: 15,
+                                              color: AppConst.grey,
+                                              weight: FontWeight.bold,
+                                            ),
+                                            AppText(
+                                              txt: numberFormat.format(sales),
+                                              size: 20,
+                                              color: AppConst.black,
+                                              weight: FontWeight.bold,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Spacer(),
+                                      Icon(
+                                        Icons.graphic_eq,
+                                        color: AppConst.grey,
+                                      )
+                                    ],
+                                  ),
+                                ),
                               ),
-                              AppText(
-                                txt: numberFormat.format(sales),
-                                size: 20,
-                                color: AppConst.black,
-                                weight: FontWeight.bold,
+                            ),
+                            SizedBox(
+                              width: 50,
+                            ),
+                            Material(
+                              elevation: 10,
+                              color: AppConst.white,
+                              child: Container(
+                                width: 250.0,
+                                height: 100.0,
+                                decoration: BoxDecoration(
+                                  color: AppConst.white,
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        height: 60,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            AppText(
+                                              txt: 'Total purchases',
+                                              size: 15,
+                                              color: AppConst.grey,
+                                              weight: FontWeight.bold,
+                                            ),
+                                            AppText(
+                                              txt: numberFormat
+                                                  .format(purchases),
+                                              size: 20,
+                                              color: AppConst.black,
+                                              weight: FontWeight.bold,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Spacer(),
+                                      Icon(
+                                        Icons.money,
+                                        color: AppConst.grey,
+                                      )
+                                    ],
+                                  ),
+                                ),
                               ),
-                            ],
-                          ),
+                            ),
+                            SizedBox(
+                              width: 50,
+                            ),
+                            Material(
+                              elevation: 10,
+                              color: AppConst.white,
+                              child: Container(
+                                width: 250.0,
+                                height: 100.0,
+                                decoration: BoxDecoration(
+                                  color: AppConst.white,
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        height: 60,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            AppText(
+                                              txt: 'Total products',
+                                              size: 15,
+                                              color: AppConst.grey,
+                                              weight: FontWeight.bold,
+                                            ),
+                                            AppText(
+                                              txt:
+                                                  '${dashboard[0]['totalProduct']}',
+                                              size: 20,
+                                              color: AppConst.black,
+                                              weight: FontWeight.bold,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Spacer(),
+                                      Icon(
+                                        Icons.propane_tank_rounded,
+                                        color: AppConst.grey,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 50,
+                            ),
+                            Material(
+                              elevation: 10,
+                              color: AppConst.white,
+                              child: Container(
+                                width: 250.0,
+                                height: 100.0,
+                                decoration: BoxDecoration(
+                                  color: AppConst.white,
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        height: 60,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            AppText(
+                                              txt: 'Net profit',
+                                              size: 15,
+                                              color: AppConst.grey,
+                                              weight: FontWeight.bold,
+                                            ),
+                                            AppText(
+                                              txt: numberFormat
+                                                  .format(netProfit),
+                                              size: 20,
+                                              color: AppConst.black,
+                                              weight: FontWeight.bold,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Spacer(),
+                                      Icon(
+                                        Icons.money,
+                                        color: AppConst.grey,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
-                        Spacer(),
-                        Icon(
-                          Icons.graphic_eq,
-                          color: AppConst.grey,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 50,
-              ),
-              Material(
-                elevation: 10,
-                color: AppConst.white,
-                child: Container(
-                  width: 250.0,
-                  height: 100.0,
-                  decoration: BoxDecoration(
-                    color: AppConst.white,
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 60,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              AppText(
-                                txt: 'Total purchases',
-                                size: 15,
-                                color: AppConst.grey,
-                                weight: FontWeight.bold,
+                      ),
+                      SizedBox(
+                        height: 100,
+                      ),
+                      AppText(
+                        txt: 'Most Sold Products',
+                        size: 20,
+                        color: AppConst.grey,
+                        weight: FontWeight.bold,
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 100, right: 100),
+                        child: Table(
+                          border: TableBorder.all(color: Colors.grey),
+                          columnWidths: {
+                            0: FlexColumnWidth(3),
+                            1: FlexColumnWidth(5),
+                            2: FlexColumnWidth(2),
+                            3: FlexColumnWidth(2),
+                          },
+                          children: [
+                            TableRow(
+                              decoration: BoxDecoration(color: AppConst.grey),
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: AppText(
+                                    txt: 'Name',
+                                    size: 18,
+                                    color: AppConst.white,
+                                    weight: FontWeight.bold,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: AppText(
+                                    txt: 'Description',
+                                    size: 18,
+                                    color: AppConst.white,
+                                    weight: FontWeight.bold,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: AppText(
+                                    txt: 'Selling Price',
+                                    size: 18,
+                                    color: AppConst.white,
+                                    weight: FontWeight.bold,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: AppText(
+                                    txt: 'Buying Price',
+                                    size: 18,
+                                    color: AppConst.white,
+                                    weight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            for (var product in sellingProducts)
+                              TableRow(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: AppText(
+                                      txt: product['name'],
+                                      size: 16,
+                                      color: AppConst.black,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: AppText(
+                                      txt: product['description'],
+                                      size: 16,
+                                      color: AppConst.black,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: AppText(
+                                      txt: product['sellingPrice'],
+                                      size: 16,
+                                      color: AppConst.black,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: AppText(
+                                      txt: product['buyingPrice'],
+                                      size: 16,
+                                      color: AppConst.black,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              AppText(
-                                txt: numberFormat.format(purchases),
-                                size: 20,
-                                color: AppConst.black,
-                                weight: FontWeight.bold,
-                              ),
-                            ],
-                          ),
+                          ],
                         ),
-                        Spacer(),
-                        Icon(
-                          Icons.money,
-                          color: AppConst.grey,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 50,
-              ),
-              Material(
-                elevation: 10,
-                color: AppConst.white,
-                child: Container(
-                  width: 250.0,
-                  height: 100.0,
-                  decoration: BoxDecoration(
-                    color: AppConst.white,
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 60,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              AppText(
-                                txt: 'Total products',
-                                size: 15,
-                                color: AppConst.grey,
-                                weight: FontWeight.bold,
-                              ),
-                              AppText(
-                                txt: '${dashboard[0]['totalProduct']}',
-                                size: 20,
-                                color: AppConst.black,
-                                weight: FontWeight.bold,
-                              ),
-                            ],
-                          ),
-                        ),
-                        Spacer(),
-                        Icon(
-                          Icons.propane_tank_rounded,
-                          color: AppConst.grey,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 50,
-              ),
-              Material(
-                elevation: 10,
-                color: AppConst.white,
-                child: Container(
-                  width: 250.0,
-                  height: 100.0,
-                  decoration: BoxDecoration(
-                    color: AppConst.white,
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 60,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              AppText(
-                                txt: 'Net profit',
-                                size: 15,
-                                color: AppConst.grey,
-                                weight: FontWeight.bold,
-                              ),
-                              AppText(
-                                txt: numberFormat.format(netProfit),
-                                size: 20,
-                                color: AppConst.black,
-                                weight: FontWeight.bold,
-                              ),
-                            ],
-                          ),
-                        ),
-                        Spacer(),
-                        Icon(
-                          Icons.money,
-                          color: AppConst.grey,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-        SizedBox(
-          height: 100,
-        ),
-        AppText(
-          txt: 'Most Sold Products',
-          size: 20,
-          color: AppConst.grey,
-          weight: FontWeight.bold,
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 100, right: 100),
-          child: Table(
-            border: TableBorder.all(color: Colors.grey),
-            columnWidths: {
-              0: FlexColumnWidth(3),
-              1: FlexColumnWidth(5),
-              2: FlexColumnWidth(2),
-              3: FlexColumnWidth(2),
-            },
-            children: [
-              TableRow(
-                decoration: BoxDecoration(color: AppConst.grey),
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: AppText(
-                      txt: 'Name',
-                      size: 18,
-                      color: AppConst.white,
-                      weight: FontWeight.bold,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: AppText(
-                      txt: 'Description',
-                      size: 18,
-                      color: AppConst.white,
-                      weight: FontWeight.bold,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: AppText(
-                      txt: 'Selling Price',
-                      size: 18,
-                      color: AppConst.white,
-                      weight: FontWeight.bold,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: AppText(
-                      txt: 'Buying Price',
-                      size: 18,
-                      color: AppConst.white,
-                      weight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              for (var product in sellingProducts)
-                TableRow(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: AppText(
-                        txt: product['name'],
-                        size: 16,
-                        color: AppConst.black,
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: AppText(
-                        txt: product['description'],
-                        size: 16,
-                        color: AppConst.black,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: AppText(
-                        txt: product['sellingPrice'],
-                        size: 16,
-                        color: AppConst.black,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: AppText(
-                        txt: product['buyingPrice'],
-                        size: 16,
-                        color: AppConst.black,
-                      ),
-                    ),
-                  ],
-                ),
-            ],
-          ),
-        ),
-      ],
-    ));
+                    ],
+                  ));
   }
 }
