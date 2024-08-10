@@ -282,6 +282,9 @@ class _dashboardState extends State<dashboard> {
                         height: 100,
                       ),
                       MostSoldProducts(sellingProducts: sellingProducts),
+                      SizedBox(
+                        height: 50,
+                      ),
                       BestSuppliers(bestSuppliers: bestSuppliers)
                     ],
                   ));
