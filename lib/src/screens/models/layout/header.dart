@@ -109,20 +109,26 @@ class _HeaderState extends State<Header> {
               ),
               GestureDetector(
                   onTap: () => context.go(RouteNames.dashboard),
-                  child: AppText(
-                    txt: 'Home /',
-                    size: 18,
-                    color: AppConst.grey,
+                  child: MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: AppText(
+                      txt: 'Home /',
+                      size: 18,
+                      color: AppConst.grey,
+                    ),
                   )),
               SizedBox(
                 width: 20,
               ),
               GestureDetector(
-                  onTap: () => null,
-                  child: AppText(
-                    txt: 'Library /',
-                    size: 18,
-                    color: AppConst.grey,
+                  onTap: () => context.go(RouteNames.dashboard),
+                  child: MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: AppText(
+                      txt: 'Library /',
+                      size: 18,
+                      color: AppConst.grey,
+                    ),
                   )),
               SizedBox(
                 width: 20,
