@@ -20,6 +20,7 @@ class _HeaderState extends State<Header> {
     final uri = Uri.base;
     pageName = uri.fragment.replaceFirst('/', '');
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
