@@ -1,7 +1,6 @@
 import 'package:erp/src/gateway/DashboardService.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
 import 'package:erp/src/utils/app_const.dart';
-import 'package:erp/src/widgets/app_listview_builder.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -270,64 +269,103 @@ class _dashboardState extends State<dashboard> {
           txt: 'Most Sold Products',
           size: 20,
           color: AppConst.grey,
+          weight: FontWeight.bold,
         ),
         SizedBox(
           height: 20,
         ),
-        AppListviewBuilder(
-            itemnumber: sellingProducts.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.only(
-                    left: 100, right: 100, bottom: 20, top: 10),
-                child: Material(
-                  elevation: 10,
-                  color: AppConst.white,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 50.0,
-                    decoration: BoxDecoration(
+        Padding(
+          padding: const EdgeInsets.only(left: 100, right: 100),
+          child: Table(
+            border: TableBorder.all(color: Colors.grey),
+            columnWidths: {
+              0: FlexColumnWidth(3),
+              1: FlexColumnWidth(5),
+              2: FlexColumnWidth(2),
+              3: FlexColumnWidth(2),
+            },
+            children: [
+              TableRow(
+                decoration: BoxDecoration(color: AppConst.grey),
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: AppText(
+                      txt: 'Name',
+                      size: 18,
                       color: AppConst.white,
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          AppText(
-                            txt: sellingProducts[index]['name'],
-                            size: 20,
-                            color: AppConst.black,
-                            weight: FontWeight.bold,
-                          ),
-                          Spacer(),
-                          AppText(
-                            txt: sellingProducts[index]['description'],
-                            size: 20,
-                            color: AppConst.black,
-                            weight: FontWeight.bold,
-                          ),
-                          Spacer(),
-                          AppText(
-                            txt: sellingProducts[index]['sellingPrice'],
-                            size: 20,
-                            color: AppConst.black,
-                            weight: FontWeight.bold,
-                          ),
-                          Spacer(),
-                          AppText(
-                            txt: sellingProducts[index]['buyingPrice'],
-                            size: 20,
-                            color: AppConst.black,
-                            weight: FontWeight.bold,
-                          )
-                        ],
-                      ),
+                      weight: FontWeight.bold,
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: AppText(
+                      txt: 'Description',
+                      size: 18,
+                      color: AppConst.white,
+                      weight: FontWeight.bold,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: AppText(
+                      txt: 'Selling Price',
+                      size: 18,
+                      color: AppConst.white,
+                      weight: FontWeight.bold,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: AppText(
+                      txt: 'Buying Price',
+                      size: 18,
+                      color: AppConst.white,
+                      weight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              for (var product in sellingProducts)
+                TableRow(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: AppText(
+                        txt: product['name'],
+                        size: 16,
+                        color: AppConst.black,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: AppText(
+                        txt: product['description'],
+                        size: 16,
+                        color: AppConst.black,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: AppText(
+                        txt: product['sellingPrice'],
+                        size: 16,
+                        color: AppConst.black,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: AppText(
+                        txt: product['buyingPrice'],
+                        size: 16,
+                        color: AppConst.black,
+                      ),
+                    ),
+                  ],
                 ),
-              );
-            })
+            ],
+          ),
+        ),
       ],
     ));
   }
