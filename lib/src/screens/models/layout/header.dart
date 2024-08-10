@@ -1,6 +1,8 @@
 import 'package:erp/src/utils/app_const.dart';
+import 'package:erp/src/utils/routes/route-names.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class Header extends StatefulWidget {
   final Widget child;
@@ -11,6 +13,13 @@ class Header extends StatefulWidget {
 }
 
 class _HeaderState extends State<Header> {
+  late String pageName;
+  @override
+  void initState() {
+    super.initState();
+    final uri = Uri.base;
+    pageName = uri.fragment.replaceFirst('/', '');
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -42,7 +51,7 @@ class _HeaderState extends State<Header> {
               GestureDetector(
                   onTap: () => null,
                   child: AppText(
-                    txt: 'Dashboard',
+                    txt: pageName,
                     size: 18,
                     color: AppConst.black,
                   )),
@@ -99,7 +108,7 @@ class _HeaderState extends State<Header> {
                 width: 20,
               ),
               GestureDetector(
-                  onTap: () => null,
+                  onTap: () => context.go(RouteNames.dashboard),
                   child: AppText(
                     txt: 'Home /',
                     size: 18,
@@ -121,7 +130,7 @@ class _HeaderState extends State<Header> {
               GestureDetector(
                   onTap: () => null,
                   child: AppText(
-                    txt: 'Data',
+                    txt: pageName,
                     size: 18,
                     color: AppConst.grey,
                   )),
