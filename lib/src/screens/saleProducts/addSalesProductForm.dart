@@ -33,7 +33,7 @@ class _AddSalesProductFormState extends State<AddSalesProductForm> {
   TextEditingController quantity = TextEditingController();
   TextEditingController sellingPrice = TextEditingController();
   TextEditingController total = TextEditingController();
-  List allData = [];
+  List<Map<String, dynamic>> allData = [];
   var valueHolder;
   var branch;
   var inventoryId;
@@ -83,10 +83,10 @@ class _AddSalesProductFormState extends State<AddSalesProductForm> {
             dropdownColor: AppConst.white,
             dataOrigin: 'products',
             onChanged: (value, data) {
-              _updateFields(data, value);
+              _updateFields(data, value.toString());
             },
             valueField: 'id',
-            doubleDisplay: true,
+            // doubleDisplay: true,
             displayField: 'name',
             displayField2: 'description',
             allData: allData,

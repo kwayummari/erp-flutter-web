@@ -31,7 +31,7 @@ class _AddOrderFormState extends State<AddOrderForm> {
   TextEditingController quantity = TextEditingController();
   TextEditingController sellingPrice = TextEditingController();
   TextEditingController total = TextEditingController();
-  List allData = [];
+  List<Map<String, dynamic>> allData = [];
   var valueHolder;
   var branch;
   var inventoryId;
