@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:erp/src/utils/auth_utils.dart';
+import 'package:erp/src/utils/routes/route-names.dart';
 import 'package:flutter/rendering.dart';
 import 'package:erp/src/gateway/purchaseOrderService.dart';
 import 'package:erp/src/screens/purchaseOrder/topOfOrder.dart';
@@ -10,6 +12,7 @@ import 'package:erp/src/widgets/app_table2.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/pdf.dart';
@@ -123,12 +126,21 @@ class _PurchaseOrderManagementState extends State<PurchaseOrderManagement> {
   @override
   void initState() {
     super.initState();
+    _checkLoginStatus();
     if (supplierId != null) fetchData();
     var now = DateTime.now();
     var formatter = DateFormat('yyyy-MM-dd');
     todayDate = formatter.format(now);
     Random random = Random();
     randomNumber = random.nextInt(1000000);
+  }
+
+  Future<void> _checkLoginStatus() async {
+    if (!await isUserLoggedIn()) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        context.go(RouteNames.login);
+      });
+    }
   }
 
   Future<void> _showComingSoonPopup() async {
