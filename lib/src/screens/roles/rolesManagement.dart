@@ -1,6 +1,7 @@
 import 'package:erp/src/screens/roles/addRoles.dart';
 import 'package:erp/src/screens/roles/editRolesForm.dart';
 import 'package:erp/src/utils/app_const.dart';
+import 'package:erp/src/utils/auth_utils.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
 import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_modal.dart';
@@ -50,7 +51,16 @@ class _rolesManagementState extends State<rolesManagement> {
   @override
   void initState() {
     super.initState();
+    _checkLoginStatus();
     fetchData();
+  }
+
+  Future<void> _checkLoginStatus() async {
+    if (!await isUserLoggedIn()) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        context.go(RouteNames.login);
+      });
+    }
   }
 
   @override
