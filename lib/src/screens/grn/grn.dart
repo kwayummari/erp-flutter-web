@@ -3,6 +3,8 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:erp/src/gateway/grnServices.dart';
 import 'package:erp/src/screens/grn/topGrn.dart';
+import 'package:erp/src/utils/auth_utils.dart';
+import 'package:erp/src/utils/routes/route-names.dart';
 import 'package:erp/src/widgets/app_table3.dart';
 import 'package:flutter/rendering.dart';
 import 'package:erp/src/gateway/purchaseOrderService.dart';
@@ -11,6 +13,7 @@ import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/pdf.dart';
@@ -123,12 +126,21 @@ class _GrnManagementState extends State<GrnManagement> {
   @override
   void initState() {
     super.initState();
+    _checkLoginStatus();
     if (supplierId != null) fetchData();
     var now = DateTime.now();
     var formatter = DateFormat('yyyy-MM-dd');
     todayDate = formatter.format(now);
     Random random = Random();
     randomNumber = random.nextInt(1000000);
+  }
+
+  Future<void> _checkLoginStatus() async {
+    if (!await isUserLoggedIn()) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        context.go(RouteNames.login);
+      });
+    }
   }
 
   Future<void> _showComingSoonPopup() async {
@@ -274,8 +286,8 @@ class _GrnManagementState extends State<GrnManagement> {
                         child: AppButton(
                             solidColor: AppConst.red,
                             onPress: () async {
-                              await saveData(
-                                  purchaseId.toString(), supplierId.toString(), branchId.toString());
+                              await saveData(purchaseId.toString(),
+                                  supplierId.toString(), branchId.toString());
                               setState(() {
                                 supplierId = null;
                                 rowData = [];
