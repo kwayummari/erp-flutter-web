@@ -52,6 +52,7 @@ class _dashboardState extends State<dashboard> {
   @override
   void initState() {
     super.initState();
+    checkStatus();
     fetchData();
   }
 
