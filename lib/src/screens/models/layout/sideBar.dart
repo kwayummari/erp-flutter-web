@@ -58,31 +58,34 @@ class _sideBarState extends State<sideBar> {
             onTap: () {
               context.go(RouteNames.dashboard);
             },
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: Card(
-                color: AppConst.transparent,
-                elevation: 16.0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(children: [
-                  ListTile(
-                    title: Row(
-                      children: [
-                        AppText(
-                          txt: 'Dashboard',
-                          size: 15,
-                          color: AppConst.white,
-                        )
-                      ],
-                    ),
-                    leading: Icon(
-                      Icons.home,
-                      color: AppConst.white,
-                    ),
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Card(
+                  color: AppConst.transparent,
+                  elevation: 16.0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                ]),
+                  child: Column(children: [
+                    ListTile(
+                      title: Row(
+                        children: [
+                          AppText(
+                            txt: 'Dashboard',
+                            size: 15,
+                            color: AppConst.white,
+                          )
+                        ],
+                      ),
+                      leading: Icon(
+                        Icons.home,
+                        color: AppConst.white,
+                      ),
+                    ),
+                  ]),
+                ),
               ),
             ),
           ),
@@ -136,11 +139,14 @@ class _sideBarState extends State<sideBar> {
                                               context.go(RouteNames.reportRange);
                                             }
                                           },
-                                          child: ListTile(
-                                            title: AppText(
-                                              txt: subMenu[index]['name'],
-                                              size: 15,
-                                              color: AppConst.white,
+                                          child: MouseRegion(
+                                            cursor: SystemMouseCursors.click,
+                                            child: ListTile(
+                                              title: AppText(
+                                                txt: subMenu[index]['name'],
+                                                size: 15,
+                                                color: AppConst.white,
+                                              ),
                                             ),
                                           ),
                                         );
@@ -159,72 +165,78 @@ class _sideBarState extends State<sideBar> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: ExpansionTile(
-                iconColor: AppConst.white,
-                collapsedIconColor: AppConst.white,
-                title: Row(
-                  children: [
-                    AppText(
-                      txt: 'Configurations',
-                      size: 15,
-                      color: AppConst.white,
-                    )
+              child: MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: ExpansionTile(
+                  iconColor: AppConst.white,
+                  collapsedIconColor: AppConst.white,
+                  title: Row(
+                    children: [
+                      AppText(
+                        txt: 'Configurations',
+                        size: 15,
+                        color: AppConst.white,
+                      )
+                    ],
+                  ),
+                  leading: Icon(
+                    Icons.settings,
+                    color: AppConst.white,
+                  ),
+                  children: <Widget>[
+                    ListTile(
+                      onTap: () {
+                        context.go(RouteNames.roles);
+                      },
+                      title: AppText(
+                        txt: 'Roles',
+                        size: 15,
+                        color: AppConst.white,
+                      ),
+                    ),
+                    ListTile(
+                      onTap: () {
+                        context.go(RouteNames.branch);
+                      },
+                      title: AppText(
+                        txt: 'Branch',
+                        size: 15,
+                        color: AppConst.white,
+                      ),
+                    ),
+                    // Add more children as needed
                   ],
                 ),
-                leading: Icon(
-                  Icons.settings,
-                  color: AppConst.white,
-                ),
-                children: <Widget>[
-                  ListTile(
-                    onTap: () {
-                      context.go(RouteNames.roles);
-                    },
-                    title: AppText(
-                      txt: 'Roles',
-                      size: 15,
-                      color: AppConst.white,
-                    ),
-                  ),
-                  ListTile(
-                    onTap: () {
-                      context.go(RouteNames.branch);
-                    },
-                    title: AppText(
-                      txt: 'Branch',
-                      size: 15,
-                      color: AppConst.white,
-                    ),
-                  ),
-                  // Add more children as needed
-                ],
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 20),
-            child: Card(
-              color: AppConst.transparent,
-              elevation: 16.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: ListTile(
-                onTap: () {
-                  context.go(RouteNames.dashboard);
-                },
-                title: Row(
-                  children: [
-                    AppText(
-                      txt: 'Docs',
-                      size: 15,
-                      color: AppConst.white,
-                    )
-                  ],
+          MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+              child: Card(
+                color: AppConst.transparent,
+                elevation: 16.0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                leading: Icon(
-                  Icons.document_scanner,
-                  color: AppConst.white,
+                child: ListTile(
+                  onTap: () {
+                    context.go(RouteNames.dashboard);
+                  },
+                  title: Row(
+                    children: [
+                      AppText(
+                        txt: 'Docs',
+                        size: 15,
+                        color: AppConst.white,
+                      )
+                    ],
+                  ),
+                  leading: Icon(
+                    Icons.document_scanner,
+                    color: AppConst.white,
+                  ),
                 ),
               ),
             ),
