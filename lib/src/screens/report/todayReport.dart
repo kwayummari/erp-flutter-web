@@ -1,7 +1,10 @@
 import 'package:erp/src/gateway/salesProductServices.dart';
 import 'package:erp/src/utils/app_const.dart';
+import 'package:erp/src/utils/auth_utils.dart';
+import 'package:erp/src/utils/routes/route-names.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class TodayReportManagement extends StatefulWidget {
@@ -61,10 +64,19 @@ class _TodayReportManagementState extends State<TodayReportManagement> {
   @override
   void initState() {
     super.initState();
+    _checkLoginStatus();
     fetchData();
     searchController.addListener(() {
       filterSearchResults(searchController.text);
     });
+  }
+
+  Future<void> _checkLoginStatus() async {
+    if (!await isUserLoggedIn()) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        context.go(RouteNames.login);
+      });
+    }
   }
 
   void filterSearchResults(String query) {
@@ -86,6 +98,7 @@ class _TodayReportManagementState extends State<TodayReportManagement> {
       filteredSalesData = tempList;
     });
   }
+
   var today = DateFormat('EEEE d/MM/yyyy').format(DateTime.now());
 
   @override
@@ -132,11 +145,13 @@ class _TodayReportManagementState extends State<TodayReportManagement> {
                           child: Container(
                             width: double.infinity,
                             child: DataTable(
-                              headingRowColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-                                return Colors.black;  // Change header background color here
+                              headingRowColor:
+                                  WidgetStateProperty.resolveWith<Color>(
+                                      (Set<WidgetState> states) {
+                                return Colors.black;
                               }),
                               headingTextStyle: TextStyle(
-                                color: Colors.white,  // Change header text color here
+                                color: Colors.white,
                               ),
                               columns: const <DataColumn>[
                                 DataColumn(label: Text('Full Name')),
@@ -150,13 +165,17 @@ class _TodayReportManagementState extends State<TodayReportManagement> {
                               rows: filteredSalesData
                                   .map<DataRow>((item) => DataRow(
                                         cells: <DataCell>[
-                                          DataCell(Text(item['customerId'].toString())),
+                                          DataCell(Text(
+                                              item['customerId'].toString())),
                                           DataCell(Text(item['fullname'])),
                                           DataCell(Text(item['branchName'])),
                                           DataCell(Text(item['inventoryName'])),
-                                          DataCell(Text(item['quantity'].toString())),
-                                          DataCell(Text(item['quantity_received'].toString())),
-                                           DataCell(Text(today.toString())),
+                                          DataCell(Text(
+                                              item['quantity'].toString())),
+                                          DataCell(Text(
+                                              item['quantity_received']
+                                                  .toString())),
+                                          DataCell(Text(today.toString())),
                                         ],
                                       ))
                                   .toList(),
