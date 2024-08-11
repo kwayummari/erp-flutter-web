@@ -2,6 +2,8 @@ import 'package:erp/src/gateway/inventoryService.dart';
 import 'package:erp/src/provider/rowProvider.dart';
 import 'package:erp/src/screens/inventory/addProduct.dart';
 import 'package:erp/src/screens/inventory/editProductForm.dart';
+import 'package:erp/src/utils/auth_utils.dart';
+import 'package:erp/src/utils/routes/route-names.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
@@ -10,6 +12,7 @@ import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_modal.dart';
 import 'package:erp/src/widgets/app_table.dart';
 import 'package:erp/src/widgets/app_tabular_widget.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class inventoryManagement extends StatefulWidget {
@@ -63,7 +66,16 @@ class _inventoryManagementState extends State<inventoryManagement> {
   @override
   void initState() {
     super.initState();
+    _checkLoginStatus();
     fetchData();
+  }
+
+  Future<void> _checkLoginStatus() async {
+    if (!await isUserLoggedIn()) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        context.go(RouteNames.login);
+      });
+    }
   }
 
   final List<String> titles = [
