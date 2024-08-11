@@ -4,8 +4,10 @@ import 'package:erp/src/screens/dashboard/mostSoldProducts.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/utils/auth_utils.dart';
+import 'package:erp/src/utils/routes/route-names.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class dashboard extends StatefulWidget {
@@ -60,7 +62,7 @@ class _dashboardState extends State<dashboard> {
   Future<void> _checkLoginStatus() async {
     if (!await isUserLoggedIn()) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.of(context).pushReplacementNamed('/login');
+        context.go(RouteNames.login);
       });
     }
   }
