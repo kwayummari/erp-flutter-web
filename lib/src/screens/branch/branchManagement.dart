@@ -2,6 +2,7 @@ import 'package:erp/src/gateway/branchService.dart';
 import 'package:erp/src/screens/branch/addBranch.dart';
 import 'package:erp/src/screens/branch/editBranchForm.dart';
 import 'package:erp/src/utils/app_const.dart';
+import 'package:erp/src/utils/auth_utils.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
 import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_modal.dart';
@@ -50,7 +51,16 @@ class _branchManagementState extends State<branchManagement> {
   @override
   void initState() {
     super.initState();
+    _checkLoginStatus();
     fetchData();
+  }
+
+  Future<void> _checkLoginStatus() async {
+    if (!await isUserLoggedIn()) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        context.go(RouteNames.login);
+      });
+    }
   }
 
   @override
