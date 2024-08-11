@@ -1,9 +1,12 @@
 import 'package:erp/src/gateway/permissions.dart';
 import 'package:erp/src/utils/app_const.dart';
+import 'package:erp/src/utils/auth_utils.dart';
+import 'package:erp/src/utils/routes/route-names.dart';
 import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
+import 'package:go_router/go_router.dart';
 
 class PermissionsManagement extends StatefulWidget {
   final Map<String, dynamic> data;
@@ -69,7 +72,16 @@ class _PermissionsManagementState extends State<PermissionsManagement> {
   @override
   void initState() {
     super.initState();
+    _checkLoginStatus();
     fetchData();
+  }
+
+  Future<void> _checkLoginStatus() async {
+    if (!await isUserLoggedIn()) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        context.go(RouteNames.login);
+      });
+    }
   }
 
   @override
