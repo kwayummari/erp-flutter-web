@@ -3,6 +3,8 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:erp/src/gateway/salesProductServices.dart';
 import 'package:erp/src/screens/saleProducts/topOfSales.dart';
+import 'package:erp/src/utils/auth_utils.dart';
+import 'package:erp/src/utils/routes/route-names.dart';
 import 'package:erp/src/widgets/app-offlineDropdownFormField.dart';
 import 'package:erp/src/widgets/app_table4.dart';
 import 'package:flutter/rendering.dart';
@@ -12,6 +14,7 @@ import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/pdf.dart';
@@ -121,11 +124,20 @@ class _SaleManagementState extends State<SaleManagement> {
   @override
   void initState() {
     super.initState();
+    _checkLoginStatus();
     var now = DateTime.now();
     var formatter = DateFormat('yyyy-MM-dd');
     todayDate = formatter.format(now);
     Random random = Random();
     randomNumber = random.nextInt(1000000);
+  }
+
+  Future<void> _checkLoginStatus() async {
+    if (!await isUserLoggedIn()) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        context.go(RouteNames.login);
+      });
+    }
   }
 
   Future<void> _printPage() async {
