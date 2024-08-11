@@ -3,6 +3,7 @@ import 'package:erp/src/utils/routes/route-names.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Header extends StatefulWidget {
   final Widget child;
@@ -83,8 +84,21 @@ class _HeaderState extends State<Header> {
               MouseRegion(
                 cursor: SystemMouseCursors.click,
                 child: PopupMenuButton<String>(
-                  onSelected: (value) {
-                    print('Selected: $value');
+                  onSelected: (value) async {
+                    if (value == 'Logout') {
+              final prefs = await SharedPreferences.getInstance();
+              await prefs.remove('email');
+              await prefs.remove('userId');
+              await prefs.remove('companyId');
+              await prefs.remove('roleId');
+              await prefs.remove('fullname');
+              await prefs.remove('branchId');
+              GoRouter.of(context).go('/login');
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                '/login',
+                (Route<dynamic> route) => false,
+              );
+            }
                   },
                   itemBuilder: (BuildContext context) {
                     return <PopupMenuEntry<String>>[
