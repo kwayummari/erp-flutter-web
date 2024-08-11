@@ -86,19 +86,19 @@ class _HeaderState extends State<Header> {
                 child: PopupMenuButton<String>(
                   onSelected: (value) async {
                     if (value == 'Logout') {
-              final prefs = await SharedPreferences.getInstance();
-              await prefs.remove('email');
-              await prefs.remove('userId');
-              await prefs.remove('companyId');
-              await prefs.remove('roleId');
-              await prefs.remove('fullname');
-              await prefs.remove('branchId');
-              GoRouter.of(context).go('/login');
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                '/login',
-                (Route<dynamic> route) => false,
-              );
-            }
+                      final prefs = await SharedPreferences.getInstance();
+                      await prefs.remove('email');
+                      await prefs.remove('userId');
+                      await prefs.remove('companyId');
+                      await prefs.remove('roleId');
+                      await prefs.remove('fullname');
+                      await prefs.remove('branchId');
+                      GoRouter.of(context).go('/login');
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        '/login',
+                        (Route<dynamic> route) => false,
+                      );
+                    }
                   },
                   itemBuilder: (BuildContext context) {
                     return <PopupMenuEntry<String>>[
