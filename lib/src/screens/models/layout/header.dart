@@ -80,14 +80,36 @@ class _HeaderState extends State<Header> {
               SizedBox(
                 width: 20,
               ),
-              GestureDetector(
-                  onTap: () => null,
+              MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: PopupMenuButton<String>(
+                  onSelected: (value) {
+                    print('Selected: $value');
+                  },
+                  itemBuilder: (BuildContext context) {
+                    return <PopupMenuEntry<String>>[
+                      PopupMenuItem<String>(
+                        value: 'Profile',
+                        child: Text('Profile'),
+                      ),
+                      PopupMenuItem<String>(
+                        value: 'Settings',
+                        child: Text('Settings'),
+                      ),
+                      PopupMenuItem<String>(
+                        value: 'Logout',
+                        child: Text('Logout'),
+                      ),
+                    ];
+                  },
                   child: Badge(
                     child: Icon(
                       Icons.person,
                       color: AppConst.black,
                     ),
-                  )),
+                  ),
+                ),
+              ),
               SizedBox(
                 width: 20,
               ),
