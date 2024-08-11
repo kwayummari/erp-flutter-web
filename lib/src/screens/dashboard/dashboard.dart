@@ -3,6 +3,7 @@ import 'package:erp/src/screens/dashboard/bestSuppliers.dart';
 import 'package:erp/src/screens/dashboard/mostSoldProducts.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
 import 'package:erp/src/utils/app_const.dart';
+import 'package:erp/src/utils/auth_utils.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -52,8 +53,16 @@ class _dashboardState extends State<dashboard> {
   @override
   void initState() {
     super.initState();
-    checkStatus();
+    _checkLoginStatus();
     fetchData();
+  }
+
+  Future<void> _checkLoginStatus() async {
+    if (!await isUserLoggedIn()) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.of(context).pushReplacementNamed('/login');
+      });
+    }
   }
 
   @override
