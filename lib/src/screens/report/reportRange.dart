@@ -36,6 +36,12 @@ class _ReportRangeManagementState extends State<ReportRangeManagement> {
       for (var item in reportData) {
         String inventoryName = item['inventoryName'];
         int quantity = int.parse(item['quantity'].toString());
+        final int sp = int.parse(item['sellingPrice'].toString());
+        final int bp = int.parse(item['buyingPrice'].toString());
+        final int qr = int.parse(item['quantity_received'].toString());
+        final int qs = int.parse(item['quantity'].toString());
+        final int tq = qs + qr;
+        final profit = (qs * sp) - (tq * bp);
         if (groupedData.containsKey(inventoryName)) {
           groupedData[inventoryName]!['quantity'] += quantity;
         } else {
@@ -48,6 +54,9 @@ class _ReportRangeManagementState extends State<ReportRangeManagement> {
             'purchaseBranchId': item['purchaseBranchId'],
             'purchaseCompanyId': item['purchaseCompanyId'],
             'quantity': quantity,
+            'sellingPrice': item['sellingPrice'],
+            'buyingPrice': item['buyingPrice'],
+            'profit': profit.toString(),
           };
         }
       }
@@ -130,6 +139,13 @@ class _ReportRangeManagementState extends State<ReportRangeManagement> {
 
   @override
   Widget build(BuildContext context) {
+    // Calculate total profit and VAT payable
+    double totalProfit = filteredSalesData.fold(0.0, (sum, item) {
+      return sum + double.parse(item['profit'].toString());
+    });
+
+    double vatPayable = totalProfit * 0.18;
+
     return layout(
       child: isLoading
           ? Center(child: CircularProgressIndicator())
@@ -184,8 +200,8 @@ class _ReportRangeManagementState extends State<ReportRangeManagement> {
                             width: double.infinity,
                             child: DataTable(
                               headingRowColor:
-                                  WidgetStateProperty.resolveWith<Color>(
-                                      (Set<WidgetState> states) {
+                                  MaterialStateProperty.resolveWith<Color>(
+                                      (Set<MaterialState> states) {
                                 return Colors.black;
                               }),
                               headingTextStyle: TextStyle(
@@ -198,7 +214,7 @@ class _ReportRangeManagementState extends State<ReportRangeManagement> {
                                 DataColumn(label: Text('Inventory Name')),
                                 DataColumn(label: Text('Quantity sold')),
                                 DataColumn(label: Text('Quantity Remained')),
-                                 DataColumn(label: Text('Amount')),
+                                DataColumn(label: Text('Profit')),
                               ],
                               rows: filteredSalesData
                                   .map<DataRow>((item) => DataRow(
@@ -213,13 +229,35 @@ class _ReportRangeManagementState extends State<ReportRangeManagement> {
                                           DataCell(Text(
                                               item['quantity_received']
                                                   .toString())),
-                                                  DataCell(Text(
-                                              item['amount']
-                                                  .toString()))
+                                          DataCell(
+                                              Text(item['profit'].toString()))
                                         ],
                                       ))
                                   .toList(),
                             ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                'VAT Payable (18% of Profit):',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              Text(
+                                vatPayable.toStringAsFixed(2),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
