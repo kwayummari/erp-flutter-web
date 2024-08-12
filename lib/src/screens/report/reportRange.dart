@@ -198,6 +198,7 @@ class _ReportRangeManagementState extends State<ReportRangeManagement> {
                                 DataColumn(label: Text('Inventory Name')),
                                 DataColumn(label: Text('Quantity sold')),
                                 DataColumn(label: Text('Quantity Remained')),
+                                 DataColumn(label: Text('Amount')),
                               ],
                               rows: filteredSalesData
                                   .map<DataRow>((item) => DataRow(
@@ -212,6 +213,9 @@ class _ReportRangeManagementState extends State<ReportRangeManagement> {
                                           DataCell(Text(
                                               item['quantity_received']
                                                   .toString())),
+                                                  DataCell(Text(
+                                              item['amount']
+                                                  .toString()))
                                         ],
                                       ))
                                   .toList(),

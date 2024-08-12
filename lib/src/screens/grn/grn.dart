@@ -89,7 +89,7 @@ class _GrnManagementState extends State<GrnManagement> {
             }
           }
           print('rowData: $rowData');
-          vatAmount = totalAmount * 0.2;
+          vatAmount = totalAmount * 0.18;
           grandTotal = totalAmount + vatAmount;
           isLoading = false;
         });
@@ -328,7 +328,7 @@ class _GrnManagementState extends State<GrnManagement> {
                               padding: const EdgeInsets.all(8.0),
                               child: AppText(
                                 txt:
-                                    'VAT (20%): Tsh.${vatAmount.toStringAsFixed(2)}',
+                                    'VAT (18%): Tsh.${vatAmount.toStringAsFixed(2)}',
                                 size: 15,
                                 weight: FontWeight.bold,
                               ),
