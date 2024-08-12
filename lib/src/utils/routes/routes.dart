@@ -8,7 +8,7 @@ import 'package:erp/src/screens/report/reportRange.dart';
 import 'package:erp/src/screens/report/todayReport.dart';
 import 'package:erp/src/screens/roles/permissions.dart';
 import 'package:erp/src/screens/roles/rolesManagement.dart';
-import 'package:erp/src/screens/saleProducts/saleManagement.dart';
+import 'package:erp/src/screens/sellProducts/saleManagement.dart';
 import 'package:erp/src/screens/supplier/supplierManagement.dart';
 import 'package:erp/src/screens/userManagement/userManagement.dart';
 import 'package:erp/src/utils/routes/route-names.dart';

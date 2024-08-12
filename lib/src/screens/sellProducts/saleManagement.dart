@@ -2,7 +2,7 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:erp/src/gateway/salesProductServices.dart';
-import 'package:erp/src/screens/saleProducts/topOfSales.dart';
+import 'package:erp/src/screens/sellProducts/topOfSales.dart';
 import 'package:erp/src/utils/auth_utils.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
 import 'package:erp/src/widgets/app-offlineDropdownFormField.dart';
@@ -256,7 +256,7 @@ class _SaleManagementState extends State<SaleManagement> {
                         child: Container(
                           height: 50,
                           child: AppButton(
-                              solidColor: AppConst.red,
+                              solidColor: Colors.green,
                               onPress: () async {
                                 await saveData(randomNumber.toString());
                                 setState(() {
