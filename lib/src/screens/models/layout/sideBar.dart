@@ -35,7 +35,7 @@ class _sideBarState extends State<sideBar> {
   Widget build(BuildContext context) {
     return Container(
       width: 310,
-      height: MediaQuery.of(context).size.height,
+      height: MediaQuery.of(context).size.height + 100,
       decoration: BoxDecoration(
         color: AppConst.black,
         borderRadius: BorderRadius.circular(0.0),

@@ -26,7 +26,7 @@ class _HeaderState extends State<Header> {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width - 310,
-      height: MediaQuery.of(context).size.height,
+      height: MediaQuery.of(context).size.height + 100,
       decoration: BoxDecoration(
         color: AppConst.white,
         borderRadius: BorderRadius.circular(0.0),

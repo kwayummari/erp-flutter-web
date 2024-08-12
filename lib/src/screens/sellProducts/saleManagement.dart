@@ -173,7 +173,7 @@ class _SaleManagementState extends State<SaleManagement> {
             key: _printKey,
             child: Container(
               width: MediaQuery.of(context).size.width - 400,
-              height: MediaQuery.of(context).size.height - 200,
+              height: MediaQuery.of(context).size.height - 100,
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 color: AppConst.grey100,
