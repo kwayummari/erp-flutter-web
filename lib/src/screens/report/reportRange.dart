@@ -1,6 +1,7 @@
 import 'package:erp/src/utils/auth_utils.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart'; // Add this import
 import 'package:erp/src/gateway/salesProductServices.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
@@ -20,6 +21,8 @@ class _ReportRangeManagementState extends State<ReportRangeManagement> {
   bool hasError = false;
   TextEditingController searchController = TextEditingController();
   DateTimeRange? dateRange;
+
+  final NumberFormat currencyFormat = NumberFormat('#,##0', 'en_US');
 
   Future<void> fetchData({DateTime? startDate, DateTime? endDate}) async {
     try {
@@ -200,8 +203,8 @@ class _ReportRangeManagementState extends State<ReportRangeManagement> {
                             width: double.infinity,
                             child: DataTable(
                               headingRowColor:
-                                  MaterialStateProperty.resolveWith<Color>(
-                                      (Set<MaterialState> states) {
+                                  WidgetStateProperty.resolveWith<Color>(
+                                      (Set<WidgetState> states) {
                                 return Colors.black;
                               }),
                               headingTextStyle: TextStyle(
@@ -214,7 +217,8 @@ class _ReportRangeManagementState extends State<ReportRangeManagement> {
                                 DataColumn(label: Text('Inventory Name')),
                                 DataColumn(label: Text('Quantity sold')),
                                 DataColumn(label: Text('Quantity Remained')),
-                                DataColumn(label: Text('Profit')),
+                                DataColumn(
+                                    label: Text('Profit (excluding VAT)')),
                               ],
                               rows: filteredSalesData
                                   .map<DataRow>((item) => DataRow(
@@ -224,13 +228,16 @@ class _ReportRangeManagementState extends State<ReportRangeManagement> {
                                           DataCell(Text(item['fullname'])),
                                           DataCell(Text(item['branchName'])),
                                           DataCell(Text(item['inventoryName'])),
-                                          DataCell(Text(
-                                              item['quantity'].toString())),
-                                          DataCell(Text(
-                                              item['quantity_received']
-                                                  .toString())),
-                                          DataCell(
-                                              Text(item['profit'].toString()))
+                                          DataCell(Text(currencyFormat.format(
+                                              int.parse(item['quantity']
+                                                  .toString())))),
+                                          DataCell(Text(currencyFormat.format(
+                                              int.parse(
+                                                  item['quantity_received']
+                                                      .toString())))),
+                                          DataCell(Text(currencyFormat.format(
+                                              int.parse(
+                                                  item['profit'].toString())))),
                                         ],
                                       ))
                                   .toList(),
@@ -251,7 +258,7 @@ class _ReportRangeManagementState extends State<ReportRangeManagement> {
                               ),
                               SizedBox(width: 10),
                               Text(
-                                vatPayable.toStringAsFixed(2),
+                                currencyFormat.format(vatPayable),
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16.0,
