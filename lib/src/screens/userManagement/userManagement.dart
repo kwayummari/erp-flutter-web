@@ -97,14 +97,14 @@ class _userManagementState extends State<userManagement> {
           else if (hasError)
             Center(child: Text('')),
           appTabular(
-            title: 'User Management',
+            title: 'Employees Management',
             button: AppButton(
               onPress: () => {
                 ReusableModal.show(
                   width: 500,
                   height: 600,
                   context,
-                  AppText(txt: 'Add User', size: 22, weight: FontWeight.bold),
+                  AppText(txt: 'Add Employee', size: 22, weight: FontWeight.bold),
                   onClose: fetchData,
                   // addUserForm()
                   Column(
@@ -113,7 +113,7 @@ class _userManagementState extends State<userManagement> {
                   ),
                 )
               },
-              label: 'Add user',
+              label: 'Add Employee',
               borderRadius: 5,
               textColor: AppConst.white,
               gradient: AppConst.primaryGradient,
@@ -129,7 +129,7 @@ class _userManagementState extends State<userManagement> {
                     editForm:
                         editUserForm(fetchData: fetchData, data: rowData ?? {}),
                     editStatement: AppText(
-                        txt: 'Edit user', size: 18, weight: FontWeight.bold),
+                        txt: 'Edit Employee', size: 18, weight: FontWeight.bold),
                     fetchData: fetchData,
                     columnSpacing: 100,
                     titles: titles,
@@ -139,7 +139,7 @@ class _userManagementState extends State<userManagement> {
                     },
                     onClose: fetchData,
                     deleteStatement: AppText(
-                        txt: 'Are you sure you want to delete this user?',
+                        txt: 'Are you sure you want to delete this employee?',
                         size: 18,
                         weight: FontWeight.bold),
                     url: 'deleteUserById',
