@@ -97,14 +97,14 @@ class _CustomerManagementState extends State<CustomerManagement> {
           else if (hasError)
             Center(child: Text('')),
           appTabular(
-            title: 'Employees Management',
+            title: 'Customers Management',
             button: AppButton(
               onPress: () => {
                 ReusableModal.show(
                   width: 500,
                   height: 600,
                   context,
-                  AppText(txt: 'Add Employee', size: 22, weight: FontWeight.bold),
+                  AppText(txt: 'Add Customer', size: 22, weight: FontWeight.bold),
                   onClose: fetchData,
                   // addUserForm()
                   Column(
@@ -113,7 +113,7 @@ class _CustomerManagementState extends State<CustomerManagement> {
                   ),
                 )
               },
-              label: 'Add Employee',
+              label: 'Add Customer',
               borderRadius: 5,
               textColor: AppConst.white,
               gradient: AppConst.primaryGradient,
