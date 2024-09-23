@@ -28,46 +28,47 @@ class _inventoryManagementState extends State<inventoryManagement> {
   bool hasError = false;
 
   Future<void> fetchData() async {
-  try {
-    inventoryServices inventoryService = inventoryServices();
-    final productResponse = await inventoryService.getProduct(context);
-    if (productResponse != null && productResponse['products'] != null) {
-      setState(() {
-        productData = (productResponse['products'] as List).map((product) {
-          final int received = int.tryParse(product['received']?.toString() ?? '0') ?? 0;
-          final int sold = int.tryParse(product['sold']?.toString() ?? '0') ?? 0;
-          final int availableQuantity = received - sold;
+    try {
+      inventoryServices inventoryService = inventoryServices();
+      final productResponse = await inventoryService.getProduct(context);
+      if (productResponse != null && productResponse['products'] != null) {
+        setState(() {
+          productData = (productResponse['products'] as List).map((product) {
+            final int received =
+                int.tryParse(product['received']?.toString() ?? '0') ?? 0;
+            final int sold =
+                int.tryParse(product['sold']?.toString() ?? '0') ?? 0;
+            final int availableQuantity = received - sold;
 
-          return {
-            'id': product['id'],
-            'productno.': product['productNumber'].toString(),
-            'name': product['name'],
-            'description': product['description'],
-            'buyingprice': product['buyingPrice'].toString(),
-            'sellingprice': product['sellingPrice'].toString(),
-            'branch': product['branchId'][0]['name'].toString(),
-            'branchId': product['branchId'][0]['id'].toString(),
-            'taxId': product['taxType'].toString(),
-            'availablequantity': availableQuantity.toString(),
-          };
-        }).toList();
-        isLoading = false;
-      });
-    } else {
+            return {
+              'id': product['id'],
+              'productno.': product['productNumber'].toString(),
+              'name': product['name'],
+              'description': product['description'],
+              'buyingprice': product['buyingPrice'] == null ? '0' : product['buyingPrice'].toString(),
+              'sellingprice': product['sellingPrice'] == null ? '0' : product['sellingPrice'].toString(),
+              'branch': product['branchId'][0]['name'].toString(),
+              'branchId': product['branchId'][0]['id'].toString(),
+              'taxId': product['taxType'].toString(),
+              'availablequantity': availableQuantity.toString(),
+            };
+          }).toList();
+          isLoading = false;
+        });
+      } else {
+        setState(() {
+          hasError = true;
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
       setState(() {
         hasError = true;
         isLoading = false;
       });
     }
-  } catch (e) {
-    print('Error fetching data: $e');
-    setState(() {
-      hasError = true;
-      isLoading = false;
-    });
   }
-}
-
 
   @override
   void initState() {
@@ -85,15 +86,14 @@ class _inventoryManagementState extends State<inventoryManagement> {
   }
 
   final List<String> titles = [
-  'Product No.',
-  'Name',
-  'Description',
-  'Buying Price',
-  'Selling Price',
-  'Branch',
-  'Available Quantity'
-];
-
+    'Product No.',
+    'Name',
+    'Description',
+    'Buying Price',
+    'Selling Price',
+    'Branch',
+    'Available Quantity'
+  ];
 
   @override
   Widget build(BuildContext context) {
