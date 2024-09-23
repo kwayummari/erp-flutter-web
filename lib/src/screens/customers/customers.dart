@@ -31,9 +31,9 @@ class _CustomerManagementState extends State<CustomerManagement> {
     try {
       userServices userService = userServices();
       final userResponse = await userService.getCustomer(context);
-      if (userResponse != null && userResponse['users'] != null) {
+      if (userResponse != null && userResponse['customers'] != null) {
         setState(() {
-          userData = (userResponse['users'] as List).map((user) {
+          userData = (userResponse['customers'] as List).map((user) {
             return {
               'id': user['id'],
               'fullname': user['fullname'],
