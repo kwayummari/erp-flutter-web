@@ -3,12 +3,12 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:erp/src/utils/auth_utils.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
+import 'package:erp/src/widgets/app_table5.dart';
 import 'package:flutter/rendering.dart';
 import 'package:erp/src/gateway/purchaseOrderService.dart';
 import 'package:erp/src/screens/purchaseOrder/topOfOrder.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_button.dart';
-import 'package:erp/src/widgets/app_table2.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
@@ -44,7 +44,6 @@ class _PurchaseOrderManagementState extends State<PurchaseOrderManagement> {
     'Name',
     'Description',
     'Quantity',
-    'Price',
     'Total',
   ];
   GlobalKey _printKey = GlobalKey();
@@ -84,8 +83,8 @@ class _PurchaseOrderManagementState extends State<PurchaseOrderManagement> {
                 'name': inventory['name'].toString(),
                 'description': inventory['description'].toString(),
                 'quantity': inventory['quantity'].toString(),
-                'price': inventory['buyingPrice'].toString(),
                 'total': total.toString(),
+                'buyingPrice': inventory['buyingPrice'].toString(),
               });
             }
           }
@@ -248,7 +247,7 @@ class _PurchaseOrderManagementState extends State<PurchaseOrderManagement> {
                   Container(
                     height: 250,
                     width: MediaQuery.of(context).size.width,
-                    child: ReusableTable2(
+                    child: ReusableTable5(
                       fetchData1: fetchData,
                       orderId: orderId,
                       supplierId: supplierId,
@@ -267,8 +266,33 @@ class _PurchaseOrderManagementState extends State<PurchaseOrderManagement> {
                       onClose: fetchData,
                       url: 'deleteOrder',
                       data: purchaseData,
+                      enabled: true,
                     ),
                   ),
+                  // Container(
+                  //   height: 250,
+                  //   width: MediaQuery.of(context).size.width,
+                  //   child: ReusableTable2(
+                  //     fetchData1: fetchData,
+                  //     orderId: orderId,
+                  //     supplierId: supplierId,
+                  //     deleteModalHeight: 300,
+                  //     deleteModalWidth: 500,
+                  //     editModalHeight: 550,
+                  //     editModalWidth: 500,
+                  //     fetchData: fetchData,
+                  //     columnSpacing: 100,
+                  //     titles: titles,
+                  //     randomNumber: randomNumber.toString(),
+                  //     cellBuilder: (context, row, title) {
+                  //       return Text(
+                  //           row[title.toLowerCase().replaceAll(' ', '')] ?? '');
+                  //     },
+                  //     onClose: fetchData,
+                  //     url: 'deleteOrder',
+                  //     data: purchaseData,
+                  //   ),
+                  // ),
                   Row(
                     children: [
                       Padding(

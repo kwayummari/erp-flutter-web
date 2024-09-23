@@ -88,7 +88,6 @@ class _GrnManagementState extends State<GrnManagement> {
               });
             }
           }
-          print('rowData: $rowData');
           vatAmount = totalAmount * 0.18;
           grandTotal = totalAmount + vatAmount;
           isLoading = false;
