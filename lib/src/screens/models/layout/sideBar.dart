@@ -137,6 +137,9 @@ class _sideBarState extends State<sideBar> {
                                             } else if (subMenu[index]['url'] ==
                                                 'reportRange') {
                                               context.go(RouteNames.reportRange);
+                                            } else if (subMenu[index]['url'] ==
+                                                'customers') {
+                                              context.go(RouteNames.customers);
                                             }
                                           },
                                           child: MouseRegion(

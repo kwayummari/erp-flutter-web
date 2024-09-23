@@ -1,4 +1,5 @@
 import 'package:erp/src/screens/branch/branchManagement.dart';
+import 'package:erp/src/screens/customers/customers.dart';
 import 'package:erp/src/screens/dashboard/dashboard.dart';
 import 'package:erp/src/screens/grn/completedGrnLists.dart';
 import 'package:erp/src/screens/grn/grn.dart';
@@ -86,6 +87,10 @@ final GoRouter router = GoRouter(
         final data = state.extra as Map<String, dynamic>;
         return PermissionsManagement(data: data);
       },
+    ),
+    GoRoute(
+      path: RouteNames.customers,
+      builder: (context, state) => CustomerManagement(),
     ),
   ],
 );
