@@ -95,10 +95,10 @@ class _TopOfSalesState extends State<TopOfSales> {
                 refreshSuppliers: widget.refreshSuppliers,
                 labelText: 'Select Customer',
                 fillcolor: AppConst.white,
-                apiUrl: 'users',
+                apiUrl: 'customers',
                 textsColor: AppConst.black,
                 dropdownColor: AppConst.white,
-                dataOrigin: 'users',
+                dataOrigin: 'customers',
                 onChanged: (value) {
                   setState(() {
                     supplierId = value.toString();
