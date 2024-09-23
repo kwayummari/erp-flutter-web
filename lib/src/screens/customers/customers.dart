@@ -30,7 +30,7 @@ class _customerManagementState extends State<customerManagement> {
   Future<void> fetchData() async {
     try {
       userServices userService = userServices();
-      final userResponse = await userService.getUser(context);
+      final userResponse = await userService.getCustomer(context);
       if (userResponse != null && userResponse['users'] != null) {
         setState(() {
           userData = (userResponse['users'] as List).map((user) {
