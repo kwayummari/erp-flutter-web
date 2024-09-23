@@ -29,7 +29,6 @@ class _addCustomerFormState extends State<addCustomerForm> {
   TextEditingController phone = TextEditingController();
   List allData = [];
   var branch;
-  var role;
   bool marked = false;
   bool dont_show_password = true;
   final _formKey = GlobalKey<FormState>();

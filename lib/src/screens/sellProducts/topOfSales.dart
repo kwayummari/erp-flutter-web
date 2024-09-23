@@ -1,5 +1,5 @@
+import 'package:erp/src/screens/customers/addCustomerForm.dart';
 import 'package:erp/src/screens/sellProducts/addSalesProductForm.dart';
-import 'package:erp/src/screens/userManagement/addUserForm.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app-dropdown.dart';
 import 'package:erp/src/widgets/app_button.dart';
@@ -129,7 +129,7 @@ class _TopOfSalesState extends State<TopOfSales> {
                       Column(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          addUserForm(
+                          addCustomerForm(
                             fetchData: widget.fetchData1,
                             refreshSuppliers: widget.refreshSuppliers,
                             buttonWidth: 420,
@@ -146,43 +146,44 @@ class _TopOfSalesState extends State<TopOfSales> {
               ),
             ),
             Spacer(),
-              Padding(
-                padding: const EdgeInsets.only(top: 15, right: 20),
-                child: Container(
-                  height: 50,
-                  child: AppButton(
-                    onPress: () {
-                      ReusableModal.show(
-                        width: 500,
-                        height: 600,
-                        context,
-                        AppText(
-                          txt: 'Add Product',
-                          size: 22,
-                          weight: FontWeight.bold,
-                        ),
-                        onClose: widget.fetchData,
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            AddSalesProductForm(
-                              receiptNumber: widget.randomNumber.toString(),
-                              supplierId: supplierId,
-                              fetchData: widget.fetchData1,
-                              orderId: widget.orderId,
-                              buttonWidth: 500, customerId: supplierId ?? '',
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    label: 'Select Product',
-                    borderRadius: 8,
-                    textColor: AppConst.white,
-                    solidColor: AppConst.black,
-                  ),
+            Padding(
+              padding: const EdgeInsets.only(top: 15, right: 20),
+              child: Container(
+                height: 50,
+                child: AppButton(
+                  onPress: () {
+                    ReusableModal.show(
+                      width: 500,
+                      height: 600,
+                      context,
+                      AppText(
+                        txt: 'Add Product',
+                        size: 22,
+                        weight: FontWeight.bold,
+                      ),
+                      onClose: widget.fetchData,
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          AddSalesProductForm(
+                            receiptNumber: widget.randomNumber.toString(),
+                            supplierId: supplierId,
+                            fetchData: widget.fetchData1,
+                            orderId: widget.orderId,
+                            buttonWidth: 500,
+                            customerId: supplierId ?? '',
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  label: 'Select Product',
+                  borderRadius: 8,
+                  textColor: AppConst.white,
+                  solidColor: AppConst.black,
                 ),
               ),
+            ),
           ],
         ),
         Row(
@@ -190,8 +191,7 @@ class _TopOfSalesState extends State<TopOfSales> {
             Padding(
               padding: const EdgeInsets.only(left: 20, top: 20, bottom: 20),
               child: AppText(
-                txt:
-                    'Sales Receipt no. #${ widget.randomNumber}',
+                txt: 'Sales Receipt no. #${widget.randomNumber}',
                 size: 20,
                 color: AppConst.black,
                 weight: FontWeight.bold,
