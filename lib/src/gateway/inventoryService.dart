@@ -24,8 +24,6 @@ class inventoryServices {
       BuildContext context,
       String name,
       String description,
-      String buyingPrice,
-      String sellingPrice,
       String productNumber,
       String branch,
       String tax) async {
@@ -38,8 +36,6 @@ class inventoryServices {
     Map<String, dynamic> data = {
       'name': name,
       'description': description,
-      'buyingPrice': buyingPrice,
-      'sellingPrice': sellingPrice,
       'productNumber': productNumber,
       'branchId': branch,
       'taxType': tax,

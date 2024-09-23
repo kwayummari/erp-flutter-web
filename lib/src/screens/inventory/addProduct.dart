@@ -20,8 +20,6 @@ class addProductForm extends StatefulWidget {
 class _addProductFormState extends State<addProductForm> {
   TextEditingController name = TextEditingController();
   TextEditingController description = TextEditingController();
-  TextEditingController buyingPrice = TextEditingController();
-  TextEditingController sellingPrice = TextEditingController();
   TextEditingController productNumber = TextEditingController();
   List allData = [];
   var branch;
@@ -61,34 +59,6 @@ class _addProductFormState extends State<addProductForm> {
             obscure: false,
             icon: Icon(
               Icons.description,
-              color: AppConst.black,
-            ),
-            isemail: false,
-            isPhone: false,
-          ),
-          AppInputText(
-            textsColor: AppConst.black,
-            textfieldcontroller: buyingPrice,
-            ispassword: false,
-            fillcolor: AppConst.white,
-            label: 'Buying Price',
-            obscure: false,
-            icon: Icon(
-              Icons.price_change,
-              color: AppConst.black,
-            ),
-            isemail: false,
-            isPhone: false,
-          ),
-          AppInputText(
-            textsColor: AppConst.black,
-            textfieldcontroller: sellingPrice,
-            ispassword: false,
-            fillcolor: AppConst.white,
-            label: 'Selling Price',
-            obscure: false,
-            icon: Icon(
-              Icons.price_change,
               color: AppConst.black,
             ),
             isemail: false,
@@ -158,8 +128,6 @@ class _addProductFormState extends State<addProductForm> {
                                   context,
                                   name.text,
                                   description.text,
-                                  buyingPrice.text,
-                                  sellingPrice.text,
                                   productNumber.text,
                                   branch,
                                   tax);
