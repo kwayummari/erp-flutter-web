@@ -222,7 +222,7 @@ class _DataSource extends DataTableSource {
 
     final row = widget.data[index];
     _controllers.putIfAbsent(index, () {
-      final controller = TextEditingController(text: row['price'].toString());
+      final controller = TextEditingController(text: row['buyingPrice'].toString());
       return controller;
     });
 
