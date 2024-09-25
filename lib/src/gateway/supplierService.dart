@@ -9,11 +9,12 @@ import 'package:provider/provider.dart';
 class supplierServices {
   Api api = Api();
 
-  Future getSupplier(BuildContext context) async {
+  Future getSupplier(BuildContext context, String branch) async {
     SplashFunction splashDetails = SplashFunction();
     final companyId = await splashDetails.getCompanyId();
     Map<String, dynamic> data = {
       'companyId': companyId,
+      'branchId': branch,
     };
     final response = await api.post(context, 'suppliers', data);
     final decodedResponse = jsonDecode(response.body);

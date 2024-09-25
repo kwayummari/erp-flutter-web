@@ -3,6 +3,7 @@ import 'package:erp/src/screens/userManagement/addUserForm.dart';
 import 'package:erp/src/screens/userManagement/editUserForm.dart';
 import 'package:erp/src/utils/auth_utils.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
+import 'package:erp/src/widgets/app-dropdown.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/gateway/user.dart';
@@ -99,6 +100,23 @@ class _userManagementState extends State<userManagement> {
             Center(child: Text('')),
           appTabular(
             title: 'Employees Management',
+            dropDown: DropdownTextFormField(
+              labelText: 'Select Branch',
+              fillcolor: AppConst.white,
+              apiUrl: 'getBranch',
+              textsColor: AppConst.black,
+              dropdownColor: AppConst.white,
+              dataOrigin: 'branch',
+              onChanged: (value) {
+                setState(() {
+                  branch = value.toString();
+                });
+                fetchData();
+              },
+              valueField: 'id',
+              displayField: 'name',
+              allData: [],
+            ),
             button: AppButton(
               onPress: () => {
                 ReusableModal.show(

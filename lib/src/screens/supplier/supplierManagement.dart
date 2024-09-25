@@ -4,6 +4,7 @@ import 'package:erp/src/screens/supplier/addSupplier.dart';
 import 'package:erp/src/screens/supplier/editSupplierForm.dart';
 import 'package:erp/src/utils/auth_utils.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
+import 'package:erp/src/widgets/app-dropdown.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
@@ -26,11 +27,12 @@ class _supplierManagementState extends State<supplierManagement> {
   List<Map<String, dynamic>> productData = [];
   bool isLoading = true;
   bool hasError = false;
+  String branch = '1';
 
   Future<void> fetchData() async {
     try {
       supplierServices supplierService = supplierServices();
-      final productResponse = await supplierService.getSupplier(context);
+      final productResponse = await supplierService.getSupplier(context, branch);
       if (productResponse != null && productResponse['suppliers'] != null) {
         setState(() {
           productData = (productResponse['suppliers'] as List).map((product) {
@@ -90,6 +92,23 @@ class _supplierManagementState extends State<supplierManagement> {
             Center(child: Text('')),
           appTabular(
             title: 'Supplier Management',
+            dropDown: DropdownTextFormField(
+              labelText: 'Select Branch',
+              fillcolor: AppConst.white,
+              apiUrl: 'getBranch',
+              textsColor: AppConst.black,
+              dropdownColor: AppConst.white,
+              dataOrigin: 'branch',
+              onChanged: (value) {
+                setState(() {
+                  branch = value.toString();
+                });
+                fetchData();
+              },
+              valueField: 'id',
+              displayField: 'name',
+              allData: [],
+            ),
             button: AppButton(
               onPress: () => {
                 ReusableModal.show(
