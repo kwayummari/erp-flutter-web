@@ -3,6 +3,7 @@ import 'package:erp/src/screens/customers/addCustomerForm.dart';
 import 'package:erp/src/screens/customers/editCustomerForm.dart';
 import 'package:erp/src/utils/auth_utils.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
+import 'package:erp/src/widgets/app-dropdown.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/gateway/user.dart';
@@ -26,11 +27,12 @@ class _CustomerManagementState extends State<CustomerManagement> {
   List<Map<String, dynamic>> userData = [];
   bool isLoading = true;
   bool hasError = false;
+  String branch = '1';
 
   Future<void> fetchData() async {
     try {
       userServices userService = userServices();
-      final userResponse = await userService.getCustomer(context);
+      final userResponse = await userService.getCustomer(context, branch);
       if (userResponse != null && userResponse['customers'] != null) {
         setState(() {
           userData = (userResponse['customers'] as List).map((user) {
@@ -98,6 +100,23 @@ class _CustomerManagementState extends State<CustomerManagement> {
             Center(child: Text('')),
           appTabular(
             title: 'Customers Management',
+            dropDown: DropdownTextFormField(
+              labelText: 'Select Branch',
+              fillcolor: AppConst.white,
+              apiUrl: 'getBranch',
+              textsColor: AppConst.black,
+              dropdownColor: AppConst.white,
+              dataOrigin: 'branch',
+              onChanged: (value) {
+                setState(() {
+                  branch = value.toString();
+                });
+                fetchData();
+              },
+              valueField: 'id',
+              displayField: 'name',
+              allData: [],
+            ),
             button: AppButton(
               onPress: () => {
                 ReusableModal.show(

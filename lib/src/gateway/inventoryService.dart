@@ -10,11 +10,12 @@ import 'package:provider/provider.dart';
 class inventoryServices {
   Api api = Api();
 
-  Future getProduct(BuildContext context) async {
+  Future getProduct(BuildContext context, String branch) async {
     SplashFunction splashDetails = SplashFunction();
     final companyId = await splashDetails.getCompanyId();
     Map<String, dynamic> data = {
       'companyId': companyId,
+      'branchId': branch
     };
     final response = await api.post(context, 'products', data);
     final decodedResponse = jsonDecode(response.body);

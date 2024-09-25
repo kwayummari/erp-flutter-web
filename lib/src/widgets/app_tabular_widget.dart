@@ -5,8 +5,14 @@ import 'package:flutter/material.dart';
 class appTabular extends StatefulWidget {
   final Widget child;
   final Widget button;
+  final Widget dropDown;
   final String title;
-  const appTabular({super.key, required this.child, required this.title, required this.button});
+  const appTabular(
+      {super.key,
+      required this.child,
+      required this.title,
+      required this.button,
+      required this.dropDown});
 
   @override
   State<appTabular> createState() => _appTabularState();
@@ -28,7 +34,8 @@ class _appTabularState extends State<appTabular> {
               color: AppConst.grey200,
               width: MediaQuery.of(context).size.width,
               child: Padding(
-                padding: const EdgeInsets.only(left: 30, right: 20, top: 20, bottom: 20),
+                padding: const EdgeInsets.only(
+                    left: 30, right: 20, top: 20, bottom: 20),
                 child: Row(
                   children: [
                     AppText(
@@ -37,15 +44,21 @@ class _appTabularState extends State<appTabular> {
                       color: AppConst.black,
                       weight: FontWeight.bold,
                     ),
-                    SizedBox(width: 20,),
+                    SizedBox(
+                      width: 20,
+                    ),
                     widget.button,
+                    widget.dropDown
                   ],
                 ),
               ),
             ),
-            Divider(color: AppConst.grey200,),
+            Divider(
+              color: AppConst.grey200,
+            ),
             Padding(
-              padding: const EdgeInsets.only(top: 0, bottom: 20, left: 20, right: 20),
+              padding: const EdgeInsets.only(
+                  top: 0, bottom: 20, left: 20, right: 20),
               child: Container(
                 decoration: BoxDecoration(
                     border: Border.all(color: AppConst.grey),

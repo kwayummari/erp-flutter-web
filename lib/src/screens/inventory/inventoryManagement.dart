@@ -4,6 +4,7 @@ import 'package:erp/src/screens/inventory/addProduct.dart';
 import 'package:erp/src/screens/inventory/editProductForm.dart';
 import 'package:erp/src/utils/auth_utils.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
+import 'package:erp/src/widgets/app-dropdown.dart';
 import 'package:erp/src/widgets/app_table7.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
@@ -26,11 +27,13 @@ class _inventoryManagementState extends State<inventoryManagement> {
   List<Map<String, dynamic>> productData = [];
   bool isLoading = true;
   bool hasError = false;
+  String branch = '1';
 
   Future<void> fetchData() async {
     try {
       inventoryServices inventoryService = inventoryServices();
-      final productResponse = await inventoryService.getProduct(context);
+      final productResponse =
+          await inventoryService.getProduct(context, branch);
       if (productResponse != null && productResponse['products'] != null) {
         setState(() {
           productData = (productResponse['products'] as List).map((product) {
@@ -109,6 +112,23 @@ class _inventoryManagementState extends State<inventoryManagement> {
             Center(child: Text('')),
           appTabular(
             title: 'Product Management',
+            dropDown: DropdownTextFormField(
+              labelText: 'Select Branch',
+              fillcolor: AppConst.white,
+              apiUrl: 'getBranch',
+              textsColor: AppConst.black,
+              dropdownColor: AppConst.white,
+              dataOrigin: 'branch',
+              onChanged: (value) {
+                setState(() {
+                  branch = value.toString();
+                });
+                fetchData();
+              },
+              valueField: 'id',
+              displayField: 'name',
+              allData: [],
+            ),
             button: AppButton(
               onPress: () => {
                 ReusableModal.show(

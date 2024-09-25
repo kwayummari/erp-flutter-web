@@ -11,7 +11,8 @@ import 'package:provider/provider.dart';
 class addProductForm extends StatefulWidget {
   final Function fetchData;
   final double buttonWidth;
-  const addProductForm({super.key, required this.fetchData, required this.buttonWidth});
+  const addProductForm(
+      {super.key, required this.fetchData, required this.buttonWidth});
 
   @override
   State<addProductForm> createState() => _addProductFormState();
@@ -79,33 +80,37 @@ class _addProductFormState extends State<addProductForm> {
             isPhone: false,
           ),
           DropdownTextFormField(
-              labelText: 'Select Branch',
-              fillcolor: AppConst.white,
-              apiUrl: 'getBranch',
-              textsColor: AppConst.black,
-              dropdownColor: AppConst.white,
-              dataOrigin: 'branch',
-              onChanged: (value) {
-                setState(() {
-                  branch = value.toString();
-                });
-              },
-              valueField: 'id',
-              displayField: 'name', allData: allData,),
+            labelText: 'Select Branch',
+            fillcolor: AppConst.white,
+            apiUrl: 'getBranch',
+            textsColor: AppConst.black,
+            dropdownColor: AppConst.white,
+            dataOrigin: 'branch',
+            onChanged: (value) {
+              setState(() {
+                branch = value.toString();
+              });
+            },
+            valueField: 'id',
+            displayField: 'name',
+            allData: allData,
+          ),
           DropdownTextFormField(
-              labelText: 'Select Tax',
-              fillcolor: AppConst.white,
-              apiUrl: 'tax',
-              textsColor: AppConst.black,
-              dropdownColor: AppConst.white,
-              dataOrigin: 'tax',
-              onChanged: (value) {
-                setState(() {
-                  tax = value.toString();
-                });
-              },
-              valueField: 'id',
-              displayField: 'name', allData: allData,),
+            labelText: 'Select Tax',
+            fillcolor: AppConst.white,
+            apiUrl: 'tax',
+            textsColor: AppConst.black,
+            dropdownColor: AppConst.white,
+            dataOrigin: 'tax',
+            onChanged: (value) {
+              setState(() {
+                tax = value.toString();
+              });
+            },
+            valueField: 'id',
+            displayField: 'name',
+            allData: allData,
+          ),
           Padding(
             padding: const EdgeInsets.only(right: 20, top: 20),
             child: Row(
@@ -115,11 +120,11 @@ class _addProductFormState extends State<addProductForm> {
                         color: AppConst.primary,
                       )
                     : Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: Container(
-                        width: widget.buttonWidth - 70,
-                        height: 50,
-                        child: AppButton(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Container(
+                          width: widget.buttonWidth - 70,
+                          height: 50,
+                          child: AppButton(
                             onPress: () async {
                               if (!_formKey.currentState!.validate()) {
                                 return;
@@ -139,8 +144,8 @@ class _addProductFormState extends State<addProductForm> {
                             textColor: AppConst.white,
                             gradient: AppConst.primaryGradient,
                           ),
+                        ),
                       ),
-                    ),
                 Spacer(),
               ],
             ),
