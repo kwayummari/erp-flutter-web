@@ -139,116 +139,125 @@ class _DataSource extends DataTableSource {
     final controller = TextEditingController(text: row['sellingPrice'].toString());
     return DataRow.byIndex(index: index, cells: [
       for (String title in widget.titles)
-        DataCell(widget.cellBuilder(context, row, title)),
+        DataCell(Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: widget.cellBuilder(context, row, title),
+        )),
         DataCell(
-          TextField(
-            style: TextStyle(color: AppConst.black),
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-              label: Container(
-                color: AppConst.white,
-                child: AppText(
-                  txt: 'Selling price',
-                  size: 15,
-                  weight: FontWeight.w700,
-                  color: AppConst.black,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              style: TextStyle(color: AppConst.black),
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                label: Container(
+                  color: AppConst.white,
+                  child: AppText(
+                    txt: 'Selling price',
+                    size: 15,
+                    weight: FontWeight.w700,
+                    color: AppConst.black,
+                  ),
+                ),
+                filled: true,
+                fillColor: AppConst.white,
+                disabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                  borderSide: BorderSide(color: AppConst.black),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                  borderSide: BorderSide(color: AppConst.black),
                 ),
               ),
-              filled: true,
-              fillColor: AppConst.white,
-              disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5.0),
-                borderSide: BorderSide(color: AppConst.black),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5.0),
-                borderSide: BorderSide(color: AppConst.black),
-              ),
+              enabled: true,
+              controller: controller,
+              onChanged: (value) async {
+                GrnServices()
+                    .editSellingPrice(context, row['id'].toString(), value);
+                await widget.fetchData();
+              },
             ),
-            enabled: true,
-            controller: controller,
-            onChanged: (value) async {
-              GrnServices()
-                  .editSellingPrice(context, row['id'].toString(), value);
-              await widget.fetchData();
-            },
           ),
         ),
-      DataCell(CustomPopover(
-        icon: Icons.more_vert,
-        items: [
-          CustomPopoverItem(
-            title: 'Edit',
-            icon: Icons.edit,
-            onTap: () async {
-              final provider =
-                  Provider.of<RowDataProvider>(context, listen: false);
-              if (provider.isUpdating) return;
-              provider.setRowData(row);
-              while (provider.isUpdating) {
-                await Future.delayed(Duration(seconds: 5));
-              }
-              ReusableModal.show(
-                width: widget.editModalWidth,
-                height: widget.editModalHeight,
-                context,
-                widget.editStatement,
-                onClose: widget.onClose,
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[widget.editForm],
-                ),
-                footer: Row(
-                  children: [],
-                ),
-              );
-            },
-          ),
-          CustomPopoverItem(
-            title: 'Delete',
-            icon: Icons.delete,
-            onTap: () {
-              ReusableModal.show(
-                width: widget.deleteModalWidth,
-                height: widget.deleteModalHeight,
-                context,
-                widget.deleteStatement,
-                onClose: widget.onClose,
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Icon(
-                      Icons.error,
-                      color: AppConst.red,
-                      size: 100,
-                    ),
-                    Container(
-                      width: 400,
-                      height: 50,
-                      child: AppButton(
-                          onPress: () async {
-                            deleteServices deleteService = deleteServices();
-                            await deleteService.delete(
-                                context, widget.url, row['id'].toString());
-                            widget.fetchData();
-                            Navigator.pop(context);
-                          },
-                          gradient: AppConst.primaryGradient,
-                          label: 'Delete',
-                          borderRadius: 5,
-                          textColor: AppConst.white),
-                    ),
-                  ],
-                ),
-                footer: Row(
-                  children: [],
-                ),
-              );
-            },
-          ),
-        ],
+      DataCell(Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: CustomPopover(
+          icon: Icons.more_vert,
+          items: [
+            CustomPopoverItem(
+              title: 'Edit',
+              icon: Icons.edit,
+              onTap: () async {
+                final provider =
+                    Provider.of<RowDataProvider>(context, listen: false);
+                if (provider.isUpdating) return;
+                provider.setRowData(row);
+                while (provider.isUpdating) {
+                  await Future.delayed(Duration(seconds: 5));
+                }
+                ReusableModal.show(
+                  width: widget.editModalWidth,
+                  height: widget.editModalHeight,
+                  context,
+                  widget.editStatement,
+                  onClose: widget.onClose,
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[widget.editForm],
+                  ),
+                  footer: Row(
+                    children: [],
+                  ),
+                );
+              },
+            ),
+            CustomPopoverItem(
+              title: 'Delete',
+              icon: Icons.delete,
+              onTap: () {
+                ReusableModal.show(
+                  width: widget.deleteModalWidth,
+                  height: widget.deleteModalHeight,
+                  context,
+                  widget.deleteStatement,
+                  onClose: widget.onClose,
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Icon(
+                        Icons.error,
+                        color: AppConst.red,
+                        size: 100,
+                      ),
+                      Container(
+                        width: 400,
+                        height: 50,
+                        child: AppButton(
+                            onPress: () async {
+                              deleteServices deleteService = deleteServices();
+                              await deleteService.delete(
+                                  context, widget.url, row['id'].toString());
+                              widget.fetchData();
+                              Navigator.pop(context);
+                            },
+                            gradient: AppConst.primaryGradient,
+                            label: 'Delete',
+                            borderRadius: 5,
+                            textColor: AppConst.white),
+                      ),
+                    ],
+                  ),
+                  footer: Row(
+                    children: [],
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
       )),
     ]);
   }

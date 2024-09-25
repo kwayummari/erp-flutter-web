@@ -90,7 +90,6 @@ class _inventoryManagementState extends State<inventoryManagement> {
   }
 
   final List<String> titles = [
-    'Product No.',
     'Name',
     'Description',
     'Buying Price',
