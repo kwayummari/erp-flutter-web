@@ -87,6 +87,27 @@ class GrnServices {
     }
   }
 
+  Future<void> editSellingPrice(
+      BuildContext context, String id, String sellingPrice) async {
+    Map<String, dynamic> data = {
+      'editId': id,
+      'sellingPrice': sellingPrice,
+    };
+    final response = await api.post(context, 'edit_buying_price', data);
+    final newResponse = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      // AppSnackbar(
+      //   isError: false,
+      //   response: newResponse['message'],
+      // ).show(context);
+    } else {
+      AppSnackbar(
+        isError: true,
+        response: newResponse['message'],
+      ).show(context);
+    }
+  }
+
   Future<void> savePurchaseOrder(
       BuildContext context, String purchaseId) async {
     Map<String, dynamic> data = {

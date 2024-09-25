@@ -4,13 +4,13 @@ import 'package:erp/src/screens/inventory/addProduct.dart';
 import 'package:erp/src/screens/inventory/editProductForm.dart';
 import 'package:erp/src/utils/auth_utils.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
+import 'package:erp/src/widgets/app_table7.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_modal.dart';
-import 'package:erp/src/widgets/app_table.dart';
 import 'package:erp/src/widgets/app_tabular_widget.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -45,12 +45,16 @@ class _inventoryManagementState extends State<inventoryManagement> {
               'productno.': product['productNumber'].toString(),
               'name': product['name'],
               'description': product['description'],
-              'buyingprice': product['buyingPrice'] == null ? '0' : product['buyingPrice'].toString(),
-              'sellingprice': product['sellingPrice'] == null ? '0' : product['sellingPrice'].toString(),
+              'buyingprice': product['buyingPrice'] == null
+                  ? '0'
+                  : product['buyingPrice'].toString(),
+              'sellingPrice': product['sellingPrice'] == null
+                  ? '0'
+                  : product['sellingPrice'].toString(),
               'branch': product['branchId'][0]['name'].toString(),
               'branchId': product['branchId'][0]['id'].toString(),
               'taxId': product['taxType'].toString(),
-              'availablequantity': availableQuantity.toString(),
+              'quantity': availableQuantity.toString(),
             };
           }).toList();
           isLoading = false;
@@ -90,9 +94,8 @@ class _inventoryManagementState extends State<inventoryManagement> {
     'Name',
     'Description',
     'Buying Price',
-    'Selling Price',
     'Branch',
-    'Available Quantity'
+    'Quantity'
   ];
 
   @override
@@ -111,7 +114,7 @@ class _inventoryManagementState extends State<inventoryManagement> {
               onPress: () => {
                 ReusableModal.show(
                   width: 500,
-                  height: 800,
+                  height: 600,
                   context,
                   AppText(
                       txt: 'Add Product', size: 22, weight: FontWeight.bold),
@@ -135,7 +138,7 @@ class _inventoryManagementState extends State<inventoryManagement> {
             child: Column(
               children: [
                 if (productData.isNotEmpty)
-                  ReusableTable(
+                  ReusableTable7(
                     deleteModalHeight: 300,
                     deleteModalWidth: 500,
                     editModalHeight: 750,
