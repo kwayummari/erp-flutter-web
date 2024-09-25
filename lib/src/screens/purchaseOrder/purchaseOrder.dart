@@ -40,12 +40,7 @@ class _PurchaseOrderManagementState extends State<PurchaseOrderManagement> {
   double totalAmount = 0.0;
   double vatAmount = 0.0;
   double grandTotal = 0.0;
-  final List<String> titles = [
-    'Name',
-    'Description',
-    'Quantity',
-    'Total',
-  ];
+  final List<String> titles = ['Name', 'Description', 'Quantity'];
   GlobalKey _printKey = GlobalKey();
 
   void refreshSuppliers() {
@@ -83,8 +78,7 @@ class _PurchaseOrderManagementState extends State<PurchaseOrderManagement> {
                 'name': inventory['name'].toString(),
                 'description': inventory['description'].toString(),
                 'quantity': inventory['quantity'].toString(),
-                'total': total.toString(),
-                'buyingPrice': inventory['buyingPrice'].toString(),
+                'buyingPrice': inventory['buyingPrice'].toString()
               });
             }
           }
@@ -269,30 +263,6 @@ class _PurchaseOrderManagementState extends State<PurchaseOrderManagement> {
                       enabled: true,
                     ),
                   ),
-                  // Container(
-                  //   height: 250,
-                  //   width: MediaQuery.of(context).size.width,
-                  //   child: ReusableTable2(
-                  //     fetchData1: fetchData,
-                  //     orderId: orderId,
-                  //     supplierId: supplierId,
-                  //     deleteModalHeight: 300,
-                  //     deleteModalWidth: 500,
-                  //     editModalHeight: 550,
-                  //     editModalWidth: 500,
-                  //     fetchData: fetchData,
-                  //     columnSpacing: 100,
-                  //     titles: titles,
-                  //     randomNumber: randomNumber.toString(),
-                  //     cellBuilder: (context, row, title) {
-                  //       return Text(
-                  //           row[title.toLowerCase().replaceAll(' ', '')] ?? '');
-                  //     },
-                  //     onClose: fetchData,
-                  //     url: 'deleteOrder',
-                  //     data: purchaseData,
-                  //   ),
-                  // ),
                   Row(
                     children: [
                       Padding(

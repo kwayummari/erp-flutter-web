@@ -1,8 +1,10 @@
+import 'package:erp/src/gateway/deleteService.dart';
 import 'package:erp/src/gateway/grnServices.dart';
 import 'package:erp/src/screens/purchaseOrder/addNewOrderForm.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_modal.dart';
+import 'package:erp/src/widgets/app_popover.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 
@@ -114,6 +116,14 @@ class _ReusableTable5State extends State<ReusableTable5> {
               weight: FontWeight.bold,
             ),
           ),
+          DataColumn(
+            label: AppText(
+              txt: 'Actions',
+              size: 20,
+              color: AppConst.black,
+              weight: FontWeight.bold,
+            ),
+          ),
         ],
         source: dataSource,
         rowsPerPage: _rowsPerPage,
@@ -160,7 +170,7 @@ class _DataSource extends DataTableSource {
     if (widget.data.isEmpty) {
       return DataRow(
         cells: List<DataCell>.generate(
-          widget.titles.length + 1,
+          widget.titles.length + 2,
           (i) => DataCell(
             i == 2
                 ? Container(
@@ -265,8 +275,29 @@ class _DataSource extends DataTableSource {
             onChanged: (value) async {
               GrnServices()
                   .editBuyingPrice(context, row['id'].toString(), value);
-              // await widget.fetchData();
+              await widget.fetchData();
             },
+          ),
+        ),
+        DataCell(
+          CustomPopover(
+            icon: Icons.more_vert,
+            items: [
+              CustomPopoverItem(
+                title: 'Delete',
+                icon: Icons.delete,
+                onTap: () async {
+                  final orderedId = row['orderedId'].toString();
+                  deleteServices deleteService = deleteServices();
+                  await deleteService.delete(
+                      context, widget.url, orderedId.toString());
+                  await widget.fetchData();
+                  if (widget.onClose != null) {
+                    await widget.onClose!();
+                  }
+                },
+              ),
+            ],
           ),
         ),
       ],
