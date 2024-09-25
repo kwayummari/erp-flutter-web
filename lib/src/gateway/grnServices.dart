@@ -75,10 +75,10 @@ class GrnServices {
     final response = await api.post(context, 'edit_buying_price', data);
     final newResponse = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      // AppSnackbar(
-      //   isError: false,
-      //   response: newResponse['message'],
-      // ).show(context);
+      AppSnackbar(
+        isError: false,
+        response: newResponse['message'],
+      ).show(context);
     } else {
       AppSnackbar(
         isError: true,
