@@ -31,7 +31,8 @@ class _dashboardState extends State<dashboard> {
       DashboardServices dashboardService = DashboardServices();
       final dashboardResponse = await dashboardService.getData(context);
       final products = await dashboardService.getHighSellingProducts(context);
-      final suppliers = await dashboardService.getBestSuppliers(context, branch);
+      final suppliers =
+          await dashboardService.getBestSuppliers(context, branch);
       if (dashboardResponse != null && dashboardResponse['dashboard'] != null) {
         setState(() {
           dashboard = dashboardResponse['dashboard'];
@@ -85,22 +86,34 @@ class _dashboardState extends State<dashboard> {
                 ? Center(child: Text('Something went wrong'))
                 : Column(
                     children: [
-                      DropdownTextFormField(
-                        labelText: 'Select Branch',
-                        fillcolor: AppConst.white,
-                        apiUrl: 'getBranch',
-                        textsColor: AppConst.black,
-                        dropdownColor: AppConst.white,
-                        dataOrigin: 'branch',
-                        onChanged: (value) {
-                          setState(() {
-                            branch = value.toString();
-                          });
-                          fetchData();
-                        },
-                        valueField: 'id',
-                        displayField: 'name',
-                        allData: [],
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            width: 200,
+                            child: DropdownTextFormField(
+                              labelText: 'Select Branch',
+                              fillcolor: AppConst.white,
+                              apiUrl: 'getBranch',
+                              textsColor: AppConst.black,
+                              dropdownColor: AppConst.white,
+                              dataOrigin: 'branch',
+                              onChanged: (value) {
+                                setState(() {
+                                  branch = value.toString();
+                                });
+                                dashboard = [];
+                                sellingProducts = [];
+                                bestSuppliers = [];
+                                fetchData();
+                              },
+                              valueField: 'id',
+                              displayField: 'name',
+                              allData: [],
+                            ),
+                          ),
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 100, right: 100),
