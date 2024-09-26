@@ -59,7 +59,7 @@ class supplierServices {
       String phone,
       String tin,
       String vrn,
-      String branch,
+      String address,
       String editId) async {
     final myProvider = Provider.of<LoadingProvider>(context, listen: false);
     myProvider.updateLoging(!myProvider.myLoging);
@@ -70,7 +70,7 @@ class supplierServices {
       'phone': phone,
       'tin': tin,
       'vrn': vrn,
-      'branchId': branch,
+      'address': address,
       'companyId': companyId,
       'id': editId,
     };

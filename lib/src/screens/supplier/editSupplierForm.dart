@@ -1,7 +1,6 @@
 import 'package:erp/src/gateway/supplierService.dart';
 import 'package:erp/src/provider/loadingProvider.dart';
 import 'package:erp/src/utils/app_const.dart';
-import 'package:erp/src/widgets/app-dropdown.dart';
 import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_input_text.dart';
 import 'package:erp/src/widgets/app_input_text2.dart';
@@ -24,6 +23,7 @@ class _editSupplierFormState extends State<editSupplierForm> {
   TextEditingController phone = TextEditingController();
   TextEditingController tin = TextEditingController();
   TextEditingController vrn = TextEditingController();
+  TextEditingController address = TextEditingController();
   List allData = [];
   var branch;
   var editId;
@@ -109,21 +109,19 @@ class _editSupplierFormState extends State<editSupplierForm> {
             isPhone: false,
             isOcas: true,
           ),
-          DropdownTextFormField(
-            initialValue: branch.toString(),
-            labelText: 'Select Branch',
-            fillcolor: AppConst.white,
-            apiUrl: 'getBranch',
+          AppInputText(
             textsColor: AppConst.black,
-            dropdownColor: AppConst.white,
-            dataOrigin: 'branch',
-            onChanged: (value) {
-              setState(() {
-                branch = value.toString();
-              });
-            },
-            valueField: 'id',
-            displayField: 'name', allData: allData,
+            textfieldcontroller: address,
+            ispassword: false,
+            fillcolor: AppConst.white,
+            label: 'Name',
+            obscure: false,
+            icon: Icon(
+              Icons.person,
+              color: AppConst.black,
+            ),
+            isemail: false,
+            isPhone: false,
           ),
           Padding(
             padding: const EdgeInsets.only(right: 20, top: 20),
@@ -149,7 +147,7 @@ class _editSupplierFormState extends State<editSupplierForm> {
                                   phone.text,
                                   tin.text,
                                   vrn.text,
-                                  branch,
+                                  address.text,
                                   editId.toString());
                               await widget.fetchData();
                               Navigator.pop(context);
