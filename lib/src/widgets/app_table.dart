@@ -21,6 +21,7 @@ class ReusableTable extends StatefulWidget {
   final Widget deleteStatement;
   final Widget editStatement;
   final Widget editForm;
+  final bool? showDetails;
   final Widget Function(BuildContext, Map<String, dynamic>, String) cellBuilder;
   final Future<void> Function()? onClose;
 
@@ -39,6 +40,7 @@ class ReusableTable extends StatefulWidget {
       required this.cellBuilder,
       required this.url,
       required this.columnSpacing,
+      this.showDetails,
       required this.onClose})
       : super(key: key);
 
@@ -136,6 +138,34 @@ class _DataSource extends DataTableSource {
       DataCell(CustomPopover(
         icon: Icons.more_vert,
         items: [
+          if(widget.showDetails == true)
+          CustomPopoverItem(
+            title: 'View Details',
+            icon: Icons.remove_red_eye,
+            onTap: () async {
+              final provider =
+                  Provider.of<RowDataProvider>(context, listen: false);
+              if (provider.isUpdating) return;
+              provider.setRowData(row);
+              while (provider.isUpdating) {
+                await Future.delayed(Duration(seconds: 5));
+              }
+              ReusableModal.show(
+                width: widget.editModalWidth,
+                height: widget.editModalHeight,
+                context,
+                widget.editStatement,
+                onClose: widget.onClose,
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[widget.editForm],
+                ),
+                footer: Row(
+                  children: [],
+                ),
+              );
+            },
+          ),
           CustomPopoverItem(
             title: 'Edit',
             icon: Icons.edit,
