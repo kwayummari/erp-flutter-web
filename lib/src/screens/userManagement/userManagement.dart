@@ -120,26 +120,32 @@ class _userManagementState extends State<userManagement> {
                 allData: [],
               ),
             ),
-            button: AppButton(
-              onPress: () => {
-                ReusableModal.show(
-                  width: 500,
-                  height: 600,
-                  context,
-                  AppText(
-                      txt: 'Add Employee', size: 22, weight: FontWeight.bold),
-                  onClose: fetchData,
-                  // addUserForm()
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[addUserForm(fetchData: fetchData)],
-                  ),
-                )
-              },
-              label: 'Add Employee',
-              borderRadius: 5,
-              textColor: AppConst.white,
-              gradient: AppConst.primaryGradient,
+            button: Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Container(
+                height: 50,
+                child: AppButton(
+                  onPress: () => {
+                    ReusableModal.show(
+                      width: 500,
+                      height: 600,
+                      context,
+                      AppText(
+                          txt: 'Add Employee', size: 22, weight: FontWeight.bold),
+                      onClose: fetchData,
+                      // addUserForm()
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[addUserForm(fetchData: fetchData)],
+                      ),
+                    )
+                  },
+                  label: 'Add Employee',
+                  borderRadius: 5,
+                  textColor: AppConst.white,
+                  gradient: AppConst.primaryGradient,
+                ),
+              ),
             ),
             child: Column(
               children: [
