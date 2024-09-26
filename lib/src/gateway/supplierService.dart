@@ -53,7 +53,7 @@ class supplierServices {
     }
   }
 
-  Future<void> getSupplierDetails(BuildContext context, String id) async {
+  Future getSupplierDetails(BuildContext context, String id) async {
     final myProvider = Provider.of<LoadingProvider>(context, listen: false);
     myProvider.updateLoging(!myProvider.myLoging);
     SplashFunction splashDetails = SplashFunction();

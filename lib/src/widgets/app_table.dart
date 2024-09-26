@@ -158,7 +158,7 @@ class _DataSource extends DataTableSource {
                 onClose: widget.onClose,
                 Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[widget.editForm],
+                  children: <Widget>[],
                 ),
                 footer: Row(
                   children: [],

@@ -124,6 +124,7 @@ class _supplierManagementState extends State<supplierManagement> {
                     deleteModalWidth: 500,
                     editModalHeight: 600,
                     editModalWidth: 500,
+                    showDetails: true,
                     editStatement: AppText(
                         txt: 'Edit supplier',
                         size: 18,
