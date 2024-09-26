@@ -100,22 +100,25 @@ class _CustomerManagementState extends State<CustomerManagement> {
             Center(child: Text('')),
           appTabular(
             title: 'Customers Management',
-            dropDown: DropdownTextFormField(
-              labelText: 'Select Branch',
-              fillcolor: AppConst.white,
-              apiUrl: 'getBranch',
-              textsColor: AppConst.black,
-              dropdownColor: AppConst.white,
-              dataOrigin: 'branch',
-              onChanged: (value) {
-                setState(() {
-                  branch = value.toString();
-                });
-                fetchData();
-              },
-              valueField: 'id',
-              displayField: 'name',
-              allData: [],
+            dropDown: Container(
+              width: 200,
+              child: DropdownTextFormField(
+                labelText: 'Select Branch',
+                fillcolor: AppConst.white,
+                apiUrl: 'getBranch',
+                textsColor: AppConst.black,
+                dropdownColor: AppConst.white,
+                dataOrigin: 'branch',
+                onChanged: (value) {
+                  setState(() {
+                    branch = value.toString();
+                  });
+                  fetchData();
+                },
+                valueField: 'id',
+                displayField: 'name',
+                allData: [],
+              ),
             ),
             button: AppButton(
               onPress: () => {
@@ -123,7 +126,8 @@ class _CustomerManagementState extends State<CustomerManagement> {
                   width: 500,
                   height: 600,
                   context,
-                  AppText(txt: 'Add Customer', size: 22, weight: FontWeight.bold),
+                  AppText(
+                      txt: 'Add Customer', size: 22, weight: FontWeight.bold),
                   onClose: fetchData,
                   // addUserForm()
                   Column(
@@ -145,10 +149,12 @@ class _CustomerManagementState extends State<CustomerManagement> {
                     deleteModalWidth: 500,
                     editModalHeight: 550,
                     editModalWidth: 500,
-                    editForm:
-                        editCustomerForm(fetchData: fetchData, data: rowData ?? {}),
+                    editForm: editCustomerForm(
+                        fetchData: fetchData, data: rowData ?? {}),
                     editStatement: AppText(
-                        txt: 'Edit Employee', size: 18, weight: FontWeight.bold),
+                        txt: 'Edit Employee',
+                        size: 18,
+                        weight: FontWeight.bold),
                     fetchData: fetchData,
                     columnSpacing: 100,
                     titles: titles,

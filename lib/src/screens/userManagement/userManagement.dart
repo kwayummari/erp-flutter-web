@@ -100,22 +100,25 @@ class _userManagementState extends State<userManagement> {
             Center(child: Text('')),
           appTabular(
             title: 'Employees Management',
-            dropDown: DropdownTextFormField(
-              labelText: 'Select Branch',
-              fillcolor: AppConst.white,
-              apiUrl: 'getBranch',
-              textsColor: AppConst.black,
-              dropdownColor: AppConst.white,
-              dataOrigin: 'branch',
-              onChanged: (value) {
-                setState(() {
-                  branch = value.toString();
-                });
-                fetchData();
-              },
-              valueField: 'id',
-              displayField: 'name',
-              allData: [],
+            dropDown: Container(
+              width: 200,
+              child: DropdownTextFormField(
+                labelText: 'Select Branch',
+                fillcolor: AppConst.white,
+                apiUrl: 'getBranch',
+                textsColor: AppConst.black,
+                dropdownColor: AppConst.white,
+                dataOrigin: 'branch',
+                onChanged: (value) {
+                  setState(() {
+                    branch = value.toString();
+                  });
+                  fetchData();
+                },
+                valueField: 'id',
+                displayField: 'name',
+                allData: [],
+              ),
             ),
             button: AppButton(
               onPress: () => {
@@ -123,7 +126,8 @@ class _userManagementState extends State<userManagement> {
                   width: 500,
                   height: 600,
                   context,
-                  AppText(txt: 'Add Employee', size: 22, weight: FontWeight.bold),
+                  AppText(
+                      txt: 'Add Employee', size: 22, weight: FontWeight.bold),
                   onClose: fetchData,
                   // addUserForm()
                   Column(
@@ -148,7 +152,9 @@ class _userManagementState extends State<userManagement> {
                     editForm:
                         editUserForm(fetchData: fetchData, data: rowData ?? {}),
                     editStatement: AppText(
-                        txt: 'Edit Employee', size: 18, weight: FontWeight.bold),
+                        txt: 'Edit Employee',
+                        size: 18,
+                        weight: FontWeight.bold),
                     fetchData: fetchData,
                     columnSpacing: 100,
                     titles: titles,
