@@ -120,26 +120,32 @@ class _CustomerManagementState extends State<CustomerManagement> {
                 allData: [],
               ),
             ),
-            button: AppButton(
-              onPress: () => {
-                ReusableModal.show(
-                  width: 500,
-                  height: 600,
-                  context,
-                  AppText(
-                      txt: 'Add Customer', size: 22, weight: FontWeight.bold),
-                  onClose: fetchData,
-                  // addUserForm()
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[addCustomerForm(fetchData: fetchData)],
-                  ),
-                )
-              },
-              label: 'Add Customer',
-              borderRadius: 5,
-              textColor: AppConst.white,
-              gradient: AppConst.primaryGradient,
+            button: Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Container(
+                height: 50,
+                child: AppButton(
+                  onPress: () => {
+                    ReusableModal.show(
+                      width: 500,
+                      height: 600,
+                      context,
+                      AppText(
+                          txt: 'Add Customer', size: 22, weight: FontWeight.bold),
+                      onClose: fetchData,
+                      // addUserForm()
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[addCustomerForm(fetchData: fetchData)],
+                      ),
+                    )
+                  },
+                  label: 'Add Customer',
+                  borderRadius: 5,
+                  textColor: AppConst.white,
+                  gradient: AppConst.primaryGradient,
+                ),
+              ),
             ),
             child: Column(
               children: [
