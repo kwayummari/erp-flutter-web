@@ -112,47 +112,59 @@ class _inventoryManagementState extends State<inventoryManagement> {
             Center(child: Text('')),
           appTabular(
             title: 'Product Management',
-            dropDown: DropdownTextFormField(
-              labelText: 'Select Branch',
-              fillcolor: AppConst.white,
-              apiUrl: 'getBranch',
-              textsColor: AppConst.black,
-              dropdownColor: AppConst.white,
-              dataOrigin: 'branch',
-              onChanged: (value) {
-                setState(() {
-                  branch = value.toString();
-                });
-                fetchData();
-              },
-              valueField: 'id',
-              displayField: 'name',
-              allData: [],
+            dropDown: Container(
+              width: 200,
+              child: DropdownTextFormField(
+                labelText: 'Select Branch',
+                fillcolor: AppConst.white,
+                apiUrl: 'getBranch',
+                textsColor: AppConst.black,
+                dropdownColor: AppConst.white,
+                dataOrigin: 'branch',
+                onChanged: (value) {
+                  setState(() {
+                    branch = value.toString();
+                  });
+                  productData = [];
+                  fetchData();
+                },
+                valueField: 'id',
+                displayField: 'name',
+                allData: [],
+              ),
             ),
-            button: AppButton(
-              onPress: () => {
-                ReusableModal.show(
-                  width: 500,
-                  height: 600,
-                  context,
-                  AppText(
-                      txt: 'Add Product', size: 22, weight: FontWeight.bold),
-                  onClose: fetchData,
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      addProductForm(
-                        fetchData: fetchData,
-                        buttonWidth: 500,
-                      )
-                    ],
-                  ),
-                )
-              },
-              label: 'Add products',
-              borderRadius: 5,
-              textColor: AppConst.white,
-              gradient: AppConst.primaryGradient,
+            button: Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Container(
+                height: 50,
+                child: AppButton(
+                  onPress: () => {
+                    ReusableModal.show(
+                      width: 500,
+                      height: 600,
+                      context,
+                      AppText(
+                          txt: 'Add Product',
+                          size: 22,
+                          weight: FontWeight.bold),
+                      onClose: fetchData,
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          addProductForm(
+                            fetchData: fetchData,
+                            buttonWidth: 500,
+                          )
+                        ],
+                      ),
+                    )
+                  },
+                  label: 'Add products',
+                  borderRadius: 5,
+                  textColor: AppConst.white,
+                  gradient: AppConst.primaryGradient,
+                ),
+              ),
             ),
             child: Column(
               children: [
