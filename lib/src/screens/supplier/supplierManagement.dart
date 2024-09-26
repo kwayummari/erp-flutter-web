@@ -76,7 +76,7 @@ class _supplierManagementState extends State<supplierManagement> {
     }
   }
 
-  final List<String> titles = ['Phone', 'Name', 'Tin', 'Vrn', 'Location'];
+  final List<String> titles = ['Phone', 'Name', 'Tin', 'Vrn', 'Address'];
 
   @override
   Widget build(BuildContext context) {
