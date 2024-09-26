@@ -5,6 +5,7 @@ import 'package:erp/src/screens/models/layout/layout.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/utils/auth_utils.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
+import 'package:erp/src/widgets/app-dropdown.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -23,13 +24,14 @@ class _dashboardState extends State<dashboard> {
   List bestSuppliers = [];
   bool isLoading = true;
   bool hasError = false;
+  String branch = '1';
 
   Future<void> fetchData() async {
     try {
       DashboardServices dashboardService = DashboardServices();
       final dashboardResponse = await dashboardService.getData(context);
       final products = await dashboardService.getHighSellingProducts(context);
-      final suppliers = await dashboardService.getBestSuppliers(context);
+      final suppliers = await dashboardService.getBestSuppliers(context, branch);
       if (dashboardResponse != null && dashboardResponse['dashboard'] != null) {
         setState(() {
           dashboard = dashboardResponse['dashboard'];
@@ -83,6 +85,23 @@ class _dashboardState extends State<dashboard> {
                 ? Center(child: Text('Something went wrong'))
                 : Column(
                     children: [
+                      DropdownTextFormField(
+                        labelText: 'Select Branch',
+                        fillcolor: AppConst.white,
+                        apiUrl: 'getBranch',
+                        textsColor: AppConst.black,
+                        dropdownColor: AppConst.white,
+                        dataOrigin: 'branch',
+                        onChanged: (value) {
+                          setState(() {
+                            branch = value.toString();
+                          });
+                          fetchData();
+                        },
+                        valueField: 'id',
+                        displayField: 'name',
+                        allData: [],
+                      ),
                       Padding(
                         padding: const EdgeInsets.only(left: 100, right: 100),
                         child: Row(
