@@ -1,7 +1,6 @@
 import 'package:erp/src/gateway/supplierService.dart';
 import 'package:erp/src/provider/loadingProvider.dart';
 import 'package:erp/src/utils/app_const.dart';
-import 'package:erp/src/widgets/app-dropdown.dart';
 import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_input_text.dart';
 import 'package:erp/src/widgets/app_input_text2.dart';
@@ -29,8 +28,8 @@ class _addSupplierFormState extends State<addSupplierForm> {
   TextEditingController phone = TextEditingController();
   TextEditingController tin = TextEditingController();
   TextEditingController vrn = TextEditingController();
+  TextEditingController address = TextEditingController();
   List allData = [];
-  var branch;
   bool marked = false;
   bool dont_show_password = true;
   final _formKey = GlobalKey<FormState>();
@@ -101,21 +100,19 @@ class _addSupplierFormState extends State<addSupplierForm> {
             isPhone: false,
             isOcas: true,
           ),
-          DropdownTextFormField(
-            labelText: 'Select Branch',
-            fillcolor: AppConst.white,
-            apiUrl: 'getBranch',
+          AppInputText(
             textsColor: AppConst.black,
-            dropdownColor: AppConst.white,
-            dataOrigin: 'branch',
-            onChanged: (value) {
-              setState(() {
-                branch = value.toString();
-              });
-            },
-            valueField: 'id',
-            displayField: 'name',
-            allData: allData,
+            textfieldcontroller: address,
+            ispassword: false,
+            fillcolor: AppConst.white,
+            label: 'Physical Address',
+            obscure: false,
+            icon: Icon(
+              Icons.home,
+              color: AppConst.black,
+            ),
+            isemail: false,
+            isPhone: false,
           ),
           Padding(
             padding: const EdgeInsets.only(right: 20, top: 20),
@@ -136,7 +133,7 @@ class _addSupplierFormState extends State<addSupplierForm> {
                                 return;
                               }
                               supplierServices().addSupplier(context, name.text,
-                                  phone.text, tin.text, vrn.text, branch);
+                                  phone.text, tin.text, vrn.text, address.text);
                               await widget.fetchData();
                               if (widget.refreshSuppliers != null) {
                                 widget.refreshSuppliers!();

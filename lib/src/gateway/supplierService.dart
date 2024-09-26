@@ -21,7 +21,7 @@ class supplierServices {
   }
 
   Future<void> addSupplier(BuildContext context, String name, String phone,
-      String tin, String vrn, String branch) async {
+      String tin, String vrn, String address) async {
     final myProvider = Provider.of<LoadingProvider>(context, listen: false);
     myProvider.updateLoging(!myProvider.myLoging);
     SplashFunction splashDetails = SplashFunction();
@@ -31,7 +31,7 @@ class supplierServices {
       'phone': phone,
       'tin': tin,
       'vrn': vrn,
-      'branchId': branch,
+      'address': address,
       'companyId': companyId
     };
     final response = await api.post(context, 'register_supplier', data);
