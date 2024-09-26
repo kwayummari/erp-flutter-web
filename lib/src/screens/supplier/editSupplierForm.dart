@@ -33,13 +33,13 @@ class _editSupplierFormState extends State<editSupplierForm> {
   @override
   void initState() {
     super.initState();
-    print(widget.data);
     name.text = widget.data['name'] ?? '';
     phone.text = widget.data['phone'] ?? '';
     tin.text = widget.data['tin'] ?? '';
     vrn.text = widget.data['vrn'] ?? '';
     branch = widget.data['branchId'];
     editId = widget.data['id'];
+    address.text = widget.data['address'] ?? '';
   }
 
   @override
@@ -114,7 +114,7 @@ class _editSupplierFormState extends State<editSupplierForm> {
             textfieldcontroller: address,
             ispassword: false,
             fillcolor: AppConst.white,
-            label: 'Name',
+            label: 'Address',
             obscure: false,
             icon: Icon(
               Icons.person,
