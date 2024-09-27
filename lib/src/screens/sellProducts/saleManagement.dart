@@ -117,8 +117,7 @@ class _SaleManagementState extends State<SaleManagement> {
   String selectedOption = 'Payment by cash';
   List<String> options = [
     'Payment by cash',
-    'Payment by invoice',
-    'Payment by card'
+    'Payment by credit',
   ];
 
   @override
