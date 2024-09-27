@@ -39,6 +39,9 @@ class _CustomerManagementState extends State<CustomerManagement> {
               'fullname': user['fullname'],
               'email': user['email'],
               'phone number': user['phone'],
+              'tin': user['tin'],
+              'vrn': user['vrn'],
+              'address': user['address'],
               'companyId': user['companyId'],
               'roleId': user['role'],
               'role': user['role_name'],
@@ -80,6 +83,9 @@ class _CustomerManagementState extends State<CustomerManagement> {
     'Fullname',
     'Email',
     'Phone number',
+    'Tin',
+    'Vrn',
+    'Address'
     'Role',
   ];
 
@@ -103,7 +109,7 @@ class _CustomerManagementState extends State<CustomerManagement> {
                   onPress: () => {
                     ReusableModal.show(
                       width: 520,
-                      height: 400,
+                      height: 600,
                       context,
                       AppText(
                           txt: 'Add Customer', size: 22, weight: FontWeight.bold),
