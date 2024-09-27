@@ -78,7 +78,7 @@ class _AddSalesProductFormState extends State<AddSalesProductForm> {
           DropdownTextFormFieldV2(
             labelText: 'Select Product',
             fillcolor: AppConst.white,
-            apiUrl: 'products',
+            apiUrl: 'AllProducts',
             textsColor: AppConst.black,
             dropdownColor: AppConst.white,
             dataOrigin: 'products',
