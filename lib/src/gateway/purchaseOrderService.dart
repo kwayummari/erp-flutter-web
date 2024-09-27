@@ -72,9 +72,10 @@ class purchaseOrderServices {
   }
 
   Future<void> saveSalesOrder(
-      BuildContext context, String randomNumber) async {
+      BuildContext context, String randomNumber, String method) async {
     Map<String, dynamic> data = {
       'randomNumber': randomNumber,
+      'method': method
     };
     final response = await api.post(context, 'save_sales', data);
     final newResponse = jsonDecode(response.body);

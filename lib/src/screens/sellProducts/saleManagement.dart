@@ -101,11 +101,11 @@ class _SaleManagementState extends State<SaleManagement> {
     }
   }
 
-  Future<void> saveData(randomNumber) async {
+  Future<void> saveData(randomNumber, method) async {
     try {
       purchaseOrderServices purchaseOrderService = purchaseOrderServices();
       final purchaseOrderResponse =
-          await purchaseOrderService.saveSalesOrder(context, randomNumber);
+          await purchaseOrderService.saveSalesOrder(context, randomNumber, method);
     } catch (e) {
       setState(() {
         hasError = true;
@@ -257,7 +257,7 @@ class _SaleManagementState extends State<SaleManagement> {
                           child: AppButton(
                               solidColor: Colors.green,
                               onPress: () async {
-                                await saveData(randomNumber.toString());
+                                await saveData(randomNumber.toString(), selectedOption.toString());
                                 setState(() {
                                   supplierId = null;
                                   salesData = [];
