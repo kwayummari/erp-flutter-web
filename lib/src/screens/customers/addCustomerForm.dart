@@ -3,6 +3,7 @@ import 'package:erp/src/provider/loadingProvider.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_input_text.dart';
+import 'package:erp/src/widgets/app_input_text2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +27,10 @@ class _addCustomerFormState extends State<addCustomerForm> {
   TextEditingController email = TextEditingController();
   TextEditingController fullname = TextEditingController();
   TextEditingController phone = TextEditingController();
+  TextEditingController tin = TextEditingController();
+  TextEditingController vrn = TextEditingController();
+  TextEditingController address = TextEditingController();
+
   List allData = [];
   var branch;
   var role;
@@ -83,6 +88,50 @@ class _addCustomerFormState extends State<addCustomerForm> {
             isemail: false,
             isPhone: false,
           ),
+          AppInputText2(
+            textsColor: AppConst.black,
+            textfieldcontroller: tin,
+            ispassword: false,
+            fillcolor: AppConst.white,
+            label: 'Tin',
+            obscure: false,
+            icon: Icon(
+              Icons.numbers,
+              color: AppConst.black,
+            ),
+            isemail: false,
+            isPhone: false,
+            isOcas: true,
+          ),
+          AppInputText2(
+            textsColor: AppConst.black,
+            textfieldcontroller: vrn,
+            ispassword: false,
+            fillcolor: AppConst.white,
+            label: 'Vrn',
+            obscure: false,
+            icon: Icon(
+              Icons.numbers,
+              color: AppConst.black,
+            ),
+            isemail: false,
+            isPhone: false,
+            isOcas: true,
+          ),
+          AppInputText(
+            textsColor: AppConst.black,
+            textfieldcontroller: address,
+            ispassword: false,
+            fillcolor: AppConst.white,
+            label: 'Physical Address',
+            obscure: false,
+            icon: Icon(
+              Icons.home,
+              color: AppConst.black,
+            ),
+            isemail: false,
+            isPhone: false,
+          ),
           Padding(
             padding: const EdgeInsets.only(right: 20, top: 20),
             child: Row(
@@ -102,7 +151,7 @@ class _addCustomerFormState extends State<addCustomerForm> {
                                 return;
                               }
                               addUserService().addCustomer(context, email.text,
-                                  fullname.text, phone.text, '3');
+                                  fullname.text, phone.text, tin.text, vrn.text, address.text, '3');
                               await widget.fetchData();
                               Navigator.pop(context);
                             },

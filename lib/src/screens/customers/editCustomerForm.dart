@@ -93,38 +93,7 @@ class _editCustomerFormState extends State<editCustomerForm> {
                   isemail: false,
                   isPhone: true,
                 ),
-                DropdownTextFormField(
-                  initialValue: branch.toString(),
-                  labelText: 'Select Branch',
-                  fillcolor: AppConst.white,
-                  apiUrl: 'getBranch',
-                  textsColor: AppConst.black,
-                  dropdownColor: AppConst.white,
-                  dataOrigin: 'branch',
-                  onChanged: (value) {
-                    setState(() {
-                      branch = value.toString();
-                    });
-                  },
-                  valueField: 'id',
-                  displayField: 'name', allData: allData,
-                ),
-                DropdownTextFormField(
-                  labelText: 'Select Role',
-                  fillcolor: AppConst.white,
-                  apiUrl: 'getAllRoles',
-                  textsColor: AppConst.black,
-                  dropdownColor: AppConst.white,
-                  dataOrigin: 'roles',
-                  initialValue: role.toString(),
-                  onChanged: (value) {
-                    setState(() {
-                      role = value.toString();
-                    });
-                  },
-                  valueField: 'id',
-                  displayField: 'name', allData: allData,
-                ),
+                
                 Padding(
                   padding: const EdgeInsets.only(right: 20, top: 20),
                   child: Row(

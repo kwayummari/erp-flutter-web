@@ -44,7 +44,7 @@ class addUserService {
   }
 
   Future<void> addCustomer(BuildContext context, String email, String fullname,
-      String phone, String role) async {
+      String phone, String tin, String vrn, String address, String role) async {
     final myProvider = Provider.of<LoadingProvider>(context, listen: false);
     myProvider.updateLoging(!myProvider.myLoging);
     SplashFunction splashDetails = SplashFunction();
@@ -54,6 +54,9 @@ class addUserService {
       'fullname': fullname,
       'phone': phone,
       'role': role,
+      'tin': tin,
+      'vrn': vrn,
+      'address': address,
       'password': 'Password@1234',
       'companyId': companyId
     };
