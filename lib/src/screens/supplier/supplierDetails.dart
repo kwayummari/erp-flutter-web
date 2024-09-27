@@ -14,16 +14,18 @@ class SupplierDetails extends StatefulWidget {
 
 class _SupplierDetailsState extends State<SupplierDetails> {
   List<Map<String, dynamic>> productData = [];
+
   Future<void> fetchData() async {
     try {
       supplierServices supplierService = supplierServices();
       final productResponse =
           await supplierService.getSupplierDetails(context, widget.id);
-      print(productResponse);
-      setState(() {
-        productData = productResponse['suppliersDetails'];
-      });
-      print(productResponse);
+      if (mounted) {
+        setState(() {
+          productData = List<Map<String, dynamic>>.from(
+              productResponse['suppliersDetails'] ?? []);
+        });
+      }
     } catch (e) {
       print('Error fetching data: $e');
     }
@@ -32,7 +34,9 @@ class _SupplierDetailsState extends State<SupplierDetails> {
   @override
   void initState() {
     super.initState();
-    fetchData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      fetchData();
+    });
   }
 
   @override
@@ -46,9 +50,9 @@ class _SupplierDetailsState extends State<SupplierDetails> {
               itemBuilder: (context, index) {
                 final item = productData[index];
                 return ListTile(
-                  title: Text(item['name'] ?? 'No Name'),
-                  subtitle: Text('Price: ${item['price'] ?? 'N/A'}'),
-                  trailing: Text('Quantity: ${item['quantity'] ?? 'N/A'}'),
+                  title: Text(item['branchName'] ?? 'No Name'),
+                  subtitle: Text('Order Id: ${item['orderId'] ?? 'N/A'}'),
+                  trailing: Text('Quantity: ${item['date'] ?? 'N/A'}'),
                 );
               },
             ),

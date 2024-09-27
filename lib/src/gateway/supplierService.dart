@@ -54,8 +54,6 @@ class supplierServices {
   }
 
   Future getSupplierDetails(BuildContext context, String id) async {
-    final myProvider = Provider.of<LoadingProvider>(context, listen: false);
-    myProvider.updateLoging(!myProvider.myLoging);
     SplashFunction splashDetails = SplashFunction();
     final companyId = await splashDetails.getCompanyId();
     Map<String, dynamic> data = {
@@ -64,16 +62,15 @@ class supplierServices {
     };
     final response = await api.post(context, 'suppliersDetails', data);
     final newResponse = jsonDecode(response.body);
+    print(newResponse);
 
     if (response.statusCode == 200) {
-      myProvider.updateLoging(!myProvider.myLoging);
       AppSnackbar(
         isError: false,
         response: newResponse['message'],
       ).show(context);
-      Navigator.pop(context);
+      return newResponse;
     } else {
-      myProvider.updateLoging(!myProvider.myLoging);
       AppSnackbar(
         isError: true,
         response: newResponse['message'],
@@ -81,14 +78,8 @@ class supplierServices {
     }
   }
 
-  Future<void> editSupplier(
-      BuildContext context,
-      String name,
-      String phone,
-      String tin,
-      String vrn,
-      String address,
-      String editId) async {
+  Future<void> editSupplier(BuildContext context, String name, String phone,
+      String tin, String vrn, String address, String editId) async {
     final myProvider = Provider.of<LoadingProvider>(context, listen: false);
     myProvider.updateLoging(!myProvider.myLoging);
     SplashFunction splashDetails = SplashFunction();

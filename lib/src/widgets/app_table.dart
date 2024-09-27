@@ -1,5 +1,6 @@
 import 'package:erp/src/gateway/deleteService.dart';
 import 'package:erp/src/provider/rowProvider.dart';
+import 'package:erp/src/screens/supplier/supplierDetails.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_modal.dart';
@@ -154,12 +155,8 @@ class _DataSource extends DataTableSource {
                 width: widget.editModalWidth,
                 height: widget.editModalHeight,
                 context,
-                widget.editStatement,
-                onClose: widget.onClose,
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[],
-                ),
+                AppText(txt: row['name'] + ' Details', size: 15),
+                SupplierDetails(id: row['id'].toString()),
                 footer: Row(
                   children: [],
                 ),
