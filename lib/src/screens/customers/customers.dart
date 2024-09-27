@@ -44,7 +44,6 @@ class _CustomerManagementState extends State<CustomerManagement> {
               'address': user['address'],
               'companyId': user['companyId'],
               'roleId': user['role'],
-              'role': user['role_name'],
             };
           }).toList();
           isLoading = false;
@@ -85,8 +84,7 @@ class _CustomerManagementState extends State<CustomerManagement> {
     'Phone number',
     'Tin',
     'Vrn',
-    'Address'
-    'Role',
+    'Address',
   ];
 
   @override
