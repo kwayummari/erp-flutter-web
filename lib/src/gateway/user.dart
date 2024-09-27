@@ -18,12 +18,11 @@ class userServices {
     final decodedResponse = jsonDecode(response.body);
     return decodedResponse;
   }
-  Future getCustomer(BuildContext context, String branch) async {
+  Future getCustomer(BuildContext context) async {
     SplashFunction splashDetails = SplashFunction();
     final companyId = await splashDetails.getCompanyId();
     Map<String, dynamic> data = {
       'companyId': companyId,
-      'branchId': branch
     };
     final response = await api.post(context, 'getCustomerByCompanyId', data);
     final decodedResponse = jsonDecode(response.body);
