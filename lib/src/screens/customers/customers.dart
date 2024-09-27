@@ -102,7 +102,7 @@ class _CustomerManagementState extends State<CustomerManagement> {
                 child: AppButton(
                   onPress: () => {
                     ReusableModal.show(
-                      width: 600,
+                      width: 520,
                       height: 400,
                       context,
                       AppText(

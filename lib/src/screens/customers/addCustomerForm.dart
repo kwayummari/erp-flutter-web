@@ -105,9 +105,6 @@ class _addCustomerFormState extends State<addCustomerForm> {
                                   fullname.text, phone.text, '3');
                               await widget.fetchData();
                               Navigator.pop(context);
-                              if (widget.refreshSuppliers != null) {
-                                widget.refreshSuppliers!();
-                              }
                             },
                             label: 'Create customer',
                             borderRadius: 5,
