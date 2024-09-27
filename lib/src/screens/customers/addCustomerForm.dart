@@ -1,7 +1,6 @@
 import 'package:erp/src/gateway/addUser.dart';
 import 'package:erp/src/provider/loadingProvider.dart';
 import 'package:erp/src/utils/app_const.dart';
-import 'package:erp/src/widgets/app-dropdown.dart';
 import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_input_text.dart';
 import 'package:flutter/material.dart';
@@ -84,22 +83,6 @@ class _addCustomerFormState extends State<addCustomerForm> {
             isemail: false,
             isPhone: false,
           ),
-          DropdownTextFormField(
-            labelText: 'Select Branch',
-            fillcolor: AppConst.white,
-            apiUrl: 'getBranch',
-            textsColor: AppConst.black,
-            dropdownColor: AppConst.white,
-            dataOrigin: 'branch',
-            onChanged: (value) {
-              setState(() {
-                branch = value.toString();
-              });
-            },
-            valueField: 'id',
-            displayField: 'name',
-            allData: allData,
-          ),
           Padding(
             padding: const EdgeInsets.only(right: 20, top: 20),
             child: Row(
@@ -118,8 +101,8 @@ class _addCustomerFormState extends State<addCustomerForm> {
                               if (!_formKey.currentState!.validate()) {
                                 return;
                               }
-                              addUserService().addUser(context, email.text,
-                                  fullname.text, phone.text, branch, '3');
+                              addUserService().addCustomer(context, email.text,
+                                  fullname.text, phone.text, '3');
                               await widget.fetchData();
                               Navigator.pop(context);
                               if (widget.refreshSuppliers != null) {

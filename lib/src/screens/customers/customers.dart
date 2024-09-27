@@ -80,7 +80,6 @@ class _CustomerManagementState extends State<CustomerManagement> {
     'Fullname',
     'Email',
     'Phone number',
-    'Branch',
     'Role',
   ];
 
@@ -103,8 +102,8 @@ class _CustomerManagementState extends State<CustomerManagement> {
                 child: AppButton(
                   onPress: () => {
                     ReusableModal.show(
-                      width: 500,
-                      height: 600,
+                      width: 600,
+                      height: 400,
                       context,
                       AppText(
                           txt: 'Add Customer', size: 22, weight: FontWeight.bold),
