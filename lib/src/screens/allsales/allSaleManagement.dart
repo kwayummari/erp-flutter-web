@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:erp/src/gateway/salesProductServices.dart';
 import 'package:erp/src/utils/auth_utils.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
@@ -6,7 +5,6 @@ import 'package:erp/src/widgets/app_listview_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 
 class AllSalesManagement extends StatefulWidget {
   const AllSalesManagement({super.key});
@@ -53,11 +51,6 @@ class _AllSalesManagementState extends State<AllSalesManagement> {
   void initState() {
     super.initState();
     _checkLoginStatus();
-    var now = DateTime.now();
-    var formatter = DateFormat('yyyy-MM-dd');
-    todayDate = formatter.format(now);
-    Random random = Random();
-    randomNumber = random.nextInt(1000000);
   }
 
   Future<void> _checkLoginStatus() async {
