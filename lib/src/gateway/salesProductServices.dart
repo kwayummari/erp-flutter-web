@@ -19,6 +19,15 @@ class salesProductServices {
     return decodedResponse;
   }
 
+  Future getAllSalesServices(BuildContext context) async {
+    SplashFunction splashDetails = SplashFunction();
+    final companyId = await splashDetails.getCompanyId();
+    Map<String, dynamic> data = {'companyId': companyId};
+    final response = await api.post(context, 'get_all_sales', data);
+    final decodedResponse = jsonDecode(response.body);
+    return decodedResponse;
+  }
+
   Future getReportToday(BuildContext context) async {
     SplashFunction splashDetails = SplashFunction();
     final branchId = await splashDetails.getBranchId();
