@@ -17,28 +17,17 @@ class _AllSalesManagementState extends State<AllSalesManagement> {
   List<Map<String, dynamic>> salesData = [];
   bool isLoading = true;
   bool hasError = false;
-  var purchaseId;
-  var orderId;
-  var supplierId;
-  var todayDate;
-  var randomNumber;
-  bool fetchSupplier = false;
-  double totalAmount = 0.0;
-  double vatAmount = 0.0;
-  double grandTotal = 0.0;
-
-  void refreshSuppliers() {
-    setState(() {
-      fetchSupplier = !fetchSupplier;
-    });
-  }
+  List sales = [];
 
   Future<void> fetchData() async {
     try {
       salesProductServices productListServices = salesProductServices();
       final orderListResponse =
           await productListServices.getAllSalesServices(context);
-      print(orderListResponse);
+      print(orderListResponse['sales']);
+      setState(() {
+        sales = orderListResponse['sales'];
+      });
     } catch (e) {
       setState(() {
         hasError = true;
@@ -51,6 +40,7 @@ class _AllSalesManagementState extends State<AllSalesManagement> {
   void initState() {
     super.initState();
     _checkLoginStatus();
+    fetchData();
   }
 
   Future<void> _checkLoginStatus() async {
@@ -66,19 +56,26 @@ class _AllSalesManagementState extends State<AllSalesManagement> {
     return layout(
       child: SingleChildScrollView(
         child: Align(
-            alignment: Alignment.center,
-            child: AppListviewBuilder(
-              itemnumber: 10,
-              direction: Axis.horizontal, // Horizontal scrolling
-              itemBuilder: (context, index) {
-                return Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  width: 100,
-                  color: Colors.blueAccent,
-                  child: Center(child: Text('Item $index')),
-                );
-              },
-            )),
+          alignment: Alignment.center,
+          child: AppListviewBuilder(
+            itemnumber: sales.length,
+            direction: Axis.vertical, // Horizontal scrolling
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Material(
+                  elevation: 4,
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    width: 100,
+                    color: Colors.black,
+                    child: Center(child: Text('Item $index')),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
       ),
     );
   }
