@@ -1,3 +1,4 @@
+import 'package:erp/src/screens/allsales/allSaleManagement.dart';
 import 'package:erp/src/screens/branch/branchManagement.dart';
 import 'package:erp/src/screens/customers/customers.dart';
 import 'package:erp/src/screens/dashboard/dashboard.dart';
@@ -72,6 +73,10 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: RouteNames.saleManagement,
       builder: (context, state) => SaleManagement(),
+    ),
+    GoRoute(
+      path: RouteNames.allSaleManagement,
+      builder: (context, state) => AllSalesManagement(),
     ),
     GoRoute(
       path: RouteNames.todayReport,

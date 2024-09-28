@@ -132,6 +132,9 @@ class _sideBarState extends State<sideBar> {
                                                 'sellProducts') {
                                               context.go(RouteNames.saleManagement);
                                             } else if (subMenu[index]['url'] ==
+                                                'allsales') {
+                                              context.go(RouteNames.allSaleManagement);
+                                            } else if (subMenu[index]['url'] ==
                                                 'todayReport') {
                                               context.go(RouteNames.todayReport);
                                             } else if (subMenu[index]['url'] ==
