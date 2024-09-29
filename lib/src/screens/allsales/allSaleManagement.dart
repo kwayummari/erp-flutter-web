@@ -89,11 +89,28 @@ class _AllSalesManagementState extends State<AllSalesManagement> {
                                     color: AppConst.black,
                                     weight: FontWeight.bold,
                                   ),
-                                  subTitle: AppText(
-                                    txt:
-                                        'Payment Method: ${sales[index]['method']} '
-                                        '(${sales[index]['paymentStatus'] == '1' ? 'Paid' : 'Not paid'})',
-                                    size: 15,
+                                  subTitle: Row(
+                                    children: [
+                                      AppText(
+                                        txt:
+                                            'Payment Method: ${sales[index]['method']} ',
+                                        size: 15,
+                                      ),
+                                      AppText(
+                                        txt:
+                                            sales[index]['paymentStatus'] == '1'
+                                                ? 'Paid'
+                                                : 'Not paid',
+                                        size: 15,
+                                        color: sales[index]['paymentStatus'] ==
+                                                '1'
+                                            ? Colors.green
+                                            : Colors
+                                                .red,
+                                        weight: FontWeight
+                                            .bold,
+                                      ),
+                                    ],
                                   ),
                                   trailing: Padding(
                                     padding: const EdgeInsets.only(top: 20),
@@ -101,17 +118,12 @@ class _AllSalesManagementState extends State<AllSalesManagement> {
                                       height: 50,
                                       child: AppButton(
                                         onPress: () {
-                                          print(sales[index]['salesItems']);
                                           var salesItems =
                                               sales[index]['salesItems'];
-
                                           if (salesItems is String) {
-                                            // Add square brackets to make it a valid JSON array if needed
                                             if (!salesItems.startsWith('[')) {
-                                              salesItems =
-                                                  '[$salesItems]'; // Wrap in brackets to form valid JSON array
+                                              salesItems = '[$salesItems]';
                                             }
-                                            // Parse the string into a List of dynamic objects
                                             salesItems = jsonDecode(salesItems);
                                           }
                                           ReusableModal.show(

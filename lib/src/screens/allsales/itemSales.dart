@@ -38,7 +38,7 @@ class _ItemSalesState extends State<ItemSales> {
                                 title: AppText(
                                   txt:
                                       'Name: ${widget.sales[index]['productName']}',
-                                  size: 20,
+                                  size: 15,
                                   color: AppConst.black,
                                   weight: FontWeight.bold,
                                 ),
