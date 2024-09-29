@@ -1,9 +1,14 @@
+import 'dart:convert';
+
 import 'package:erp/src/gateway/salesProductServices.dart';
+import 'package:erp/src/screens/allsales/itemSales.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/utils/auth_utils.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
+import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_listTile.dart';
 import 'package:erp/src/widgets/app_listview_builder.dart';
+import 'package:erp/src/widgets/app_modal.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
@@ -21,13 +26,13 @@ class _AllSalesManagementState extends State<AllSalesManagement> {
   bool isLoading = true;
   bool hasError = false;
   List sales = [];
+  List salesItems = [];
 
   Future<void> fetchData() async {
     try {
       salesProductServices productListServices = salesProductServices();
       final orderListResponse =
           await productListServices.getAllSalesServices(context);
-      print(orderListResponse['sales']);
       setState(() {
         sales = orderListResponse['sales'];
         isLoading = false;
@@ -65,10 +70,10 @@ class _AllSalesManagementState extends State<AllSalesManagement> {
               : sales.isEmpty
                   ? const Center(child: Text('No sales data available'))
                   : Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      height: 700,
-                      child: AppListviewBuilder(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: 700,
+                        child: AppListviewBuilder(
                           itemnumber: sales.length,
                           direction: Axis.vertical,
                           itemBuilder: (context, index) {
@@ -78,31 +83,70 @@ class _AllSalesManagementState extends State<AllSalesManagement> {
                                 elevation: 4,
                                 child: AppListTile(
                                   title: AppText(
-                                    txt: 'Receipt No: ${sales[index]['receiptNo']}',
+                                    txt:
+                                        'Receipt No: ${sales[index]['receiptNo']}',
                                     size: 20,
                                     color: AppConst.black,
                                     weight: FontWeight.bold,
                                   ),
                                   subTitle: AppText(
-                                      txt:
-                                          'Payment Method: ${sales[index]['method']}',
-                                      size: 15),
-                                  trailing: AppText(
-                                    txt: sales[index]['paymentStatus'] == '1'
-                                        ? 'Paid'
-                                        : 'Not paid',
+                                    txt:
+                                        'Payment Method: ${sales[index]['method']} '
+                                        '(${sales[index]['paymentStatus'] == '1' ? 'Paid' : 'Not paid'})',
                                     size: 15,
-                                    color: sales[index]['paymentStatus'] == '1'
-                                        ? AppConst.green
-                                        : AppConst.red,
+                                  ),
+                                  trailing: Padding(
+                                    padding: const EdgeInsets.only(top: 20),
+                                    child: Container(
+                                      height: 50,
+                                      child: AppButton(
+                                        onPress: () {
+                                          print(sales[index]['salesItems']);
+                                          var salesItems =
+                                              sales[index]['salesItems'];
+
+                                          if (salesItems is String) {
+                                            // Add square brackets to make it a valid JSON array if needed
+                                            if (!salesItems.startsWith('[')) {
+                                              salesItems =
+                                                  '[$salesItems]'; // Wrap in brackets to form valid JSON array
+                                            }
+                                            // Parse the string into a List of dynamic objects
+                                            salesItems = jsonDecode(salesItems);
+                                          }
+                                          ReusableModal.show(
+                                            width: 500,
+                                            height: 600,
+                                            context,
+                                            AppText(
+                                                txt: 'View details',
+                                                size: 22,
+                                                weight: FontWeight.bold),
+                                            onClose: fetchData,
+                                            Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: <Widget>[
+                                                ItemSales(
+                                                  sales: salesItems,
+                                                )
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                        label: 'View details',
+                                        borderRadius: 5,
+                                        textColor: AppConst.white,
+                                        gradient: AppConst.primaryGradient,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
                             );
                           },
                         ),
+                      ),
                     ),
-                  ),
     );
   }
 }
