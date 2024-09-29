@@ -99,8 +99,8 @@ class _AllSalesManagementState extends State<AllSalesManagement> {
                                       AppText(
                                         txt:
                                             sales[index]['paymentStatus'] == '1'
-                                                ? 'Paid'
-                                                : 'Not paid',
+                                                ? ' (Paid)'
+                                                : ' (Not paid)',
                                         size: 15,
                                         color: sales[index]['paymentStatus'] ==
                                                 '1'
