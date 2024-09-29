@@ -1,13 +1,11 @@
 import 'dart:math';
-import 'dart:typed_data';
-import 'dart:ui' as ui;
 import 'package:erp/src/gateway/salesProductServices.dart';
+import 'package:erp/src/screens/sellProducts/printingPage.dart';
 import 'package:erp/src/screens/sellProducts/topOfSales.dart';
 import 'package:erp/src/utils/auth_utils.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
 import 'package:erp/src/widgets/app-offlineDropdownFormField.dart';
 import 'package:erp/src/widgets/app_table4.dart';
-import 'package:flutter/rendering.dart';
 import 'package:erp/src/gateway/purchaseOrderService.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_button.dart';
@@ -104,8 +102,8 @@ class _SaleManagementState extends State<SaleManagement> {
   Future<void> saveData(randomNumber, method) async {
     try {
       purchaseOrderServices purchaseOrderService = purchaseOrderServices();
-      final purchaseOrderResponse =
-          await purchaseOrderService.saveSalesOrder(context, randomNumber, method);
+      final purchaseOrderResponse = await purchaseOrderService.saveSalesOrder(
+          context, randomNumber, method);
     } catch (e) {
       setState(() {
         hasError = true;
@@ -139,27 +137,19 @@ class _SaleManagementState extends State<SaleManagement> {
     }
   }
 
-  Future<void> _printPage() async {
-    try {
-      RenderRepaintBoundary boundary =
-          _printKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
-      ui.Image image = await boundary.toImage(pixelRatio: 3.0);
-      ByteData? byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
-      if (byteData != null) {
-        final pdf = pw.Document();
-        final imageBytes = byteData.buffer.asUint8List();
-        final pdfImage = pw.MemoryImage(imageBytes);
-        pdf.addPage(pw.Page(
-            build: (pw.Context context) => pw.Center(
-                  child: pw.Image(pdfImage),
-                )));
-        await Printing.layoutPdf(
-            onLayout: (PdfPageFormat format) async => pdf.save());
-      }
-    } catch (e) {
-      print(e);
-    }
+  Future<void> printDoc(style, amount, name, customer, customerPhone) async {
+    final image = await imageFromAssetBundle(
+      "assets/logo.png",
+    );
+    final doc = pw.Document();
+    doc.addPage(pw.Page(
+        pageFormat: PdfPageFormat(58 * PdfPageFormat.mm, double.infinity),
+        build: (pw.Context context) {
+          return buildPrintableData(
+              image, style, amount, name, customer, randomNumber);
+        }));
+    await Printing.layoutPdf(
+        onLayout: (PdfPageFormat format) async => doc.save());
   }
 
   @override
@@ -257,12 +247,19 @@ class _SaleManagementState extends State<SaleManagement> {
                           child: AppButton(
                               solidColor: Colors.green,
                               onPress: () async {
-                                await saveData(randomNumber.toString(), selectedOption.toString());
+                                await saveData(randomNumber.toString(),
+                                    selectedOption.toString());
                                 setState(() {
                                   supplierId = null;
                                   salesData = [];
                                 });
-                                _printPage();
+                                // _printPage();
+                                printDoc(
+                                    'JamSolutions',
+                                    '10000',
+                                    'Andrew Msilu',
+                                    'Brian Sisti',
+                                    '0762996305');
                               },
                               label: 'Submit and Print',
                               borderRadius: 20,
