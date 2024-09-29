@@ -1,7 +1,10 @@
 import 'package:erp/src/gateway/salesProductServices.dart';
+import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/utils/auth_utils.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
+import 'package:erp/src/widgets/app_listTile.dart';
 import 'package:erp/src/widgets/app_listview_builder.dart';
+import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
 import 'package:go_router/go_router.dart';
@@ -27,6 +30,7 @@ class _AllSalesManagementState extends State<AllSalesManagement> {
       print(orderListResponse['sales']);
       setState(() {
         sales = orderListResponse['sales'];
+        isLoading = false;
       });
     } catch (e) {
       setState(() {
@@ -54,29 +58,51 @@ class _AllSalesManagementState extends State<AllSalesManagement> {
   @override
   Widget build(BuildContext context) {
     return layout(
-      child: SingleChildScrollView(
-        child: Align(
-          alignment: Alignment.center,
-          child: AppListviewBuilder(
-            itemnumber: sales.length,
-            direction: Axis.vertical, // Horizontal scrolling
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Material(
-                  elevation: 4,
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    width: 100,
-                    color: Colors.black,
-                    child: Center(child: Text('Item $index')),
+      child: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : hasError
+              ? const Center(child: Text('Error loading data'))
+              : sales.isEmpty
+                  ? const Center(child: Text('No sales data available'))
+                  : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: 700,
+                      child: AppListviewBuilder(
+                          itemnumber: sales.length,
+                          direction: Axis.vertical,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Material(
+                                elevation: 4,
+                                child: AppListTile(
+                                  title: AppText(
+                                    txt: 'Receipt No: ${sales[index]['receiptNo']}',
+                                    size: 20,
+                                    color: AppConst.black,
+                                    weight: FontWeight.bold,
+                                  ),
+                                  subTitle: AppText(
+                                      txt:
+                                          'Payment Method: ${sales[index]['method']}',
+                                      size: 15),
+                                  trailing: AppText(
+                                    txt: sales[index]['paymentStatus'] == '1'
+                                        ? 'Paid'
+                                        : 'Not paid',
+                                    size: 15,
+                                    color: sales[index]['paymentStatus'] == '1'
+                                        ? AppConst.green
+                                        : AppConst.red,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                    ),
                   ),
-                ),
-              );
-            },
-          ),
-        ),
-      ),
     );
   }
 }

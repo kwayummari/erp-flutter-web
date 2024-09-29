@@ -9,6 +9,7 @@ abstract class AppConst {
     end: Alignment.topRight,
   );
   static Color red = Colors.red;
+  static Color green = Colors.green;
   static Color white = HexColor('#ffffff');
   static Color black = HexColor('#000000');
   static Color grey = Colors.grey;

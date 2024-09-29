@@ -127,19 +127,24 @@ class _sideBarState extends State<sideBar> {
                                               context.go(RouteNames.grn);
                                             } else if (subMenu[index]['url'] ==
                                                 'completedGrn') {
-                                              context.go(RouteNames.completedGrn);
+                                              context
+                                                  .go(RouteNames.completedGrn);
                                             } else if (subMenu[index]['url'] ==
                                                 'sellProducts') {
-                                              context.go(RouteNames.saleManagement);
+                                              context.go(
+                                                  RouteNames.saleManagement);
                                             } else if (subMenu[index]['url'] ==
                                                 'allsales') {
-                                              context.go(RouteNames.allSaleManagement);
+                                              context.go(
+                                                  RouteNames.allSaleManagement);
                                             } else if (subMenu[index]['url'] ==
                                                 'todayReport') {
-                                              context.go(RouteNames.todayReport);
+                                              context
+                                                  .go(RouteNames.todayReport);
                                             } else if (subMenu[index]['url'] ==
                                                 'reportRange') {
-                                              context.go(RouteNames.reportRange);
+                                              context
+                                                  .go(RouteNames.reportRange);
                                             } else if (subMenu[index]['url'] ==
                                                 'customers') {
                                               context.go(RouteNames.customers);
