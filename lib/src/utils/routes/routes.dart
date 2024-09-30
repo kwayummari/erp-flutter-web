@@ -10,6 +10,7 @@ import 'package:erp/src/screens/report/reportRange.dart';
 import 'package:erp/src/screens/report/todayReport.dart';
 import 'package:erp/src/screens/roles/permissions.dart';
 import 'package:erp/src/screens/roles/rolesManagement.dart';
+import 'package:erp/src/screens/sellProducts/print_page.dart';
 import 'package:erp/src/screens/sellProducts/saleManagement.dart';
 import 'package:erp/src/screens/supplier/supplierManagement.dart';
 import 'package:erp/src/screens/userManagement/userManagement.dart';
@@ -96,6 +97,19 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: RouteNames.customers,
       builder: (context, state) => CustomerManagement(),
+    ),
+    GoRoute(
+      path: RouteNames.printingPage,
+      builder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>;
+        return PrintPage(
+          company: extra['company'] ?? 'N/A',
+          amount: extra['amount'] ?? 'N/A',
+          recipientName: extra['recipientName'] ?? 'N/A',
+          senderName: extra['senderName'] ?? 'N/A',
+          phoneNumber: extra['phoneNumber'] ?? 'N/A',
+        );
+      },
     ),
   ],
 );

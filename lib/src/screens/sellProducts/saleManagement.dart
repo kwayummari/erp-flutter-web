@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:erp/src/gateway/salesProductServices.dart';
-import 'package:erp/src/screens/sellProducts/printingPage.dart';
 import 'package:erp/src/screens/sellProducts/topOfSales.dart';
 import 'package:erp/src/utils/auth_utils.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
@@ -14,9 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:printing/printing.dart';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
 
 class SaleManagement extends StatefulWidget {
   const SaleManagement({super.key});
@@ -137,21 +133,6 @@ class _SaleManagementState extends State<SaleManagement> {
     }
   }
 
-  Future<void> printDoc(style, amount, name, customer, customerPhone) async {
-    final image = await imageFromAssetBundle(
-      "assets/logo.png",
-    );
-    final doc = pw.Document();
-    doc.addPage(pw.Page(
-        pageFormat: PdfPageFormat(58 * PdfPageFormat.mm, double.infinity),
-        build: (pw.Context context) {
-          return buildPrintableData(
-              image, style, amount, name, customer, randomNumber);
-        }));
-    await Printing.layoutPdf(
-        onLayout: (PdfPageFormat format) async => doc.save());
-  }
-
   @override
   Widget build(BuildContext context) {
     return layout(
@@ -247,19 +228,22 @@ class _SaleManagementState extends State<SaleManagement> {
                           child: AppButton(
                               solidColor: Colors.green,
                               onPress: () async {
-                                await saveData(randomNumber.toString(),
-                                    selectedOption.toString());
-                                setState(() {
-                                  supplierId = null;
-                                  salesData = [];
-                                });
-                                // _printPage();
-                                printDoc(
-                                    'JamSolutions',
-                                    '10000',
-                                    'Andrew Msilu',
-                                    'Brian Sisti',
-                                    '0762996305');
+                                // await saveData(randomNumber.toString(),
+                                //     selectedOption.toString());
+                                // setState(() {
+                                //   supplierId = null;
+                                //   salesData = [];
+                                // });
+                                context.go(
+                                  RouteNames.printingPage,
+                                  extra: {
+                                    'company': 'JamSolutions',
+                                    'amount': '10000',
+                                    'recipientName': 'Andrew Msilu',
+                                    'senderName': 'Brian Sisti',
+                                    'phoneNumber': '0762996305',
+                                  },
+                                );
                               },
                               label: 'Submit and Print',
                               borderRadius: 20,

@@ -18,4 +18,5 @@ class RouteNames {
   static const String todayReport = '/TodayReport';
   static const String reportRange = '/ReportRange';
   static const String customers = '/Customers';
+  static const String printingPage = '/printingPage';
 }
