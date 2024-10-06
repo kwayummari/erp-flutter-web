@@ -11,7 +11,6 @@ class ItemSales extends StatefulWidget {
   @override
   State<ItemSales> createState() => _ItemSalesState();
 }
-
 class _ItemSalesState extends State<ItemSales> {
   List<Map<String, dynamic>> salesData = [];
   bool isLoading = true;
