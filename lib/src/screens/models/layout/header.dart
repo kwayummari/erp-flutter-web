@@ -123,8 +123,10 @@ class _HeaderState extends State<Header> {
                           onChanged: (value, data) async {
                             int id = int.parse(value ?? '1');
                             final prefs = await SharedPreferences.getInstance();
-                            await prefs.setString('fetchingBranchId', value.toString());
-                            await prefs.setString('fetchingBranchName', data[id]['name'].toString());
+                            await prefs.setString(
+                                'fetchingBranchId', value.toString());
+                            await prefs.setString('fetchingBranchName',
+                                data[id]['name'].toString());
                           },
                           valueField: 'id',
                           displayField: 'name',

@@ -91,12 +91,16 @@ class _dashboardState extends State<dashboard> {
             : hasError
                 ? Center(child: Text('Something went wrong'))
                 : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      AppText(
-                        txt: branchName ?? '',
-                        size: 18,
-                        weight: FontWeight.bold,
-                        color: AppConst.black,
+                      Padding(
+                        padding: const EdgeInsets.only(left: 40, bottom: 20),
+                        child: AppText(
+                          txt: 'Branch Name: ' + branchName,
+                          size: 18,
+                          weight: FontWeight.bold,
+                          color: AppConst.black,
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 100, right: 100),
