@@ -1,3 +1,4 @@
+import 'package:erp/src/functions/splash.dart';
 import 'package:erp/src/gateway/DashboardService.dart';
 import 'package:erp/src/screens/dashboard/bestSuppliers.dart';
 import 'package:erp/src/screens/dashboard/mostSoldProducts.dart';
@@ -5,7 +6,6 @@ import 'package:erp/src/screens/models/layout/layout.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/utils/auth_utils.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
-import 'package:erp/src/widgets/app-dropdown.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -24,15 +24,21 @@ class _dashboardState extends State<dashboard> {
   List bestSuppliers = [];
   bool isLoading = true;
   bool hasError = false;
-  String branch = '1';
+  var branchName;
 
   Future<void> fetchData() async {
+    SplashFunction splashDetails = SplashFunction();
+    final fetchingBranchId = await splashDetails.getFetchingBranchId();
+    final fetchingBranchName = await splashDetails.getFetchingBranchName();
+    setState(() {
+      branchName = fetchingBranchName;
+    });
     try {
       DashboardServices dashboardService = DashboardServices();
       final dashboardResponse = await dashboardService.getData(context);
       final products = await dashboardService.getHighSellingProducts(context);
       final suppliers =
-          await dashboardService.getBestSuppliers(context, branch);
+          await dashboardService.getBestSuppliers(context, fetchingBranchId);
       if (dashboardResponse != null && dashboardResponse['dashboard'] != null) {
         setState(() {
           dashboard = dashboardResponse['dashboard'];
@@ -86,34 +92,11 @@ class _dashboardState extends State<dashboard> {
                 ? Center(child: Text('Something went wrong'))
                 : Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Container(
-                            width: 200,
-                            child: DropdownTextFormField(
-                              labelText: 'Select Branch',
-                              fillcolor: AppConst.white,
-                              apiUrl: 'getBranch',
-                              textsColor: AppConst.black,
-                              dropdownColor: AppConst.white,
-                              dataOrigin: 'branch',
-                              onChanged: (value) {
-                                setState(() {
-                                  branch = value.toString();
-                                });
-                                dashboard = [];
-                                sellingProducts = [];
-                                bestSuppliers = [];
-                                fetchData();
-                              },
-                              valueField: 'id',
-                              displayField: 'name',
-                              allData: [],
-                            ),
-                          ),
-                        ),
+                      AppText(
+                        txt: branchName ?? '',
+                        size: 18,
+                        weight: FontWeight.bold,
+                        color: AppConst.black,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 100, right: 100),

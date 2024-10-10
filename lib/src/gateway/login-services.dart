@@ -1,12 +1,11 @@
 import 'dart:convert';
+import 'package:erp/src/utils/routes/route-names.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:go_router/go_router.dart';
-
 import '../api/apis.dart';
 import '../provider/loadingProvider.dart';
-import '../utils/routes/route-names.dart';
 import '../widgets/app_snackbar.dart';
 
 class loginService {
@@ -37,6 +36,8 @@ class loginService {
       await prefs.setString('roleId', newResponse['user']['role']);
       await prefs.setString('fullname', newResponse['user']['fullname']);
       await prefs.setString('branchId', newResponse['user']['branch']);
+      await prefs.setString('fetchingBranchId', newResponse['user']['branch']);
+      await prefs.setString('fetchingBranchName', newResponse['user']['name']);
       context.go(RouteNames.dashboard);
     } else {
       myProvider.updateLoging(!myProvider.myLoging);

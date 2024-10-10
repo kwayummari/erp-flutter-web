@@ -1,5 +1,6 @@
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
+import 'package:erp/src/widgets/app-dropdownV2.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -109,6 +110,27 @@ class _HeaderState extends State<Header> {
                       PopupMenuItem<String>(
                         value: 'Settings',
                         child: Text('Settings'),
+                      ),
+                      PopupMenuItem<String>(
+                        value: 'Branch',
+                        child: DropdownTextFormFieldV2(
+                          labelText: 'Select Branch',
+                          fillcolor: AppConst.white,
+                          apiUrl: 'getBranch',
+                          textsColor: AppConst.black,
+                          dropdownColor: AppConst.white,
+                          dataOrigin: 'branch',
+                          onChanged: (value, data) async {
+                            int id = int.parse(value ?? '1');
+                            final prefs = await SharedPreferences.getInstance();
+                            await prefs.setString('fetchingBranchId', value.toString());
+                            await prefs.setString('fetchingBranchName', data[id]['name'].toString());
+                          },
+                          valueField: 'id',
+                          displayField: 'name',
+                          // displayField2: 'description',
+                          allData: [],
+                        ),
                       ),
                       PopupMenuItem<String>(
                         value: 'Logout',

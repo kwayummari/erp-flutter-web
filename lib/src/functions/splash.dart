@@ -63,4 +63,16 @@ class SplashFunction {
     var branchId = sharedPreferences.getString('branchId');
     return branchId.toString();
   }
+  Future<String> getFetchingBranchId() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var fetchingBranchId = sharedPreferences.getString('fetchingBranchId');
+    return fetchingBranchId.toString();
+  }
+  Future<String> getFetchingBranchName() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var fetchingBranchName = sharedPreferences.getString('fetchingBranchName');
+    return fetchingBranchName.toString();
+  }
 }
