@@ -113,25 +113,38 @@ class _HeaderState extends State<Header> {
                       ),
                       PopupMenuItem<String>(
                         value: 'Branch',
-                        child: DropdownTextFormFieldV2(
-                          labelText: 'Select Branch',
-                          fillcolor: AppConst.white,
-                          apiUrl: 'getBranch',
-                          textsColor: AppConst.black,
-                          dropdownColor: AppConst.white,
-                          dataOrigin: 'branch',
-                          onChanged: (value, data) async {
-                            int id = int.parse(value ?? '1');
-                            final prefs = await SharedPreferences.getInstance();
-                            await prefs.setString(
-                                'fetchingBranchId', value.toString());
-                            await prefs.setString('fetchingBranchName',
-                                data[id]['name'].toString());
-                          },
-                          valueField: 'id',
-                          displayField: 'name',
-                          // displayField2: 'description',
-                          allData: [],
+                        child: SizedBox(
+                          width: 200,
+                          child: DropdownTextFormFieldV2(
+                            labelText: 'Select Branch',
+                            fillcolor: AppConst.white,
+                            apiUrl: 'getBranch',
+                            textsColor: AppConst.black,
+                            dropdownColor: AppConst.white,
+                            dataOrigin: 'branch',
+                            onChanged: (value, data) async {
+                              int selectedId = int.parse(value ?? '1');
+                              var selectedBranch = data.firstWhere(
+                                (branch) => branch['id'] == selectedId,
+                                orElse: () => <String, dynamic>{},
+                              );
+                              if (selectedBranch.isNotEmpty) {
+                                final prefs =
+                                    await SharedPreferences.getInstance();
+                                await prefs.setString(
+                                    'fetchingBranchId', selectedId.toString());
+                                await prefs.setString('fetchingBranchName',
+                                    selectedBranch['name'].toString());
+                                context.go(RouteNames.splash);
+                              } else {
+                                print('Branch not found');
+                              }
+                            },
+                            valueField: 'id',
+                            displayField: 'name',
+                            // displayField2: 'description',
+                            allData: [],
+                          ),
                         ),
                       ),
                       PopupMenuItem<String>(
