@@ -40,7 +40,6 @@ class _inventoryManagementState extends State<inventoryManagement> {
       inventoryServices inventoryService = inventoryServices();
       final productResponse =
           await inventoryService.getProduct(context, fetchingBranchId);
-      print(productResponse);
       if (productResponse != null && productResponse['products'] != null) {
         setState(() {
           productData = (productResponse['products'] as List).map((product) {
@@ -104,8 +103,7 @@ class _inventoryManagementState extends State<inventoryManagement> {
     'Name',
     'Description',
     'Buying Price',
-    'tax',
-    'reorder'
+    'tax'
   ];
 
   @override

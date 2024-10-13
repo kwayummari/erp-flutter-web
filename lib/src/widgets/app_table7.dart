@@ -99,6 +99,14 @@ class _ReusableTable7State extends State<ReusableTable7> {
             ),
             DataColumn(
             label: AppText(
+              txt: 'Reorder Level',
+              size: 20,
+              color: AppConst.black,
+              weight: FontWeight.bold,
+            ),
+          ),
+            DataColumn(
+            label: AppText(
               txt: 'Selling Price',
               size: 20,
               color: AppConst.black,
@@ -137,12 +145,52 @@ class _DataSource extends DataTableSource {
   DataRow getRow(int index) {
     final row = widget.data[index];
     final controller = TextEditingController(text: row['sellingPrice'].toString());
+    final reorderController = TextEditingController(text: row['reorder'].toString());
     return DataRow.byIndex(index: index, cells: [
       for (String title in widget.titles)
         DataCell(Padding(
           padding: const EdgeInsets.all(8.0),
           child: widget.cellBuilder(context, row, title),
         )),
+        DataCell(
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              style: TextStyle(color: AppConst.black),
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                label: Container(
+                  color: AppConst.white,
+                  child: AppText(
+                    txt: 'Reorder Level',
+                    size: 15,
+                    weight: FontWeight.w700,
+                    color: AppConst.black,
+                  ),
+                ),
+                filled: true,
+                fillColor: AppConst.white,
+                disabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                  borderSide: BorderSide(color: AppConst.black),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                  borderSide: BorderSide(color: AppConst.black),
+                ),
+              ),
+              enabled: true,
+              controller: reorderController,
+              onChanged: (value) async {
+                GrnServices()
+                    .editReorderLevel(context, row['id'].toString(), value);
+                await widget.fetchData();
+              },
+            ),
+          ),
+        ),
         DataCell(
           Padding(
             padding: const EdgeInsets.all(8.0),
