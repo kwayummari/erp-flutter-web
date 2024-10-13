@@ -84,7 +84,7 @@ class _CustomerManagementState extends State<CustomerManagement> {
     'Phone number',
     'Tin',
     'Vrn',
-    'Address',
+    // 'Address',
   ];
 
   @override
