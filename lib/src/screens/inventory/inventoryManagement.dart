@@ -34,6 +34,7 @@ class _inventoryManagementState extends State<inventoryManagement> {
       inventoryServices inventoryService = inventoryServices();
       final productResponse =
           await inventoryService.getProduct(context, branch);
+      print(productResponse);
       if (productResponse != null && productResponse['products'] != null) {
         setState(() {
           productData = (productResponse['products'] as List).map((product) {
@@ -54,10 +55,11 @@ class _inventoryManagementState extends State<inventoryManagement> {
               'sellingPrice': product['sellingPrice'] == null
                   ? '0'
                   : product['sellingPrice'].toString(),
-              'branch': product['branchId'][0]['name'].toString(),
+              'tax': product['taxName'].toString(),
+              'taxType': product['taxType'].toString(),
               'branchId': product['branchId'][0]['id'].toString(),
-              'taxId': product['taxType'].toString(),
               'quantity': availableQuantity.toString(),
+              'reorder': product['reorder'].toString(),
             };
           }).toList();
           isLoading = false;
@@ -96,8 +98,8 @@ class _inventoryManagementState extends State<inventoryManagement> {
     'Name',
     'Description',
     'Buying Price',
-    'Branch',
-    'Quantity'
+    'tax',
+    'reorder'
   ];
 
   @override
