@@ -1,10 +1,10 @@
+import 'package:erp/src/functions/splash.dart';
 import 'package:erp/src/gateway/inventoryService.dart';
 import 'package:erp/src/provider/rowProvider.dart';
 import 'package:erp/src/screens/inventory/addProduct.dart';
 import 'package:erp/src/screens/inventory/editProductForm.dart';
 import 'package:erp/src/utils/auth_utils.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
-import 'package:erp/src/widgets/app-dropdown.dart';
 import 'package:erp/src/widgets/app_table7.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
@@ -27,13 +27,19 @@ class _inventoryManagementState extends State<inventoryManagement> {
   List<Map<String, dynamic>> productData = [];
   bool isLoading = true;
   bool hasError = false;
-  String branch = '1';
+  var branchName;
 
   Future<void> fetchData() async {
     try {
+      SplashFunction splashDetails = SplashFunction();
+      final fetchingBranchId = await splashDetails.getFetchingBranchId();
+      final fetchingBranchName = await splashDetails.getFetchingBranchName();
+      setState(() {
+        branchName = fetchingBranchName;
+      });
       inventoryServices inventoryService = inventoryServices();
       final productResponse =
-          await inventoryService.getProduct(context, branch);
+          await inventoryService.getProduct(context, fetchingBranchId);
       print(productResponse);
       if (productResponse != null && productResponse['products'] != null) {
         setState(() {
@@ -115,24 +121,15 @@ class _inventoryManagementState extends State<inventoryManagement> {
           appTabular(
             title: 'Product Management',
             dropDown: Container(
-              width: 200,
-              child: DropdownTextFormField(
-                labelText: 'Select Branch',
-                fillcolor: AppConst.white,
-                apiUrl: 'getBranch',
-                textsColor: AppConst.black,
-                dropdownColor: AppConst.white,
-                dataOrigin: 'branch',
-                onChanged: (value) {
-                  setState(() {
-                    branch = value.toString();
-                  });
-                  productData = [];
-                  fetchData();
-                },
-                valueField: 'id',
-                displayField: 'name',
-                allData: [],
+              width: 300,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 40, bottom: 20),
+                child: AppText(
+                  txt: 'Branch Name: ' + branchName,
+                  size: 18,
+                  weight: FontWeight.bold,
+                  color: AppConst.black,
+                ),
               ),
             ),
             button: Padding(
