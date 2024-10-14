@@ -1,5 +1,6 @@
 import 'package:erp/src/gateway/deleteService.dart';
 import 'package:erp/src/provider/rowProvider.dart';
+import 'package:erp/src/screens/customers/CustomerInvoices.dart';
 import 'package:erp/src/screens/supplier/supplierDetails.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app_button.dart';
@@ -23,6 +24,7 @@ class ReusableTable extends StatefulWidget {
   final Widget editStatement;
   final Widget editForm;
   final bool? showDetails;
+  final bool? customerShowDetails;
   final Widget Function(BuildContext, Map<String, dynamic>, String) cellBuilder;
   final Future<void> Function()? onClose;
 
@@ -42,6 +44,7 @@ class ReusableTable extends StatefulWidget {
       required this.url,
       required this.columnSpacing,
       this.showDetails,
+      this.customerShowDetails,
       required this.onClose})
       : super(key: key);
 
@@ -157,6 +160,30 @@ class _DataSource extends DataTableSource {
                 context,
                 AppText(txt: row['name'] + ' Details', size: 15),
                 SupplierDetails(id: row['id'].toString()),
+                footer: Row(
+                  children: [],
+                ),
+              );
+            },
+          ),
+          if(widget.customerShowDetails == true)
+          CustomPopoverItem(
+            title: 'View Pending Invoices',
+            icon: Icons.remove_red_eye,
+            onTap: () async {
+              final provider =
+                  Provider.of<RowDataProvider>(context, listen: false);
+              if (provider.isUpdating) return;
+              provider.setRowData(row);
+              while (provider.isUpdating) {
+                await Future.delayed(Duration(seconds: 5));
+              }
+              ReusableModal.show(
+                width: widget.editModalWidth,
+                height: widget.editModalHeight,
+                context,
+                AppText(txt: row['fullname'] + ' Details', size: 15),
+                CustomerInvoices(customerId: row['id'].toString()),
                 footer: Row(
                   children: [],
                 ),

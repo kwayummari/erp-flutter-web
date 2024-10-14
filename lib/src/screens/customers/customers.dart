@@ -131,6 +131,7 @@ class _CustomerManagementState extends State<CustomerManagement> {
               children: [
                 if (userData.isNotEmpty)
                   ReusableTable(
+                    customerShowDetails: true,
                     deleteModalHeight: 300,
                     deleteModalWidth: 500,
                     editModalHeight: 550,

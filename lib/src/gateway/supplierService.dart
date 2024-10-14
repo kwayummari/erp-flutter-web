@@ -62,7 +62,30 @@ class supplierServices {
     };
     final response = await api.post(context, 'suppliersDetails', data);
     final newResponse = jsonDecode(response.body);
-    print(newResponse);
+
+    if (response.statusCode == 200) {
+      AppSnackbar(
+        isError: false,
+        response: newResponse['message'],
+      ).show(context);
+      return newResponse;
+    } else {
+      AppSnackbar(
+        isError: true,
+        response: newResponse['message'],
+      ).show(context);
+    }
+  }
+
+  Future getCustomerInvoices(BuildContext context, String customerId) async {
+    SplashFunction splashDetails = SplashFunction();
+    final branchId = await splashDetails.getBranchId();
+    Map<String, dynamic> data = {
+      'customerId': customerId,
+      'branchId': branchId,
+    };
+    final response = await api.post(context, 'customerPendingInvoices', data);
+    final newResponse = jsonDecode(response.body);
 
     if (response.statusCode == 200) {
       AppSnackbar(
