@@ -101,6 +101,29 @@ class supplierServices {
     }
   }
 
+  Future updateInvoices(BuildContext context, String id) async {
+    SplashFunction splashDetails = SplashFunction();
+    final branchId = await splashDetails.getBranchId();
+    Map<String, dynamic> data = {
+      'id': id
+    };
+    final response = await api.post(context, 'updateInvoices', data);
+    final newResponse = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      AppSnackbar(
+        isError: false,
+        response: newResponse['message'],
+      ).show(context);
+      return newResponse;
+    } else {
+      AppSnackbar(
+        isError: true,
+        response: newResponse['message'],
+      ).show(context);
+    }
+  }
+
   Future<void> editSupplier(BuildContext context, String name, String phone,
       String tin, String vrn, String address, String editId) async {
     final myProvider = Provider.of<LoadingProvider>(context, listen: false);

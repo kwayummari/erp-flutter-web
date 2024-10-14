@@ -1,4 +1,6 @@
 import 'package:erp/src/gateway/supplierService.dart';
+import 'package:erp/src/utils/app_const.dart';
+import 'package:erp/src/widgets/app_button.dart';
 import 'package:flutter/material.dart';
 
 class CustomerInvoices extends StatefulWidget {
@@ -57,8 +59,19 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
                     title: Text('Receipt No: ${item['receiptNo'] ?? 'N/A'}'),
                     subtitle: Text(
                         'Payment Method: Payment by credit, Status: Pending'),
-                        // trailing: ,
                     children: [
+                      AppButton(
+                      onPress: () async {
+                        supplierServices supplierService = supplierServices();
+                        final invoicesResponse = await supplierService
+                            .updateInvoices(context, item['id']);
+                        Navigator.pop(context);
+                      },
+                      label: 'Clear bill',
+                      borderRadius: 5,
+                      textColor: AppConst.white,
+                      gradient: AppConst.primaryGradient,
+                    ),
                       ListView.builder(
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
