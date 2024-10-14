@@ -101,12 +101,9 @@ class supplierServices {
     }
   }
 
-  Future updateInvoices(BuildContext context, String id) async {
+  Future updateInvoices(BuildContext context, String receiptNo) async {
     SplashFunction splashDetails = SplashFunction();
-    final branchId = await splashDetails.getBranchId();
-    Map<String, dynamic> data = {
-      'id': id
-    };
+    Map<String, dynamic> data = {'receiptNo': receiptNo};
     final response = await api.post(context, 'updateInvoices', data);
     final newResponse = jsonDecode(response.body);
 

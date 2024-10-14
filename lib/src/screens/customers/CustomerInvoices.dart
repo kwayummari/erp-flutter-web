@@ -53,7 +53,6 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
               itemBuilder: (context, index) {
                 final item = invoiceData[index];
                 final List<dynamic> products = item['items'] ?? [];
-
                 return Card(
                   child: ExpansionTile(
                     title: Text('Receipt No: ${item['receiptNo'] ?? 'N/A'}'),
@@ -61,17 +60,18 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
                         'Payment Method: Payment by credit, Status: Pending'),
                     children: [
                       AppButton(
-                      onPress: () async {
-                        supplierServices supplierService = supplierServices();
-                        final invoicesResponse = await supplierService
-                            .updateInvoices(context, item['id']);
-                        Navigator.pop(context);
-                      },
-                      label: 'Clear bill',
-                      borderRadius: 5,
-                      textColor: AppConst.white,
-                      gradient: AppConst.primaryGradient,
-                    ),
+                        onPress: () async {
+                          supplierServices supplierService = supplierServices();
+                          final invoicesResponse =
+                              await supplierService.updateInvoices(
+                                  context, item['receiptNo']);
+                          Navigator.pop(context);
+                        },
+                        label: 'Clear bill',
+                        borderRadius: 1,
+                        textColor: AppConst.white,
+                        gradient: AppConst.primaryGradient,
+                      ),
                       ListView.builder(
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
