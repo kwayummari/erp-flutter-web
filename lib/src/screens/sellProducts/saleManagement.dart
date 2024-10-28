@@ -170,6 +170,17 @@ class _SaleManagementState extends State<SaleManagement> {
                                   weight: FontWeight.bold,
                                 ),
                               ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: AppText(
+                                  txt: productData[index]['name'] +
+                                      '(${productData[index]['sold'].toString()})',
+                                  align: TextAlign.center,
+                                  size: 18,
+                                  color: Colors.black,
+                                  weight: FontWeight.bold,
+                                ),
+                              ),
                             ],
                           ),
                         ),
