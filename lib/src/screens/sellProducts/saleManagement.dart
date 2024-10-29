@@ -1,3 +1,4 @@
+import 'package:erp/src/functions/mathFormatter.dart';
 import 'package:erp/src/functions/splash.dart';
 import 'package:erp/src/gateway/inventoryService.dart';
 import 'package:erp/src/screens/roles/addRoles.dart';
@@ -22,6 +23,7 @@ class _SaleManagementState extends State<SaleManagement> {
   List productData = [];
   bool isLoading = true;
   bool hasError = false;
+  final MathFormatter mathFormatter = MathFormatter();
 
   Future<void> fetchData() async {
     try {
@@ -95,6 +97,9 @@ class _SaleManagementState extends State<SaleManagement> {
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: productData.length + 1,
                 itemBuilder: (context, index) {
+                  final sold = productData[index]['sold'] ?? 0;
+                  final received = productData[index]['received'] ?? 0;
+                  final result = mathFormatter.subtraction(received, sold);
                   if (index == productData.length) {
                     return MouseRegion(
                       cursor: SystemMouseCursors.click,
@@ -173,8 +178,7 @@ class _SaleManagementState extends State<SaleManagement> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: AppText(
-                                  txt: productData[index]['name'] +
-                                      '(${productData[index]['sold'].toString()})',
+                                  txt: '(${result.toString()})',
                                   align: TextAlign.center,
                                   size: 18,
                                   color: Colors.black,
