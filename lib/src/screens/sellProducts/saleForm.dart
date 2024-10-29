@@ -2,7 +2,6 @@ import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app-dropdown.dart';
 import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_input_text.dart';
-import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 
 class SaleForm extends StatefulWidget {
@@ -52,13 +51,11 @@ class _SaleFormState extends State<SaleForm> {
               itemCount: widget.cartItems.length,
               itemBuilder: (context, index) {
                 final item = widget.cartItems[index];
-                return ListTile(
-                    title: AppText(txt: item['name'], size: 18),
-                    subtitle: AppInputText(
+                return AppInputText(
                       textsColor: AppConst.black,
                       ispassword: false,
                       fillcolor: AppConst.white,
-                      label: 'Amount',
+                      label: 'Amount for (${item['name']})',
                       keyboardType: TextInputType.number,
                       obscure: false,
                       onChange: (value) {
@@ -70,59 +67,40 @@ class _SaleFormState extends State<SaleForm> {
                         Icons.production_quantity_limits,
                         color: AppConst.black,
                       ),
-                      isemail: true,
+                      isemail: false,
                       isPhone: false,
-                    )
-                    // TextField(
-                    //   decoration: InputDecoration(
-                    //     labelText: 'Amount',
-                    //   ),
-                    //   keyboardType: TextInputType.number,
-                    //   onChanged: (value) {
-                    //     setState(() {
-                    //       item['amount'] = int.tryParse(value) ?? 0;
-                    //     });
-                    //   },
-                    // ),
                     );
               },
             ),
           ),
-          Container(
-            width: 400,
-            child: DropdownTextFormField(
-              refreshSuppliers: widget.refreshData,
-              labelText: 'Select Customer',
-              fillcolor: AppConst.white,
-              apiUrl: 'customers',
-              textsColor: AppConst.black,
-              dropdownColor: AppConst.white,
-              dataOrigin: 'customers',
-              onChanged: (value) {
-                setState(() {
-                  supplierId = value.toString();
-                });
-              },
-              valueField: 'id',
-              displayField: 'fullname',
-              allData: allData,
-            ),
+          DropdownTextFormField(
+            refreshSuppliers: widget.refreshData,
+            labelText: 'Select Customer',
+            fillcolor: AppConst.white,
+            apiUrl: 'customers',
+            textsColor: AppConst.black,
+            dropdownColor: AppConst.white,
+            dataOrigin: 'customers',
+            onChanged: (value) {
+              setState(() {
+                supplierId = value.toString();
+              });
+            },
+            valueField: 'id',
+            displayField: 'fullname',
+            allData: allData,
           ),
-          Container(
-            width: 100,
-            height: 55,
-            child: AppButton(
-              onPress: () {
-                if (!_formKey.currentState!.validate()) {
-                  return;
-                }
-                // loginService().login(context, email.text, password.text);
-              },
-              label: 'LOGIN',
-              borderRadius: 5,
-              textColor: AppConst.white,
-              gradient: AppConst.primaryGradient,
-            ),
+          AppButton(
+            onPress: () {
+              if (!_formKey.currentState!.validate()) {
+                return;
+              }
+              // loginService().login(context, email.text, password.text);
+            },
+            label: 'LOGIN',
+            borderRadius: 5,
+            textColor: AppConst.white,
+            gradient: AppConst.primaryGradient,
           )
         ],
       ),
