@@ -27,7 +27,7 @@ class _SaleManagementState extends State<SaleManagement> {
   final MathFormatter mathFormatter = MathFormatter();
   List<Map<String, dynamic>> cartItems = [];
   List filteredProductData = [];
-  final TextEditingController searchController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
 
   Future<void> fetchData() async {
     try {
@@ -101,6 +101,7 @@ class _SaleManagementState extends State<SaleManagement> {
     _checkLoginStatus();
     fetchData();
     searchController.addListener(() {
+      print("Search Term: ${searchController.text}");
       _filterProducts(searchController.text);
     });
   }
