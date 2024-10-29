@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:erp/src/functions/splash.dart';
+import 'package:erp/src/gateway/salesProductServices.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app-dropdown.dart';
 import 'package:erp/src/widgets/app-offlineDropdownFormField.dart';
@@ -44,13 +45,15 @@ class _SaleFormState extends State<SaleForm> {
             })
         .toList();
 
-    print('Sending data: $products');
+    salesProductServices service = salesProductServices();
+    final purchaseOrderResponse = await service.sellProductsServices(
+        context, products);
 
     setState(() {
       widget.cartItems.clear();
     });
 
-    Navigator.of(context).pop(); // Close popup
+    Navigator.of(context).pop();
   }
 
   @override

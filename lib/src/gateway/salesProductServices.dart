@@ -168,4 +168,21 @@ class salesProductServices {
       ).show(context);
     }
   }
+
+  Future<void> sellProductsServices(BuildContext context, Map<String, dynamic> data) async {
+    final response = await api.post(
+        context, 'sell_products', data);
+    final newResponse = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      AppSnackbar(
+        isError: false,
+        response: newResponse['message'],
+      ).show(context);
+    } else {
+      AppSnackbar(
+        isError: true,
+        response: newResponse['message'],
+      ).show(context);
+    }
+  }
 }
