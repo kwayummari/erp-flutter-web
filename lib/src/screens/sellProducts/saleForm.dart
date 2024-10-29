@@ -7,6 +7,7 @@ import 'package:erp/src/widgets/app-dropdown.dart';
 import 'package:erp/src/widgets/app-offlineDropdownFormField.dart';
 import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_input_text.dart';
+import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 
 class SaleForm extends StatefulWidget {
@@ -56,6 +57,17 @@ class _SaleFormState extends State<SaleForm> {
 
   @override
   Widget build(BuildContext context) {
+    int totalVat = 0;
+    int totalPriceWithoutVat = 0;
+
+    for (var item in widget.cartItems) {
+      int taxValue = int.tryParse(item['taxValue']) ?? 0;
+      int sellingPrice = int.tryParse(item['sellingPrice']) ?? 0;
+      int amount = int.tryParse(item['amount']) ?? 0;
+      totalVat += taxValue * sellingPrice * amount;
+      totalPriceWithoutVat += sellingPrice * amount;
+    }
+
     return Form(
       key: _formKey,
       child: Column(
@@ -65,30 +77,79 @@ class _SaleFormState extends State<SaleForm> {
               itemCount: widget.cartItems.length,
               itemBuilder: (context, index) {
                 final item = widget.cartItems[index];
-                return AppInputText(
-                  textsColor: AppConst.black,
-                  ispassword: false,
-                  fillcolor: AppConst.white,
-                  label: 'Amount for (${item['name']})',
-                  keyboardType: TextInputType.number,
-                  obscure: false,
-                  onChange: (value) {
-                    setState(() {
-                      item['amount'] = int.tryParse(value) ?? 0;
-                    });
-                  },
-                  icon: Icon(
-                    Icons.production_quantity_limits,
-                    color: AppConst.black,
-                  ),
-                  isemail: false,
-                  isPhone: false,
+                return Row(
+                  children: [
+                    AppInputText(
+                      textsColor: AppConst.black,
+                      ispassword: false,
+                      fillcolor: AppConst.white,
+                      label: 'Amount for (${item['name']})',
+                      keyboardType: TextInputType.number,
+                      obscure: false,
+                      onChange: (value) {
+                        setState(() {
+                          item['amount'] = int.tryParse(value) ?? 0;
+                        });
+                      },
+                      icon: Icon(
+                        Icons.production_quantity_limits,
+                        color: AppConst.black,
+                      ),
+                      isemail: false,
+                      isPhone: false,
+                    ),
+                    AppText(
+                      txt: (double.parse(item['taxValue']) *
+                              int.parse(item['sellingPrice']) *
+                              int.parse(item['amount']))
+                          .toString(),
+                      size: 15,
+                      color: AppConst.black,
+                    )
+                  ],
                 );
               },
             ),
           ),
           Divider(
             color: AppConst.grey,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    AppText(
+                      txt: 'Total VAT:',
+                      size: 16,
+                      color: AppConst.black,
+                    ),
+                    AppText(
+                      txt: totalVat.toString(),
+                      size: 16,
+                      color: AppConst.black,
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    AppText(
+                      txt: 'Total Without VAT:',
+                      size: 16,
+                      color: AppConst.black,
+                    ),
+                    AppText(
+                      txt: totalPriceWithoutVat.toString(),
+                      size: 16,
+                      color: AppConst.black,
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
           DropdownTextFormField(
             refreshSuppliers: widget.refreshData,
