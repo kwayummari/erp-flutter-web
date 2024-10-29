@@ -60,9 +60,15 @@ class _SaleManagementState extends State<SaleManagement> {
 
   void _filterProducts(String searchTerm) {
     setState(() {
-      filteredProductData = productData.where((product) {
-        return product['name'].toLowerCase().contains(searchTerm.toLowerCase());
-      }).toList();
+      if (searchTerm.isEmpty) {
+        filteredProductData = productData;
+      } else {
+        filteredProductData = productData.where((product) {
+          return product['name']
+              .toLowerCase()
+              .contains(searchTerm.toLowerCase());
+        }).toList();
+      }
     });
   }
 
@@ -116,19 +122,19 @@ class _SaleManagementState extends State<SaleManagement> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: AppInputText(
-                  textsColor: AppConst.black,
-                  ispassword: false,
-                  fillcolor: AppConst.white,
-                  label: 'Search products',
-                  controller: searchController,
-                  obscure: false,
-                  icon: Icon(
-                    Icons.search,
-                    color: AppConst.black,
-                  ),
-                  isemail: false,
-                  isPhone: false,
+                textsColor: AppConst.black,
+                ispassword: false,
+                fillcolor: AppConst.white,
+                label: 'Search products',
+                controller: searchController,
+                obscure: false,
+                icon: Icon(
+                  Icons.search,
+                  color: AppConst.black,
                 ),
+                isemail: false,
+                isPhone: false,
+              ),
             ),
             if (isLoading)
               Center(child: CircularProgressIndicator())
