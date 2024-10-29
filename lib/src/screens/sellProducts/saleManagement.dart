@@ -162,7 +162,7 @@ class _SaleManagementState extends State<SaleManagement> {
                   crossAxisCount: 4,
                   mainAxisSpacing: 8.0,
                   crossAxisSpacing: 8.0,
-                  mainAxisExtent: 120,
+                  mainAxisExtent: 150,
                 ),
                 padding: EdgeInsets.all(15.0),
                 shrinkWrap: true,
