@@ -72,7 +72,7 @@ class _SaleManagementState extends State<SaleManagement> {
       height: 500,
       context,
       AppText(txt: 'Sell Products', size: 22, weight: FontWeight.bold),
-      SaleForm(cartItems: cartItems, refreshSuppliers: refreshSuppliers),
+      SaleForm(cartItems: cartItems, refreshData: fetchData),
     );
   }
 
