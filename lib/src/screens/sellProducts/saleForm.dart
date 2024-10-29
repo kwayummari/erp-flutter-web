@@ -33,21 +33,21 @@ class _SaleFormState extends State<SaleForm> {
     SplashFunction splashDetails = SplashFunction();
     final branchId = await splashDetails.getBranchId();
     final List<Map<String, dynamic>> products = widget.cartItems.map((item) {
-    return {
-      'inventoryId': item['id'],
-      'quantity': item['amount'],
-      'receiptId': receiptId,
-      'customerId': customerId,
-      'status': selectedOption == 'Payment by credit' ? '0' : '1',
-      'branchId': branchId,
-      'method': selectedOption,
-      'paymentStatus': selectedOption == 'Payment by credit' ? '0' : '1'
-    };
-  }).toList();
-salesProductServices service = salesProductServices();
-  for (var product in products) {
-    await service.sellProductsServices(context, product);
-  }
+      return {
+        'inventoryId': item['id'].toString(),
+        'quantity': item['amount'],
+        'receiptId': receiptId.toString(),
+        'customerId': customerId.toString(),
+        'status': selectedOption == 'Payment by credit' ? '0' : '1',
+        'branchId': branchId.toString(),
+        'method': selectedOption,
+        'paymentStatus': selectedOption == 'Payment by credit' ? '0' : '1'
+      };
+    }).toList();
+    salesProductServices service = salesProductServices();
+    for (var product in products) {
+      await service.sellProductsServices(context, product);
+    }
     setState(() {
       widget.cartItems.clear();
     });
@@ -138,7 +138,7 @@ salesProductServices service = salesProductServices();
                       if (!_formKey.currentState!.validate()) {
                         return;
                       }
-                      // loginService().login(context, email.text, password.text);
+                      submitCart();
                     },
                     label: 'Submit',
                     borderRadius: 5,
