@@ -1,5 +1,6 @@
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app-dropdown.dart';
+import 'package:erp/src/widgets/app-offlineDropdownFormField.dart';
 import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_input_text.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,11 @@ class _SaleFormState extends State<SaleForm> {
   var supplierId;
   final _formKey = GlobalKey<FormState>();
   List allData = [];
+  String selectedOption = 'Payment by cash';
+  List<String> options = [
+    'Payment by cash',
+    'Payment by credit',
+  ];
   void submitCart() async {
     // Prepare data to send to the API
     final receiptId =
@@ -52,28 +58,30 @@ class _SaleFormState extends State<SaleForm> {
               itemBuilder: (context, index) {
                 final item = widget.cartItems[index];
                 return AppInputText(
-                      textsColor: AppConst.black,
-                      ispassword: false,
-                      fillcolor: AppConst.white,
-                      label: 'Amount for (${item['name']})',
-                      keyboardType: TextInputType.number,
-                      obscure: false,
-                      onChange: (value) {
-                        setState(() {
-                          item['amount'] = int.tryParse(value) ?? 0;
-                        });
-                      },
-                      icon: Icon(
-                        Icons.production_quantity_limits,
-                        color: AppConst.black,
-                      ),
-                      isemail: false,
-                      isPhone: false,
-                    );
+                  textsColor: AppConst.black,
+                  ispassword: false,
+                  fillcolor: AppConst.white,
+                  label: 'Amount for (${item['name']})',
+                  keyboardType: TextInputType.number,
+                  obscure: false,
+                  onChange: (value) {
+                    setState(() {
+                      item['amount'] = int.tryParse(value) ?? 0;
+                    });
+                  },
+                  icon: Icon(
+                    Icons.production_quantity_limits,
+                    color: AppConst.black,
+                  ),
+                  isemail: false,
+                  isPhone: false,
+                );
               },
             ),
           ),
-          Divider(color: AppConst.grey,),
+          Divider(
+            color: AppConst.grey,
+          ),
           DropdownTextFormField(
             refreshSuppliers: widget.refreshData,
             labelText: 'Select Customer',
@@ -91,21 +99,44 @@ class _SaleFormState extends State<SaleForm> {
             displayField: 'fullname',
             allData: allData,
           ),
-          SizedBox(
-            width: 400,
-            height: 40,
-            child: AppButton(
-              onPress: () {
-                if (!_formKey.currentState!.validate()) {
-                  return;
-                }
-                // loginService().login(context, email.text, password.text);
-              },
-              label: 'Submit',
-              borderRadius: 5,
-              textColor: AppConst.white,
-              gradient: AppConst.primaryGradient,
-            ),
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: 200,
+                  height: 40,
+                  child: AppButton(
+                    onPress: () {
+                      if (!_formKey.currentState!.validate()) {
+                        return;
+                      }
+                      // loginService().login(context, email.text, password.text);
+                    },
+                    label: 'Submit',
+                    borderRadius: 5,
+                    textColor: AppConst.white,
+                    gradient: AppConst.primaryGradient,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  width: 230,
+                  child: AppDropdownTextFormField(
+                    labelText: 'Select Payment Method',
+                    options: options,
+                    value: selectedOption,
+                    onChanged: (newValue) {
+                      setState(() {
+                        selectedOption = newValue!;
+                      });
+                    },
+                  ),
+                ),
+              )
+            ],
           )
         ],
       ),
