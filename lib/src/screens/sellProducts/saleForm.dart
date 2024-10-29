@@ -1,6 +1,7 @@
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app-dropdown.dart';
 import 'package:erp/src/widgets/app_button.dart';
+import 'package:erp/src/widgets/app_input_text.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 
@@ -52,19 +53,38 @@ class _SaleFormState extends State<SaleForm> {
               itemBuilder: (context, index) {
                 final item = widget.cartItems[index];
                 return ListTile(
-                  title: AppText(txt: item['name'], size: 18),
-                  subtitle: TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Amount',
-                    ),
-                    keyboardType: TextInputType.number,
-                    onChanged: (value) {
-                      setState(() {
-                        item['amount'] = int.tryParse(value) ?? 0;
-                      });
-                    },
-                  ),
-                );
+                    title: AppText(txt: item['name'], size: 18),
+                    subtitle: AppInputText(
+                      textsColor: AppConst.black,
+                      ispassword: false,
+                      fillcolor: AppConst.white,
+                      label: 'Amount',
+                      keyboardType: TextInputType.number,
+                      obscure: false,
+                      onChange: (value) {
+                        setState(() {
+                          item['amount'] = int.tryParse(value) ?? 0;
+                        });
+                      },
+                      icon: Icon(
+                        Icons.production_quantity_limits,
+                        color: AppConst.black,
+                      ),
+                      isemail: true,
+                      isPhone: false,
+                    )
+                    // TextField(
+                    //   decoration: InputDecoration(
+                    //     labelText: 'Amount',
+                    //   ),
+                    //   keyboardType: TextInputType.number,
+                    //   onChanged: (value) {
+                    //     setState(() {
+                    //       item['amount'] = int.tryParse(value) ?? 0;
+                    //     });
+                    //   },
+                    // ),
+                    );
               },
             ),
           ),
