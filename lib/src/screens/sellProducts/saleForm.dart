@@ -32,27 +32,25 @@ class _SaleFormState extends State<SaleForm> {
     final receiptId = random.nextInt(1000000);
     SplashFunction splashDetails = SplashFunction();
     final branchId = await splashDetails.getBranchId();
-    final products = widget.cartItems
-        .map((item) => {
-              'inventoryId': item['id'],
-              'quantity': item['amount'],
-              'receiptId': receiptId,
-              'customerId': customerId,
-              'status': selectedOption == 'Payment by credit' ? '0' : '1',
-              'branchId': branchId,
-              'method': selectedOption,
-              'paymentStatus': selectedOption == 'Payment by credit' ? '0' : '1'
-            })
-        .toList();
-
-    salesProductServices service = salesProductServices();
-    final purchaseOrderResponse = await service.sellProductsServices(
-        context, products);
-
+    final List<Map<String, dynamic>> products = widget.cartItems.map((item) {
+    return {
+      'inventoryId': item['id'],
+      'quantity': item['amount'],
+      'receiptId': receiptId,
+      'customerId': customerId,
+      'status': selectedOption == 'Payment by credit' ? '0' : '1',
+      'branchId': branchId,
+      'method': selectedOption,
+      'paymentStatus': selectedOption == 'Payment by credit' ? '0' : '1'
+    };
+  }).toList();
+salesProductServices service = salesProductServices();
+  for (var product in products) {
+    await service.sellProductsServices(context, product);
+  }
     setState(() {
       widget.cartItems.clear();
     });
-
     Navigator.of(context).pop();
   }
 
