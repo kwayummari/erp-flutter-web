@@ -22,7 +22,7 @@ class _SaleManagementState extends State<SaleManagement> {
   bool isLoading = true;
   bool hasError = false;
   final MathFormatter mathFormatter = MathFormatter();
-  List<Map<String, dynamic>> cartItems = []; // Temporary cart
+  List<Map<String, dynamic>> cartItems = [];
 
   Future<void> fetchData() async {
     try {
@@ -31,7 +31,7 @@ class _SaleManagementState extends State<SaleManagement> {
       inventoryServices inventoryService = inventoryServices();
       final productResponse =
           await inventoryService.getProduct(context, fetchingBranchId);
-
+      print(productResponse);
       if (productResponse != null && productResponse['products'] != null) {
         setState(() {
           productData = productResponse['products'];
@@ -207,7 +207,7 @@ class _SaleManagementState extends State<SaleManagement> {
                         elevation: 10,
                         color:
                             cartItems.any((item) => item['id'] == product['id'])
-                                ? AppConst.primary
+                                ? AppConst.black
                                 : AppConst.white,
                         borderRadius: BorderRadius.circular(10.0),
                         child: Container(
@@ -220,7 +220,10 @@ class _SaleManagementState extends State<SaleManagement> {
                                   txt: product['name'],
                                   align: TextAlign.center,
                                   size: 18,
-                                  color: Colors.black,
+                                  color: cartItems.any(
+                                          (item) => item['id'] == product['id'])
+                                      ? AppConst.white
+                                      : AppConst.black,
                                   weight: FontWeight.bold,
                                 ),
                               ),
@@ -230,7 +233,10 @@ class _SaleManagementState extends State<SaleManagement> {
                                   txt: 'Remainder: ${result.toString()}',
                                   align: TextAlign.center,
                                   size: 15,
-                                  color: Colors.black,
+                                  color: cartItems.any(
+                                          (item) => item['id'] == product['id'])
+                                      ? AppConst.white
+                                      : AppConst.black,
                                 ),
                               ),
                             ],
