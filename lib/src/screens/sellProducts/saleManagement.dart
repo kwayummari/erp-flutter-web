@@ -2,6 +2,7 @@ import 'package:erp/src/functions/mathFormatter.dart';
 import 'package:erp/src/functions/splash.dart';
 import 'package:erp/src/gateway/inventoryService.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
+import 'package:erp/src/screens/sellProducts/saleForm.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/utils/auth_utils.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
@@ -54,15 +55,12 @@ class _SaleManagementState extends State<SaleManagement> {
 
   void toggleCartItem(Map<String, dynamic> product) {
     setState(() {
-      // Check if the product is already in the cart
       if (cartItems.any((item) => item['id'] == product['id'])) {
-        // Remove the item if it's already in the cart
         cartItems.removeWhere((item) => item['id'] == product['id']);
       } else {
-        // Add the item to the cart if not present
         cartItems.add({
           ...product,
-          'amount': 0, // Initial amount field for each item
+          'amount': 0,
         });
       }
     });
@@ -74,60 +72,8 @@ class _SaleManagementState extends State<SaleManagement> {
       height: 500,
       context,
       AppText(txt: 'Sell Products', size: 22, weight: FontWeight.bold),
-      Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: cartItems.length,
-              itemBuilder: (context, index) {
-                final item = cartItems[index];
-                return ListTile(
-                  title: AppText(txt: item['name'], size: 18),
-                  subtitle: TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Amount',
-                    ),
-                    keyboardType: TextInputType.number,
-                    onChanged: (value) {
-                      setState(() {
-                        item['amount'] = int.tryParse(value) ?? 0;
-                      });
-                    },
-                  ),
-                );
-              },
-            ),
-          ),
-          ElevatedButton(
-            onPressed: submitCart,
-            child: Text('Submit'),
-          ),
-        ],
-      ),
+      SaleForm(cartItems: cartItems, refreshSuppliers: refreshSuppliers),
     );
-  }
-
-  void submitCart() async {
-    // Prepare data to send to the API
-    final receiptId =
-        DateTime.now().millisecondsSinceEpoch.toString(); // Unique receipt ID
-    final products = cartItems
-        .map((item) => {
-              'productId': item['id'],
-              'amount': item['amount'],
-              'receiptId': receiptId,
-            })
-        .toList();
-
-    // Send data to your API (replace with actual API call)
-    print('Sending data: $products');
-
-    // Clear cart after submission
-    setState(() {
-      cartItems.clear();
-    });
-
-    Navigator.of(context).pop(); // Close popup
   }
 
   @override
