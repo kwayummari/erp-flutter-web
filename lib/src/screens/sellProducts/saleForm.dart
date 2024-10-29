@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:erp/src/functions/splash.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/widgets/app-dropdown.dart';
 import 'package:erp/src/widgets/app-offlineDropdownFormField.dart';
@@ -15,7 +18,7 @@ class SaleForm extends StatefulWidget {
 }
 
 class _SaleFormState extends State<SaleForm> {
-  var supplierId;
+  var customerId;
   final _formKey = GlobalKey<FormState>();
   List allData = [];
   String selectedOption = 'Payment by cash';
@@ -24,18 +27,23 @@ class _SaleFormState extends State<SaleForm> {
     'Payment by credit',
   ];
   void submitCart() async {
-    // Prepare data to send to the API
-    final receiptId =
-        DateTime.now().millisecondsSinceEpoch.toString(); // Unique receipt ID
+    Random random = Random();
+    final receiptId = random.nextInt(1000000);
+    SplashFunction splashDetails = SplashFunction();
+    final branchId = await splashDetails.getBranchId();
     final products = widget.cartItems
         .map((item) => {
-              'productId': item['id'],
-              'amount': item['amount'],
+              'inventoryId': item['id'],
+              'quantity': item['amount'],
               'receiptId': receiptId,
+              'customerId': customerId,
+              'status': selectedOption == 'Payment by credit' ? '0' : '1',
+              'branchId': branchId,
+              'method': selectedOption,
+              'paymentStatus': selectedOption == 'Payment by credit' ? '0' : '1'
             })
         .toList();
 
-    // Send data to your API (replace with actual API call)
     print('Sending data: $products');
 
     // Clear cart after submission
@@ -92,7 +100,7 @@ class _SaleFormState extends State<SaleForm> {
             dataOrigin: 'customers',
             onChanged: (value) {
               setState(() {
-                supplierId = value.toString();
+                customerId = value.toString();
               });
             },
             valueField: 'id',
