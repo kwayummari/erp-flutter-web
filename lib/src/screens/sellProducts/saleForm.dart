@@ -73,6 +73,7 @@ class _SaleFormState extends State<SaleForm> {
               },
             ),
           ),
+          Divider(color: AppConst.grey,),
           DropdownTextFormField(
             refreshSuppliers: widget.refreshData,
             labelText: 'Select Customer',
@@ -90,17 +91,21 @@ class _SaleFormState extends State<SaleForm> {
             displayField: 'fullname',
             allData: allData,
           ),
-          AppButton(
-            onPress: () {
-              if (!_formKey.currentState!.validate()) {
-                return;
-              }
-              // loginService().login(context, email.text, password.text);
-            },
-            label: 'LOGIN',
-            borderRadius: 5,
-            textColor: AppConst.white,
-            gradient: AppConst.primaryGradient,
+          SizedBox(
+            width: 400,
+            height: 40,
+            child: AppButton(
+              onPress: () {
+                if (!_formKey.currentState!.validate()) {
+                  return;
+                }
+                // loginService().login(context, email.text, password.text);
+              },
+              label: 'Submit',
+              borderRadius: 5,
+              textColor: AppConst.white,
+              gradient: AppConst.primaryGradient,
+            ),
           )
         ],
       ),
