@@ -1,16 +1,14 @@
 import 'package:erp/src/functions/mathFormatter.dart';
 import 'package:erp/src/functions/splash.dart';
 import 'package:erp/src/gateway/inventoryService.dart';
-import 'package:erp/src/screens/roles/addRoles.dart';
+import 'package:erp/src/screens/models/layout/layout.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/utils/auth_utils.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
 import 'package:erp/src/widgets/app_modal.dart';
 import 'package:flutter/material.dart';
-import 'package:erp/src/gateway/rolesService.dart';
-import 'package:erp/src/widgets/app_text.dart';
-import 'package:erp/src/screens/models/layout/layout.dart';
 import 'package:go_router/go_router.dart';
+import 'package:erp/src/widgets/app_text.dart';
 
 class SaleManagement extends StatefulWidget {
   const SaleManagement({super.key});
@@ -24,20 +22,16 @@ class _SaleManagementState extends State<SaleManagement> {
   bool isLoading = true;
   bool hasError = false;
   final MathFormatter mathFormatter = MathFormatter();
+  List<Map<String, dynamic>> cartItems = []; // Temporary cart
 
   Future<void> fetchData() async {
     try {
       SplashFunction splashDetails = SplashFunction();
       final fetchingBranchId = await splashDetails.getFetchingBranchId();
-      final fetchingBranchName = await splashDetails.getFetchingBranchName();
-
-      rolesServices rolesService = rolesServices();
-      final rolesResponse = await rolesService.getRoles(context);
-
       inventoryServices inventoryService = inventoryServices();
       final productResponse =
           await inventoryService.getProduct(context, fetchingBranchId);
-      print(productResponse);
+
       if (productResponse != null && productResponse['products'] != null) {
         setState(() {
           productData = productResponse['products'];
@@ -56,6 +50,84 @@ class _SaleManagementState extends State<SaleManagement> {
         isLoading = false;
       });
     }
+  }
+
+  void toggleCartItem(Map<String, dynamic> product) {
+    setState(() {
+      // Check if the product is already in the cart
+      if (cartItems.any((item) => item['id'] == product['id'])) {
+        // Remove the item if it's already in the cart
+        cartItems.removeWhere((item) => item['id'] == product['id']);
+      } else {
+        // Add the item to the cart if not present
+        cartItems.add({
+          ...product,
+          'amount': 0, // Initial amount field for each item
+        });
+      }
+    });
+  }
+
+  void showCartPopup() {
+    ReusableModal.show(
+      width: 500,
+      height: 500,
+      context,
+      AppText(txt: 'Sell Products', size: 22, weight: FontWeight.bold),
+      Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: cartItems.length,
+              itemBuilder: (context, index) {
+                final item = cartItems[index];
+                return ListTile(
+                  title: AppText(txt: item['name'], size: 18),
+                  subtitle: TextField(
+                    decoration: InputDecoration(
+                      labelText: 'Amount',
+                    ),
+                    keyboardType: TextInputType.number,
+                    onChanged: (value) {
+                      setState(() {
+                        item['amount'] = int.tryParse(value) ?? 0;
+                      });
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+          ElevatedButton(
+            onPressed: submitCart,
+            child: Text('Submit'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void submitCart() async {
+    // Prepare data to send to the API
+    final receiptId =
+        DateTime.now().millisecondsSinceEpoch.toString(); // Unique receipt ID
+    final products = cartItems
+        .map((item) => {
+              'productId': item['id'],
+              'amount': item['amount'],
+              'receiptId': receiptId,
+            })
+        .toList();
+
+    // Send data to your API (replace with actual API call)
+    print('Sending data: $products');
+
+    // Clear cart after submission
+    setState(() {
+      cartItems.clear();
+    });
+
+    Navigator.of(context).pop(); // Close popup
   }
 
   @override
@@ -82,7 +154,7 @@ class _SaleManagementState extends State<SaleManagement> {
             if (isLoading)
               Center(child: CircularProgressIndicator())
             else if (hasError)
-              Center(child: Text('')),
+              Center(child: Text('Error loading data')),
             SizedBox(
               width: MediaQuery.of(context).size.width,
               child: GridView.builder(
@@ -97,68 +169,46 @@ class _SaleManagementState extends State<SaleManagement> {
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: productData.length + 1,
                 itemBuilder: (context, index) {
-                  final sold = productData[index]['sold'] ?? 0;
-                  final received = productData[index]['received'] ?? 0;
-                  final result = mathFormatter.subtraction(received, sold);
                   if (index == productData.length) {
-                    return MouseRegion(
-                      cursor: SystemMouseCursors.click,
-                      child: GestureDetector(
-                        onTap: () {
-                          ReusableModal.show(
-                            width: 500,
-                            height: 300,
-                            context,
-                            AppText(
-                                txt: 'Add Role',
-                                size: 22,
-                                weight: FontWeight.bold),
-                            onClose: fetchData,
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                addRolesForm(fetchData: fetchData)
-                              ],
-                            ),
-                          );
-                        },
-                        child: Material(
-                          elevation: 10,
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.circular(10.0),
-                          child: Container(
-                            width: 200, // Fixed width for each grid item
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.add,
-                                    color: AppConst.white,
-                                  ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  AppText(
-                                    txt: ' Add Role',
+                    return GestureDetector(
+                      onTap: showCartPopup,
+                      child: Material(
+                        elevation: 10,
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(10.0),
+                        child: Container(
+                          width: 200,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Icon(Icons.sell, color: AppConst.white),
+                                SizedBox(width: 20),
+                                AppText(
+                                    txt: 'Sell',
                                     size: 20,
                                     color: Colors.white,
-                                    weight: FontWeight.bold,
-                                  ),
-                                ],
-                              ),
+                                    weight: FontWeight.bold),
+                              ],
                             ),
                           ),
                         ),
                       ),
                     );
                   } else {
-                    // Normal grid item
+                    final product = productData[index];
+                    final sold = product['sold'] ?? 0;
+                    final received = product['received'] ?? 0;
+                    final result = mathFormatter.subtraction(received, sold);
+
                     return GestureDetector(
-                      onTap: () {},
+                      onTap: () => toggleCartItem(product),
                       child: Material(
                         elevation: 10,
-                        color: Colors.white,
+                        color:
+                            cartItems.any((item) => item['id'] == product['id'])
+                                ? AppConst.primary
+                                : AppConst.white,
                         borderRadius: BorderRadius.circular(10.0),
                         child: Container(
                           width: 200,
@@ -167,8 +217,7 @@ class _SaleManagementState extends State<SaleManagement> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: AppText(
-                                  txt: productData[index]['name'] +
-                                      '(${productData[index]['sold'].toString()})',
+                                  txt: product['name'],
                                   align: TextAlign.center,
                                   size: 18,
                                   color: Colors.black,
@@ -178,11 +227,10 @@ class _SaleManagementState extends State<SaleManagement> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: AppText(
-                                  txt: '(${result.toString()})',
+                                  txt: 'Remainder: ${result.toString()}',
                                   align: TextAlign.center,
-                                  size: 18,
+                                  size: 15,
                                   color: Colors.black,
-                                  weight: FontWeight.bold,
                                 ),
                               ),
                             ],
