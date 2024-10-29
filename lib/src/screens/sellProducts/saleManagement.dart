@@ -228,7 +228,7 @@ class _SaleManagementState extends State<SaleManagement> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(3.0),
                                 child: AppText(
                                   txt: 'Remainder: ${result.toString()}',
                                   align: TextAlign.center,
@@ -240,7 +240,7 @@ class _SaleManagementState extends State<SaleManagement> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(3.0),
                                 child: AppText(
                                   txt: 'Selling Price : Tsh. ${product['sellingPrice']}/=',
                                   align: TextAlign.center,
@@ -252,7 +252,7 @@ class _SaleManagementState extends State<SaleManagement> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(3.0),
                                 child: AppText(
                                   txt: product['description'],
                                   align: TextAlign.center,
@@ -264,7 +264,7 @@ class _SaleManagementState extends State<SaleManagement> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(3.0),
                                 child: AppText(
                                   txt: product['taxName'],
                                   align: TextAlign.center,
