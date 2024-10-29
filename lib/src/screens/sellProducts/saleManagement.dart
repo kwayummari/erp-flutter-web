@@ -146,12 +146,12 @@ class _SaleManagementState extends State<SaleManagement> {
                 padding: EdgeInsets.all(15.0),
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: productData.length + 1,
+                itemCount: filteredProductData.length + 1,
                 itemBuilder: (context, index) {
-                  if (index == productData.length) {
+                  if (index == filteredProductData.length) {
                     return SellProductButton(showCartPopup: showCartPopup);
                   } else {
-                    final product = productData[index];
+                    final product = filteredProductData[index];
                     final sold = product['sold'] ?? 0;
                     final received = product['received'] ?? 0;
                     final result = mathFormatter.subtraction(received, sold);
