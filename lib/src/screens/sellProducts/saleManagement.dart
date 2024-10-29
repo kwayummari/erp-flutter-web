@@ -128,6 +128,7 @@ class _SaleManagementState extends State<SaleManagement> {
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
                               children: [
+                                Spacer(),
                                 Icon(Icons.sell, color: AppConst.white),
                                 SizedBox(width: 20),
                                 AppText(
@@ -136,6 +137,7 @@ class _SaleManagementState extends State<SaleManagement> {
                                     align: TextAlign.center,
                                     color: Colors.white,
                                     weight: FontWeight.bold),
+                                Spacer(),
                               ],
                             ),
                           ),
@@ -189,7 +191,8 @@ class _SaleManagementState extends State<SaleManagement> {
                               Padding(
                                 padding: const EdgeInsets.all(3.0),
                                 child: AppText(
-                                  txt: 'Selling Price : Tsh. ${product['sellingPrice']}/=',
+                                  txt:
+                                      'Selling Price : Tsh. ${product['sellingPrice']}/=',
                                   align: TextAlign.center,
                                   size: 15,
                                   color: cartItems.any(
