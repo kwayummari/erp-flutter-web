@@ -239,6 +239,42 @@ class _SaleManagementState extends State<SaleManagement> {
                                       : AppConst.black,
                                 ),
                               ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: AppText(
+                                  txt: 'Selling Price : Tsh. ${product['sellingPrice']}/=',
+                                  align: TextAlign.center,
+                                  size: 15,
+                                  color: cartItems.any(
+                                          (item) => item['id'] == product['id'])
+                                      ? AppConst.white
+                                      : AppConst.black,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: AppText(
+                                  txt: product['description'],
+                                  align: TextAlign.center,
+                                  size: 15,
+                                  color: cartItems.any(
+                                          (item) => item['id'] == product['id'])
+                                      ? AppConst.white
+                                      : AppConst.black,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: AppText(
+                                  txt: product['taxName'],
+                                  align: TextAlign.center,
+                                  size: 15,
+                                  color: cartItems.any(
+                                          (item) => item['id'] == product['id'])
+                                      ? AppConst.white
+                                      : AppConst.black,
+                                ),
+                              )
                             ],
                           ),
                         ),
