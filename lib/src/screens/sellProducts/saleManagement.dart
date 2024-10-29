@@ -3,9 +3,11 @@ import 'package:erp/src/functions/splash.dart';
 import 'package:erp/src/gateway/inventoryService.dart';
 import 'package:erp/src/screens/models/layout/layout.dart';
 import 'package:erp/src/screens/sellProducts/saleForm.dart';
+import 'package:erp/src/screens/sellProducts/sellProductButton.dart';
 import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/utils/auth_utils.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
+import 'package:erp/src/widgets/app_input_text.dart';
 import 'package:erp/src/widgets/app_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -24,6 +26,8 @@ class _SaleManagementState extends State<SaleManagement> {
   bool hasError = false;
   final MathFormatter mathFormatter = MathFormatter();
   List<Map<String, dynamic>> cartItems = [];
+  List filteredProductData = [];
+  final TextEditingController searchController = TextEditingController();
 
   Future<void> fetchData() async {
     try {
@@ -36,6 +40,7 @@ class _SaleManagementState extends State<SaleManagement> {
       if (productResponse != null && productResponse['products'] != null) {
         setState(() {
           productData = productResponse['products'];
+          filteredProductData = productData;
           isLoading = false;
         });
       } else {
@@ -51,6 +56,14 @@ class _SaleManagementState extends State<SaleManagement> {
         isLoading = false;
       });
     }
+  }
+
+  void _filterProducts(String searchTerm) {
+    setState(() {
+      filteredProductData = productData.where((product) {
+        return product['name'].toLowerCase().contains(searchTerm.toLowerCase());
+      }).toList();
+    });
   }
 
   void toggleCartItem(Map<String, dynamic> product) {
@@ -81,6 +94,9 @@ class _SaleManagementState extends State<SaleManagement> {
     super.initState();
     _checkLoginStatus();
     fetchData();
+    searchController.addListener(() {
+      _filterProducts(searchController.text);
+    });
   }
 
   Future<void> _checkLoginStatus() async {
@@ -97,6 +113,23 @@ class _SaleManagementState extends State<SaleManagement> {
       child: SingleChildScrollView(
         child: Column(
           children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: AppInputText(
+                  textsColor: AppConst.black,
+                  ispassword: false,
+                  fillcolor: AppConst.white,
+                  label: 'Search products',
+                  controller: searchController,
+                  obscure: false,
+                  icon: Icon(
+                    Icons.search,
+                    color: AppConst.black,
+                  ),
+                  isemail: false,
+                  isPhone: false,
+                ),
+            ),
             if (isLoading)
               Center(child: CircularProgressIndicator())
             else if (hasError)
@@ -116,34 +149,7 @@ class _SaleManagementState extends State<SaleManagement> {
                 itemCount: productData.length + 1,
                 itemBuilder: (context, index) {
                   if (index == productData.length) {
-                    return GestureDetector(
-                      onTap: showCartPopup,
-                      child: Material(
-                        elevation: 10,
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(10.0),
-                        child: Container(
-                          width: 200,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Spacer(),
-                                Icon(Icons.sell, color: AppConst.white),
-                                SizedBox(width: 20),
-                                AppText(
-                                    txt: 'Sell',
-                                    size: 30,
-                                    align: TextAlign.center,
-                                    color: Colors.white,
-                                    weight: FontWeight.bold),
-                                Spacer(),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
+                    return SellProductButton(showCartPopup: showCartPopup);
                   } else {
                     final product = productData[index];
                     final sold = product['sold'] ?? 0;
