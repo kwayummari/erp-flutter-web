@@ -35,7 +35,7 @@ class _SaleFormState extends State<SaleForm> {
     final List<Map<String, dynamic>> products = widget.cartItems.map((item) {
       return {
         'inventoryId': item['id'].toString(),
-        'quantity': item['amount'],
+        'quantity': item['amount'].toString(),
         'receiptId': receiptId.toString(),
         'customerId': customerId.toString(),
         'status': selectedOption == 'Payment by credit' ? '0' : '1',
