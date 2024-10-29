@@ -162,7 +162,7 @@ class _SaleManagementState extends State<SaleManagement> {
                   crossAxisCount: 4,
                   mainAxisSpacing: 8.0,
                   crossAxisSpacing: 8.0,
-                  mainAxisExtent: 150,
+                  mainAxisExtent: 155,
                 ),
                 padding: EdgeInsets.all(15.0),
                 shrinkWrap: true,
@@ -186,7 +186,8 @@ class _SaleManagementState extends State<SaleManagement> {
                                 SizedBox(width: 20),
                                 AppText(
                                     txt: 'Sell',
-                                    size: 20,
+                                    size: 30,
+                                    align: TextAlign.center,
                                     color: Colors.white,
                                     weight: FontWeight.bold),
                               ],
