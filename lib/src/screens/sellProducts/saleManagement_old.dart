@@ -209,6 +209,9 @@ class _SaleManagement1State extends State<SaleManagement1> {
                         child: Container(
                           width: 230,
                           child: AppDropdownTextFormField(
+                            fillcolor: AppConst.white,
+                            textsColor: AppConst.black,
+                            dropdownColor: AppConst.white,
                             labelText: 'Select Payment Method',
                             options: options,
                             value: selectedOption,
