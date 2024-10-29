@@ -50,100 +50,98 @@ class _SaleFormState extends State<SaleForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: widget.cartItems.length,
-                itemBuilder: (context, index) {
-                  final item = widget.cartItems[index];
-                  return AppInputText(
-                    textsColor: AppConst.black,
-                    ispassword: false,
+      child: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: widget.cartItems.length,
+              itemBuilder: (context, index) {
+                final item = widget.cartItems[index];
+                return AppInputText(
+                  textsColor: AppConst.black,
+                  ispassword: false,
+                  fillcolor: AppConst.white,
+                  label: 'Amount for (${item['name']})',
+                  keyboardType: TextInputType.number,
+                  obscure: false,
+                  onChange: (value) {
+                    setState(() {
+                      item['amount'] = int.tryParse(value) ?? 0;
+                    });
+                  },
+                  icon: Icon(
+                    Icons.production_quantity_limits,
+                    color: AppConst.black,
+                  ),
+                  isemail: false,
+                  isPhone: false,
+                );
+              },
+            ),
+          ),
+          Divider(
+            color: AppConst.grey,
+          ),
+          DropdownTextFormField(
+            refreshSuppliers: widget.refreshData,
+            labelText: 'Select Customer',
+            fillcolor: AppConst.white,
+            apiUrl: 'customers',
+            textsColor: AppConst.black,
+            dropdownColor: AppConst.white,
+            dataOrigin: 'customers',
+            onChanged: (value) {
+              setState(() {
+                supplierId = value.toString();
+              });
+            },
+            valueField: 'id',
+            displayField: 'fullname',
+            allData: allData,
+          ),
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  width: 230,
+                  child: AppDropdownTextFormField(
                     fillcolor: AppConst.white,
-                    label: 'Amount for (${item['name']})',
-                    keyboardType: TextInputType.number,
-                    obscure: false,
-                    onChange: (value) {
+                    textsColor: AppConst.black,
+                    dropdownColor: AppConst.white,
+                    labelText: 'Select Payment Method',
+                    options: options,
+                    value: selectedOption,
+                    onChanged: (newValue) {
                       setState(() {
-                        item['amount'] = int.tryParse(value) ?? 0;
+                        selectedOption = newValue!;
                       });
                     },
-                    icon: Icon(
-                      Icons.production_quantity_limits,
-                      color: AppConst.black,
-                    ),
-                    isemail: false,
-                    isPhone: false,
-                  );
-                },
+                  ),
+                ),
               ),
-            ),
-            Divider(
-              color: AppConst.grey,
-            ),
-            DropdownTextFormField(
-              refreshSuppliers: widget.refreshData,
-              labelText: 'Select Customer',
-              fillcolor: AppConst.white,
-              apiUrl: 'customers',
-              textsColor: AppConst.black,
-              dropdownColor: AppConst.white,
-              dataOrigin: 'customers',
-              onChanged: (value) {
-                setState(() {
-                  supplierId = value.toString();
-                });
-              },
-              valueField: 'id',
-              displayField: 'fullname',
-              allData: allData,
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    width: 200,
-                    child: AppDropdownTextFormField(
-                      fillcolor: AppConst.white,
-                      textsColor: AppConst.black,
-                      dropdownColor: AppConst.white,
-                      labelText: 'Select Payment Method',
-                      options: options,
-                      value: selectedOption,
-                      onChanged: (newValue) {
-                        setState(() {
-                          selectedOption = newValue!;
-                        });
-                      },
-                    ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: 170,
+                  height: 50,
+                  child: AppButton(
+                    onPress: () {
+                      if (!_formKey.currentState!.validate()) {
+                        return;
+                      }
+                      // loginService().login(context, email.text, password.text);
+                    },
+                    label: 'Submit',
+                    borderRadius: 5,
+                    textColor: AppConst.white,
+                    gradient: AppConst.primaryGradient,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: 200,
-                    height: 40,
-                    child: AppButton(
-                      onPress: () {
-                        if (!_formKey.currentState!.validate()) {
-                          return;
-                        }
-                        // loginService().login(context, email.text, password.text);
-                      },
-                      label: 'Submit',
-                      borderRadius: 5,
-                      textColor: AppConst.white,
-                      gradient: AppConst.primaryGradient,
-                    ),
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
+              ),
+            ],
+          )
+        ],
       ),
     );
   }
