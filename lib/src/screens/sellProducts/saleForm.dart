@@ -46,7 +46,6 @@ class _SaleFormState extends State<SaleForm> {
 
     print('Sending data: $products');
 
-    // Clear cart after submission
     setState(() {
       widget.cartItems.clear();
     });
