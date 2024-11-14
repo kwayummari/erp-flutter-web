@@ -63,9 +63,11 @@ class _SaleFormState extends State<SaleForm> {
     for (var item in widget.cartItems) {
       int taxValue = int.tryParse(item['taxValue']) ?? 0;
       int sellingPrice = int.tryParse(item['sellingPrice']) ?? 0;
-      int amount = int.tryParse(item['amount']) ?? 0;
-      totalVat += taxValue * sellingPrice * amount;
-      totalPriceWithoutVat += sellingPrice * amount;
+      int amount = item['amount'] ?? 0;
+      setState(() {
+        totalVat += (((taxValue * sellingPrice) + sellingPrice) * amount);
+        totalPriceWithoutVat += (sellingPrice * amount);
+      });
     }
 
     return Form(
@@ -79,29 +81,33 @@ class _SaleFormState extends State<SaleForm> {
                 final item = widget.cartItems[index];
                 return Row(
                   children: [
-                    AppInputText(
-                      textsColor: AppConst.black,
-                      ispassword: false,
-                      fillcolor: AppConst.white,
-                      label: 'Amount for (${item['name']})',
-                      keyboardType: TextInputType.number,
-                      obscure: false,
-                      onChange: (value) {
-                        setState(() {
-                          item['amount'] = int.tryParse(value) ?? 0;
-                        });
-                      },
-                      icon: Icon(
-                        Icons.production_quantity_limits,
-                        color: AppConst.black,
+                    SizedBox(
+                      width: 400,
+                      child: AppInputText(
+                        textsColor: AppConst.black,
+                        ispassword: false,
+                        fillcolor: AppConst.white,
+                        label: 'Amount for (${item['name'].toString()})',
+                        keyboardType: TextInputType.number,
+                        obscure: false,
+                        onChange: (value) {
+                          setState(() {
+                            item['amount'] = int.tryParse(value) ?? 0;
+                          });
+                        },
+                        icon: Icon(
+                          Icons.production_quantity_limits,
+                          color: AppConst.black,
+                        ),
+                        isemail: false,
+                        isPhone: false,
                       ),
-                      isemail: false,
-                      isPhone: false,
                     ),
                     AppText(
-                      txt: (double.parse(item['taxValue']) *
-                              int.parse(item['sellingPrice']) *
-                              int.parse(item['amount']))
+                      txt: (((double.parse(item['taxValue'] ?? 0) *
+                                      int.parse(item['sellingPrice'] ?? 0)) +
+                                  int.parse(item['sellingPrice'] ?? 0)) *
+                              item['amount'])
                           .toString(),
                       size: 15,
                       color: AppConst.black,
@@ -183,7 +189,7 @@ class _SaleFormState extends State<SaleForm> {
                     value: selectedOption,
                     onChanged: (newValue) {
                       setState(() {
-                        selectedOption = newValue!;
+                        selectedOption = newValue.toString();
                       });
                     },
                   ),
