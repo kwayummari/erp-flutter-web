@@ -192,7 +192,17 @@ class _SaleFormState extends State<SaleForm> {
                         return;
                       }
                       submitCart();
-                      context.go(RouteNames.printingPage, extra: RouteNames.saleManagement);
+                      context.go(
+                        RouteNames.printingPage,
+                        extra: {
+                          'company': 'Tech Solutions Ltd.',
+                          'amount': '100,000 TSh',
+                          'recipientName': 'John Doe',
+                          'senderName': 'Jane Smith',
+                          'phoneNumber': '0755-123-456',
+                          'previousPage': RouteNames.saleManagement,
+                        },
+                      );
                     },
                     label: 'Submit',
                     borderRadius: 5,
