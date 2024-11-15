@@ -113,7 +113,6 @@ final GoRouter router = GoRouter(
           recipientName: extra['recipientName'] ?? 'N/A',
           senderName: extra['senderName'] ?? 'N/A',
           phoneNumber: extra['phoneNumber'] ?? 'N/A',
-          previousPage: extra['previousPage'] ?? RouteNames.notFound,
         );
       },
     ),

@@ -200,7 +200,6 @@ class _SaleFormState extends State<SaleForm> {
                           'recipientName': 'John Doe',
                           'senderName': 'Jane Smith',
                           'phoneNumber': '0755-123-456',
-                          'previousPage': RouteNames.saleManagement,
                         },
                       );
                     },
