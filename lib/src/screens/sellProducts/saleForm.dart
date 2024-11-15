@@ -192,8 +192,8 @@ class _SaleFormState extends State<SaleForm> {
                         return;
                       }
                       submitCart();
-                      if (selectedOption == 'Payment by cash') {}
-                      context.go(
+                      if (selectedOption == 'Payment by cash') {
+                        context.go(
                         RouteNames.printingPage,
                         extra: {
                           'company': 'Tech Solutions Ltd.',
@@ -203,6 +203,7 @@ class _SaleFormState extends State<SaleForm> {
                           'phoneNumber': '0755-123-456',
                         },
                       );
+                      }
                     },
                     label: 'Submit',
                     borderRadius: 5,
