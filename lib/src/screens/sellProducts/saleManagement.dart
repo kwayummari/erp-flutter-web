@@ -36,7 +36,6 @@ class _SaleManagementState extends State<SaleManagement> {
       inventoryServices inventoryService = inventoryServices();
       final productResponse =
           await inventoryService.getProduct(context, fetchingBranchId);
-      print(productResponse);
       if (productResponse != null && productResponse['products'] != null) {
         setState(() {
           productData = productResponse['products'];
@@ -50,7 +49,6 @@ class _SaleManagementState extends State<SaleManagement> {
         });
       }
     } catch (e) {
-      print('Error fetching data: $e');
       setState(() {
         hasError = true;
         isLoading = false;
@@ -101,7 +99,6 @@ class _SaleManagementState extends State<SaleManagement> {
     _checkLoginStatus();
     fetchData();
     searchController.addListener(() {
-      print("Search Term: ${searchController.text}");
       _filterProducts(searchController.text);
     });
   }

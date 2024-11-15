@@ -33,7 +33,6 @@ class salesProductServices {
     final branchId = await splashDetails.getBranchId();
     final companyId = await splashDetails.getCompanyId();
     Map<String, dynamic> data = {'branchId': branchId, 'companyId': companyId};
-    print(data);
     final response = await api.post(context, 'get_today_report', data);
     final decodedResponse = jsonDecode(response.body);
     return decodedResponse;
