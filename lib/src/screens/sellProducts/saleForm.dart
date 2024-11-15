@@ -192,6 +192,7 @@ class _SaleFormState extends State<SaleForm> {
                         return;
                       }
                       submitCart();
+                      if (selectedOption == 'Payment by cash') {}
                       context.go(
                         RouteNames.printingPage,
                         extra: {
