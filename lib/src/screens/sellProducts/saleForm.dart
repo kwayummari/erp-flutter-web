@@ -1,6 +1,5 @@
 import 'dart:math';
-import 'dart:html' as html;
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:erp/src/utils/routes/route-names.dart';
 import 'package:erp/src/functions/splash.dart';
 import 'package:erp/src/gateway/salesProductServices.dart';
 import 'package:erp/src/utils/app_const.dart';
@@ -10,6 +9,7 @@ import 'package:erp/src/widgets/app_button.dart';
 import 'package:erp/src/widgets/app_input_text.dart';
 import 'package:erp/src/widgets/app_text.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class SaleForm extends StatefulWidget {
   List<Map<String, dynamic>> cartItems = [];
@@ -192,15 +192,7 @@ class _SaleFormState extends State<SaleForm> {
                         return;
                       }
                       submitCart();
-                      if (kIsWeb) {
-                        // Open and print in web
-                        html.window.open('path_to_your_page.dart', '_blank');
-                        Future.delayed(Duration(seconds: 1), () {
-                          html.window.print();
-                        });
-                      } else {
-                        print('Printing is supported only on the web.');
-                      }
+                      context.go(RouteNames.printingPage, extra: RouteNames.saleManagement);
                     },
                     label: 'Submit',
                     borderRadius: 5,
