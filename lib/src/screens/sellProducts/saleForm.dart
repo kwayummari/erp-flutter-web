@@ -57,16 +57,15 @@ class _SaleFormState extends State<SaleForm> {
 
   @override
   Widget build(BuildContext context) {
-    int totalVat = 0;
-    int totalPriceWithoutVat = 0;
+    int totalPriceVat = 0;
 
     for (var item in widget.cartItems) {
-      int taxValue = int.tryParse(item['taxValue']) ?? 0;
+      double taxValue = double.tryParse(item['taxValue'].toString()) ?? 0.0;
       int sellingPrice = int.tryParse(item['sellingPrice']) ?? 0;
       int amount = item['amount'] ?? 0;
       setState(() {
-        totalVat += (((taxValue * sellingPrice) + sellingPrice) * amount);
-        totalPriceWithoutVat += (sellingPrice * amount);
+        totalPriceVat +=
+            (((taxValue * sellingPrice) + sellingPrice) * amount).toInt();
       });
     }
 
@@ -87,7 +86,7 @@ class _SaleFormState extends State<SaleForm> {
                         textsColor: AppConst.black,
                         ispassword: false,
                         fillcolor: AppConst.white,
-                        label: 'Amount for (${item['name'].toString()})',
+                        label: 'Amount for (${item['name'].toString()} (${item['taxValue'].toString() == '0' ? 'taxed (${item['taxValue'].toString()})' : ''}))',
                         keyboardType: TextInputType.number,
                         obscure: false,
                         onChange: (value) {
@@ -128,27 +127,12 @@ class _SaleFormState extends State<SaleForm> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     AppText(
-                      txt: 'Total VAT:',
+                      txt: 'Total Amount:',
                       size: 16,
                       color: AppConst.black,
                     ),
                     AppText(
-                      txt: totalVat.toString(),
-                      size: 16,
-                      color: AppConst.black,
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    AppText(
-                      txt: 'Total Without VAT:',
-                      size: 16,
-                      color: AppConst.black,
-                    ),
-                    AppText(
-                      txt: totalPriceWithoutVat.toString(),
+                      txt: totalPriceVat.toString(),
                       size: 16,
                       color: AppConst.black,
                     ),
