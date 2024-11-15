@@ -1,5 +1,6 @@
 import 'dart:math';
-
+import 'dart:html' as html;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:erp/src/functions/splash.dart';
 import 'package:erp/src/gateway/salesProductServices.dart';
 import 'package:erp/src/utils/app_const.dart';
@@ -191,6 +192,15 @@ class _SaleFormState extends State<SaleForm> {
                         return;
                       }
                       submitCart();
+                      if (kIsWeb) {
+                        // Open and print in web
+                        html.window.open('path_to_your_page.dart', '_blank');
+                        Future.delayed(Duration(seconds: 1), () {
+                          html.window.print();
+                        });
+                      } else {
+                        print('Printing is supported only on the web.');
+                      }
                     },
                     label: 'Submit',
                     borderRadius: 5,
