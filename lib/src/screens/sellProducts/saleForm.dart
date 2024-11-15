@@ -194,15 +194,15 @@ class _SaleFormState extends State<SaleForm> {
                       submitCart();
                       if (selectedOption == 'Payment by cash') {
                         context.go(
-                        RouteNames.printingPage,
-                        extra: {
-                          'company': 'Tech Solutions Ltd.',
-                          'amount': '100,000 TSh',
-                          'recipientName': 'John Doe',
-                          'senderName': 'Jane Smith',
-                          'phoneNumber': '0755-123-456',
-                        },
-                      );
+                          RouteNames.printingPage,
+                          extra: {
+                            'company': 'Tech Solutions Ltd.',
+                            'amount': '100,000 TSh',
+                            'recipientName': 'John Doe',
+                            'senderName': 'Jane Smith',
+                            'phoneNumber': '0755-123-456',
+                          },
+                        );
                       }
                     },
                     label: 'Submit',

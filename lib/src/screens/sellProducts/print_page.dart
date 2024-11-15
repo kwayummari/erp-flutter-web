@@ -1,4 +1,5 @@
 import 'dart:html' as html;
+import 'package:erp/src/utils/app_const.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -22,7 +23,7 @@ class PrintPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Trigger printing and navigate back
-    html.window.print();
+    // html.window.print();
     // Future.delayed(Duration(milliseconds: 500), () {
     //   html.window.print();
     //   Future.delayed(Duration(seconds: 1), () {
@@ -31,6 +32,7 @@ class PrintPage extends StatelessWidget {
     // });
 
     return Scaffold(
+      backgroundColor: AppConst.white,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
