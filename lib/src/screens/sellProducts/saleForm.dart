@@ -86,7 +86,8 @@ class _SaleFormState extends State<SaleForm> {
                         textsColor: AppConst.black,
                         ispassword: false,
                         fillcolor: AppConst.white,
-                        label: 'Amount for (${item['name'].toString()} (${item['taxValue'].toString() == '0' ? 'taxed (${item['taxValue'].toString()})' : ''}))',
+                        label:
+                            'Amount for (${item['name'].toString()} (${item['taxValue'].toString() == '0' ? 'taxed (${item['taxValue'].toString()})' : ''}))',
                         keyboardType: TextInputType.number,
                         obscure: false,
                         onChange: (value) {
