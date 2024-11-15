@@ -19,4 +19,5 @@ class RouteNames {
   static const String reportRange = '/ReportRange';
   static const String customers = '/Customers';
   static const String printingPage = '/printingPage';
+  static const String notFound = '/notFound';
 }

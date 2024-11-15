@@ -14,6 +14,7 @@ import 'package:erp/src/screens/sellProducts/print_page.dart';
 import 'package:erp/src/screens/sellProducts/saleManagement.dart';
 import 'package:erp/src/screens/supplier/supplierManagement.dart';
 import 'package:erp/src/screens/userManagement/userManagement.dart';
+import 'package:erp/src/utils/errors/notFound.dart';
 import 'package:erp/src/utils/routes/route-names.dart';
 import 'package:erp/src/screens/authentication/login.dart';
 import 'package:erp/src/screens/authentication/registration.dart';
@@ -99,6 +100,10 @@ final GoRouter router = GoRouter(
       builder: (context, state) => CustomerManagement(),
     ),
     GoRoute(
+      path: RouteNames.notFound,
+      builder: (context, state) => NotFound(),
+    ),
+    GoRoute(
       path: RouteNames.printingPage,
       builder: (context, state) {
         final extra = state.extra as Map<String, dynamic>;
@@ -108,6 +113,7 @@ final GoRouter router = GoRouter(
           recipientName: extra['recipientName'] ?? 'N/A',
           senderName: extra['senderName'] ?? 'N/A',
           phoneNumber: extra['phoneNumber'] ?? 'N/A',
+          previousPage: extra['previousPage'] ?? RouteNames.notFound,
         );
       },
     ),
