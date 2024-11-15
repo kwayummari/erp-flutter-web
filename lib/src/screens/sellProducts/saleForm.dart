@@ -162,7 +162,7 @@ class _SaleFormState extends State<SaleForm> {
           Row(
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(left: 8, right: 8, top: 14),
                 child: Container(
                   width: 230,
                   child: AppDropdownTextFormField(
