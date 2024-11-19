@@ -4,7 +4,7 @@ import 'package:erp/src/utils/routes/route-names.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class PrintPage extends StatelessWidget {
+class PrintPage extends StatefulWidget {
   final String company;
   final String amount;
   final String recipientName;
@@ -20,6 +20,11 @@ class PrintPage extends StatelessWidget {
     required this.phoneNumber,
   }) : super(key: key);
 
+  @override
+  State<PrintPage> createState() => _PrintPageState();
+}
+
+class _PrintPageState extends State<PrintPage> {
   @override
   Widget build(BuildContext context) {
     // Trigger printing and navigate back
@@ -37,12 +42,12 @@ class PrintPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Company: $company', style: TextStyle(fontSize: 20)),
-            Text('Amount: $amount', style: TextStyle(fontSize: 20)),
-            Text('Recipient Name: $recipientName',
+            Text('Company: ${widget.company}', style: TextStyle(fontSize: 20)),
+            Text('Amount: ${widget.amount}', style: TextStyle(fontSize: 20)),
+            Text('Recipient Name: ${widget.recipientName}',
                 style: TextStyle(fontSize: 20)),
-            Text('Sender Name: $senderName', style: TextStyle(fontSize: 20)),
-            Text('Phone Number: $phoneNumber', style: TextStyle(fontSize: 20)),
+            Text('Sender Name: ${widget.senderName}', style: TextStyle(fontSize: 20)),
+            Text('Phone Number: ${widget.phoneNumber}', style: TextStyle(fontSize: 20)),
           ],
         ),
       ),
