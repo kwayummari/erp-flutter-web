@@ -4,7 +4,8 @@ class RouteNames {
   static const String registration = '/Registration';
   static const String splash = '/Splash';
   static const String dashboard = '/Dashboard';
-  static const String userManagement = '/User';
+  static const String employeeManagement = '/Employees';
+  static const String customerManagement = '/Customers';
   static const String inventory = '/Inventory';
   static const String supplier = '/Supplier';
   static const String roles = '/Roles';

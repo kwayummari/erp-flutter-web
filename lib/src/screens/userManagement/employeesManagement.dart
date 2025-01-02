@@ -16,14 +16,14 @@ import 'package:erp/src/widgets/app_tabular_widget.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-class userManagement extends StatefulWidget {
-  const userManagement({super.key});
+class EmployeeManagement extends StatefulWidget {
+  const EmployeeManagement({super.key});
 
   @override
-  State<userManagement> createState() => _userManagementState();
+  State<EmployeeManagement> createState() => _EmployeeManagementState();
 }
 
-class _userManagementState extends State<userManagement> {
+class _EmployeeManagementState extends State<EmployeeManagement> {
   List<Map<String, dynamic>> userData = [];
   bool isLoading = true;
   bool hasError = false;

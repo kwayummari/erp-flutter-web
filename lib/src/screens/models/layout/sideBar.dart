@@ -109,9 +109,13 @@ class _sideBarState extends State<sideBar> {
                                         return GestureDetector(
                                           onTap: () {
                                             if (subMenu[index]['url'] ==
-                                                'user') {
+                                                'employees') {
                                               context.go(
-                                                  RouteNames.userManagement);
+                                                  RouteNames.employeeManagement);
+                                            } else if (subMenu[index]['url'] ==
+                                                'customers') {
+                                              context.go(
+                                                  RouteNames.customerManagement);
                                             } else if (subMenu[index]['url'] ==
                                                 'inventory') {
                                               context.go(RouteNames.inventory);
