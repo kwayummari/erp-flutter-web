@@ -32,7 +32,7 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
   Future<void> fetchData() async {
     try {
       userServices userService = userServices();
-      final userResponse = await userService.getUser(context, branch);
+      final userResponse = await userService.getEmployees(context, branch);
       if (userResponse != null && userResponse['users'] != null) {
         setState(() {
           userData = (userResponse['users'] as List).map((user) {

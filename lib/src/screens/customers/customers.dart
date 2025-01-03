@@ -26,11 +26,12 @@ class _CustomerManagementState extends State<CustomerManagement> {
   List<Map<String, dynamic>> userData = [];
   bool isLoading = true;
   bool hasError = false;
+  String branch = '1';
 
   Future<void> fetchData() async {
     try {
       userServices userService = userServices();
-      final userResponse = await userService.getCustomer(context);
+      final userResponse = await userService.getCustomer(context, branch);
       if (userResponse != null && userResponse['customers'] != null) {
         setState(() {
           userData = (userResponse['customers'] as List).map((user) {
