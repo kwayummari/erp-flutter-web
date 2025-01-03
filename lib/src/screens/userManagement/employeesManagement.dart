@@ -33,9 +33,9 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
     try {
       userServices userService = userServices();
       final userResponse = await userService.getEmployees(context, branch);
-      if (userResponse != null && userResponse['users'] != null) {
+      if (userResponse != null && userResponse['employees'] != null) {
         setState(() {
-          userData = (userResponse['users'] as List).map((user) {
+          userData = (userResponse['employees'] as List).map((user) {
             return {
               'id': user['id'],
               'fullname': user['fullname'],
