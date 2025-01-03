@@ -33,7 +33,6 @@ class _addCustomerFormState extends State<addCustomerForm> {
 
   List allData = [];
   var branch;
-  var role;
   bool marked = false;
   bool dont_show_password = true;
   final _formKey = GlobalKey<FormState>();
@@ -151,7 +150,7 @@ class _addCustomerFormState extends State<addCustomerForm> {
                                 return;
                               }
                               addUserService().addCustomer(context, email.text,
-                                  fullname.text, phone.text, tin.text, vrn.text, address.text, '3');
+                                  fullname.text, phone.text, tin.text, vrn.text, address.text, '4');
                               await widget.fetchData();
                               Navigator.pop(context);
                             },
