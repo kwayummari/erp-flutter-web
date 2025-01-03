@@ -204,6 +204,7 @@ class _rolesManagementState extends State<rolesManagement> {
                                         );
                                       },
                                     ),
+                                    if(rolesData[index]['id'].toString() != '4' && rolesData[index]['id'].toString() != '5')
                                     CustomPopoverItem(
                                       title: 'Delete',
                                       icon: Icons.delete,
