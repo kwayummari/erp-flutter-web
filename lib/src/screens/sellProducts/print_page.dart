@@ -34,12 +34,16 @@ class _ReceiptState extends State<Receipt> {
   }
 
   Future<void> printReceipt(double subtotal, double vat, double total) async {
-  final pdf = pw.Document();
-  
-  // Get the display products at the start
-  List<Map<String, dynamic>> displayProducts = widget.products ?? [];
+    print('Printing receipt');
+    final pdf = pw.Document();
 
-  pdf.addPage(
+    final font = await PdfGoogleFonts.nunitoRegular();
+  final boldFont = await PdfGoogleFonts.nunitoBold();
+
+    // Get the display products at the start
+    List<Map<String, dynamic>> displayProducts = widget.products ?? [];
+
+    pdf.addPage(
     pw.Page(
       pageFormat: PdfPageFormat.a4,
       build: (context) {
@@ -48,19 +52,23 @@ class _ReceiptState extends State<Receipt> {
             // Header
             pw.Text(
               widget.company,
-              style: pw.TextStyle(fontSize: 24, fontWeight: pw.FontWeight.bold),
+              style: pw.TextStyle(
+                font: boldFont,
+                fontSize: 24,
+              ),
             ),
-            pw.Text('TIN: 123-456-789'),
-            pw.Text('P.O. Box 11111, Dar es Salaam'),
-            pw.Text('Tel: ${widget.phoneNumber}'),
+            pw.Text('TIN: 123-456-789', style: pw.TextStyle(font: font)),
+            pw.Text('P.O. Box 11111, Dar es Salaam', style: pw.TextStyle(font: font)),
+            pw.Text('Tel: ${widget.phoneNumber}', style: pw.TextStyle(font: font)),
             
             pw.Divider(),
             pw.Text(
               'TAX INVOICE/RECEIPT',
-              style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+              style: pw.TextStyle(font: boldFont),
             ),
-            pw.Text('Receipt No: EFD-123456789'),
-            pw.Text('Date: ${DateTime.now().toString().split(' ')[0]}'),
+            pw.Text('Receipt No: EFD-123456789', style: pw.TextStyle(font: font)),
+            pw.Text('Date: ${DateTime.now().toString().split(' ')[0]}', 
+              style: pw.TextStyle(font: font)),
             pw.Divider(),
 
             // Customer Details
@@ -69,8 +77,10 @@ class _ReceiptState extends State<Receipt> {
               child: pw.Column(
                 crossAxisAlignment: pw.CrossAxisAlignment.start,
                 children: [
-                  pw.Text('Customer: ${widget.recipientName}'),
-                  pw.Text('Phone: ${widget.phoneNumber}'),
+                  pw.Text('Customer: ${widget.recipientName}', 
+                    style: pw.TextStyle(font: font)),
+                  pw.Text('Phone: ${widget.phoneNumber}', 
+                    style: pw.TextStyle(font: font)),
                 ],
               ),
             ),
@@ -86,48 +96,53 @@ class _ReceiptState extends State<Receipt> {
                 3: pw.FlexColumnWidth(2),
               },
               children: [
-                // Header row
                 pw.TableRow(
                   children: [
                     pw.Padding(
                       padding: pw.EdgeInsets.all(8),
-                      child: pw.Text('Item'),
+                      child: pw.Text('Item', style: pw.TextStyle(font: boldFont)),
                     ),
                     pw.Padding(
                       padding: pw.EdgeInsets.all(8),
-                      child: pw.Text('Qty'),
+                      child: pw.Text('Qty', style: pw.TextStyle(font: boldFont)),
                     ),
                     pw.Padding(
                       padding: pw.EdgeInsets.all(8),
-                      child: pw.Text('Price'),
+                      child: pw.Text('Price', style: pw.TextStyle(font: boldFont)),
                     ),
                     pw.Padding(
                       padding: pw.EdgeInsets.all(8),
-                      child: pw.Text('Total'),
+                      child: pw.Text('Total', style: pw.TextStyle(font: boldFont)),
                     ),
                   ],
                 ),
-                // Product rows
-                ...displayProducts.map((product) => pw.TableRow(
+                ...widget.products?.map((product) => pw.TableRow(
                   children: [
                     pw.Padding(
                       padding: pw.EdgeInsets.all(8),
-                      child: pw.Text(product['name'].toString()),
+                      child: pw.Text(product['name'].toString(), 
+                        style: pw.TextStyle(font: font)),
                     ),
                     pw.Padding(
                       padding: pw.EdgeInsets.all(8),
-                      child: pw.Text(product['qty'].toString()),
+                      child: pw.Text(product['qty'].toString(), 
+                        style: pw.TextStyle(font: font)),
                     ),
                     pw.Padding(
                       padding: pw.EdgeInsets.all(8),
-                      child: pw.Text(product['price'].toString()),
+                      child: pw.Text(product['price'].toString(), 
+                        style: pw.TextStyle(font: font)),
                     ),
                     pw.Padding(
                       padding: pw.EdgeInsets.all(8),
-                      child: pw.Text(product['total'].toString()),
+                      child: pw.Text(
+                        (int.tryParse(product['price'].toString()) ?? 0 * 
+                         product['qty']).toString(),
+                        style: pw.TextStyle(font: font),
+                      ),
                     ),
                   ],
-                )).toList(),
+                )).toList() ?? [],
               ],
             ),
 
@@ -136,34 +151,37 @@ class _ReceiptState extends State<Receipt> {
             pw.Row(
               mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
               children: [
-                pw.Text('Subtotal:'),
-                pw.Text('TZS ${subtotal.toStringAsFixed(2)}'),
+                pw.Text('Subtotal:', style: pw.TextStyle(font: font)),
+                pw.Text('TZS ${subtotal.toStringAsFixed(2)}', 
+                  style: pw.TextStyle(font: font)),
               ],
             ),
             pw.Row(
               mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
               children: [
-                pw.Text('VAT (18%):'),
-                pw.Text('TZS ${vat.toStringAsFixed(2)}'),
+                pw.Text('VAT (18%):', style: pw.TextStyle(font: font)),
+                pw.Text('TZS ${vat.toStringAsFixed(2)}', 
+                  style: pw.TextStyle(font: font)),
               ],
             ),
             pw.Divider(),
             pw.Row(
               mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
               children: [
-                pw.Text('Total:', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                pw.Text('Total:', style: pw.TextStyle(font: boldFont)),
                 pw.Text('TZS ${total.toStringAsFixed(2)}', 
-                     style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                  style: pw.TextStyle(font: boldFont)),
               ],
             ),
 
             // Footer
             pw.SizedBox(height: 24),
-            pw.Text('Thank you for your business!'),
+            pw.Text('Thank you for your business!', 
+              style: pw.TextStyle(font: font)),
             pw.Text('This is a valid tax invoice/receipt',
-                 style: pw.TextStyle(fontSize: 12)),
+              style: pw.TextStyle(font: font, fontSize: 12)),
             pw.Text('Powered by EFD System',
-                 style: pw.TextStyle(fontSize: 12)),
+              style: pw.TextStyle(font: font, fontSize: 12)),
           ],
         );
       },
@@ -173,14 +191,18 @@ class _ReceiptState extends State<Receipt> {
   await Printing.layoutPdf(
     onLayout: (PdfPageFormat format) async => pdf.save(),
   );
-}
+  }
 
   @override
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> displayProducts = widget.products ?? [];
-    double subtotal = displayProducts.fold(0,
-        (sum, item) => sum + (double.tryParse(item['total'].toString()) ?? 0));
-    double vat = subtotal * 0.18;
+    double subtotal = displayProducts.fold(0, (sum, item) {
+      int price = int.tryParse(item['price'].toString()) ?? 0;
+      int qty = int.tryParse(item['qty'].toString()) ?? 0;
+      return sum + (price * qty);
+    });
+
+    double vat = subtotal * 0.18; // 18% VAT
     double total = subtotal + vat;
     return layout(
       child: SingleChildScrollView(

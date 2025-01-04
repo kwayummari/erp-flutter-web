@@ -227,17 +227,7 @@ class _SaleFormState extends State<SaleForm> {
                                       'name': item['name'],
                                       'qty': item['amount'],
                                       'price': item['sellingPrice'],
-                                      'total': (((double.parse(
-                                                          item['taxValue'] ??
-                                                              '0') *
-                                                      int.parse(item[
-                                                              'sellingPrice'] ??
-                                                          '0')) +
-                                                  int.parse(
-                                                      item['sellingPrice'] ??
-                                                          '0')) *
-                                              item['amount'])
-                                          .toString(),
+                                      'total': (int.parse(item['sellingPrice'] ?? '0') * item['amount']).toString(),
                                       'taxValue': item['taxValue'],
                                     })
                                 .toList(),
