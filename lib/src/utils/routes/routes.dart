@@ -108,17 +108,18 @@ final GoRouter router = GoRouter(
       builder: (context, state) => NotFound(),
     ),
     GoRoute(
-      path: RouteNames.printingPage,
-      builder: (context, state) {
-        final extra = state.extra as Map<String, dynamic>;
-        return PrintPage(
-          company: extra['company'] ?? 'N/A',
-          amount: extra['amount'] ?? 'N/A',
-          recipientName: extra['recipientName'] ?? 'N/A',
-          senderName: extra['senderName'] ?? 'N/A',
-          phoneNumber: extra['phoneNumber'] ?? 'N/A',
-        );
-      },
-    ),
+  path: RouteNames.printingPage,
+  builder: (context, state) {
+    final extra = state.extra as Map<String, dynamic>;
+    return Receipt(
+      company: extra['company'] ?? 'N/A',
+      amount: extra['amount'] ?? 'N/A',
+      recipientName: extra['recipientName'] ?? 'N/A',
+      senderName: extra['senderName'] ?? 'N/A',
+      phoneNumber: extra['phoneNumber'] ?? 'N/A',
+      products: (extra['products'] as List<Map<String, dynamic>>?) ?? [], // Add this
+    );
+  },
+),
   ],
 );

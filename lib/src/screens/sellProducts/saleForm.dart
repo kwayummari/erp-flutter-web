@@ -147,7 +147,7 @@ class _SaleFormState extends State<SaleForm> {
             refreshSuppliers: widget.refreshData,
             labelText: 'Select Customer',
             fillcolor: AppConst.white,
-            apiUrl: 'customers',
+            apiUrl: 'getAllCustomers',
             textsColor: AppConst.black,
             dropdownColor: AppConst.white,
             dataOrigin: 'customers',
@@ -193,14 +193,54 @@ class _SaleFormState extends State<SaleForm> {
                       }
                       submitCart();
                       if (selectedOption == 'Payment by cash') {
+                        double totalAmount =
+                            widget.cartItems.fold(0, (sum, item) {
+                          double taxValue =
+                              double.tryParse(item['taxValue'].toString()) ??
+                                  0.0;
+                          int sellingPrice =
+                              int.tryParse(item['sellingPrice']) ?? 0;
+                          int amount = item['amount'] ?? 0;
+                          return sum +
+                              (((taxValue * sellingPrice) + sellingPrice) *
+                                  amount);
+                        });
                         context.go(
                           RouteNames.printingPage,
                           extra: {
                             'company': 'Tech Solutions Ltd.',
-                            'amount': '100,000 TSh',
-                            'recipientName': 'John Doe',
-                            'senderName': 'Jane Smith',
-                            'phoneNumber': '0755-123-456',
+                            'amount': '${totalAmount.toStringAsFixed(2)} TSh',
+                            'recipientName': allData.firstWhere(
+                              (customer) =>
+                                  customer['id'].toString() == customerId,
+                              orElse: () => {'fullname': 'N/A'},
+                            )['fullname'],
+                            'senderName':
+                                'Sales Agent', // You might want to get this from logged-in user
+                            'phoneNumber': allData.firstWhere(
+                              (customer) =>
+                                  customer['id'].toString() == customerId,
+                              orElse: () => {'phone': 'N/A'},
+                            )['phone'],
+                            'products': widget.cartItems
+                                .map((item) => {
+                                      'name': item['name'],
+                                      'qty': item['amount'],
+                                      'price': item['sellingPrice'],
+                                      'total': (((double.parse(
+                                                          item['taxValue'] ??
+                                                              '0') *
+                                                      int.parse(item[
+                                                              'sellingPrice'] ??
+                                                          '0')) +
+                                                  int.parse(
+                                                      item['sellingPrice'] ??
+                                                          '0')) *
+                                              item['amount'])
+                                          .toString(),
+                                      'taxValue': item['taxValue'],
+                                    })
+                                .toList(),
                           },
                         );
                       }
